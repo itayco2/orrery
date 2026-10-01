@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is the other line always faster? — Orrery</title>
+<meta name="description" content="An explorable explanation of queues: why waits explode near full capacity, why one shared line beats many, and why variability matters.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/queues/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why is the other line always faster? — Orrery">
+<meta property="og:description" content="An explorable explanation of queues: why waits explode near full capacity, why one shared line beats many, and why variability matters.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/queues/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/queues/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why is the other line always faster?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why is the other line always faster? — Orrery">
+<meta name="twitter:description" content="An explorable explanation of queues: why waits explode near full capacity, why one shared line beats many, and why variability matters.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/queues/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why is the other line always faster?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Society</p>
+      <h1>Why is the other line always faster?</h1>
+      <p class="lede">A checkout that is busy 80% of the time is not “80% full”. On average it already has about three people waiting. Push it to 95% busy and the wait becomes nearly five times as long. This page
+      shows why. It also shows why waiting feels so unfair.</p>
+    </header>
+
+    <p>You pick a line at the supermarket, and the one next to you moves faster. It happens so
+    often that it feels like a law of nature. Queues really are strange, but the reasons are simple
+    enough to watch happen. We need only three ideas: customers arrive <em>at random</em>, service
+    takes a <em>random</em> amount of time, and nobody can be served before they arrive.</p>
+
+    <h2>One till</h2>
+
+    <p>Start with a single till. Customers arrive at random at an average rate we’ll call
+    <var>λ</var> (lambda), say 48 an hour. At random means that an arrival in one minute tells you
+    nothing about the next minute, like raindrops. A busy cashier serves at an average rate
+    <var>μ</var> (mu), say 60 an hour, so one customer takes a minute on average but sometimes much
+    more or much less.</p>
+
+    <p>The share of time the till is busy is called its <strong>utilisation</strong>,
+    <var>ρ</var> (rho) = <var>λ</var>/<var>μ</var>. Here that is 48/60 = 80%. The till has 20% of
+    its time to spare. Surely nobody waits long?</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Watch the line for a while. Then press <em>Fast forward</em> and watch the green dot on
+      the right settle onto the curve. Move the arrivals slider up to 54 or 57 an hour. The
+      average wait climbs steeply, even though the till still has spare time.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-till" aria-labelledby="fig-till-cap">
+      <div class="stage">
+        <canvas id="till-canvas" role="img" aria-label="Animated simulation of one checkout. Customers arrive from the left, wait in line, are served at the till and leave. On the right, a chart of average wait against utilisation shows the theoretical curve and this run's average as a dot."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="till-lam">Customers arriving</label>
+          <input type="range" id="till-lam" min="6" max="75" step="3" value="48">
+          <output id="till-lam-out" for="till-lam">48 per hour</output>
+        </div>
+        <div class="control stacked">
+          <label for="till-mu">Till can serve</label>
+          <input type="range" id="till-mu" min="30" max="90" step="3" value="60">
+          <output id="till-mu-out" for="till-mu">60 per hour</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="till-play">Pause</button>
+          <button type="button" class="btn" id="till-fast" aria-pressed="false">Fast forward</button>
+          <button type="button" class="btn" id="till-new">New customers</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Utilisation λ/μ</dt><dd id="till-rho">80%</dd></div>
+        <div><dt>Till busy (measured)</dt><dd id="till-busy">—</dd></div>
+        <div><dt>Customers served</dt><dd id="till-n">—</dd></div>
+        <div><dt>Average wait (measured)</dt><dd id="till-wait">—</dd></div>
+        <div><dt>Average wait (theory)</dt><dd id="till-theory">4.0 min</dd></div>
+        <div><dt>Simulated time</dt><dd id="till-clock">—</dd></div>
+      </dl>
+      <figcaption id="fig-till-cap"><span class="fig-num">Figure 1.</span>One checkout with
+      random arrivals and random service times. The wait is time spent in line, not counting service.
+      The measurements start again whenever you move a slider. The simulation is seeded, so
+      <em>New customers</em> gives a different but repeatable crowd.</figcaption>
+    </figure>
+
+    <p>At 80% busy the average customer waits 4 minutes for a 1-minute service. The reason is
+    <strong>randomness</strong>. Sometimes three people arrive within a minute of each other. The
+    till can’t work ahead and bank the idle time from a quiet spell. Idle time is lost for good,
+    while a burst of arrivals leaves a queue that takes a long time to clear.</p>
+
+    <p>If customers arrived exactly every 75 seconds and each took exactly 60 seconds, nobody would
+    ever wait. Randomness alone creates the queue, even when capacity comfortably exceeds demand on
+    average.</p>
+
+    <p>For this simplest case, called the <strong>M/M/1 queue</strong> (random arrivals, random
+    service times, one server), the long-run average wait in line has a tidy formula:</p>
+
+    <p class="formula">average wait = <var>ρ</var> / (1 − <var>ρ</var>) × average service time</p>
+
+    <p>At 50% busy you wait one service time on average. At 80%, 0.8/0.2 = 4 service times. The
+    denominator, 1 − <var>ρ</var>, is the spare capacity. It sits at the bottom of a fraction, and
+    that is where the trouble starts.</p>
+
+    <h2>The explosion near 100%</h2>
+
+    <p>Drag along the curve below, or focus it and use the arrow keys. The green dot marks the
+    utilisation at which the wait <em>doubles</em> from wherever you are. Notice how close together
+    those doublings get as you approach the right-hand edge.</p>
+
+    <figure class="fig" id="fig-curve" aria-labelledby="fig-curve-cap">
+      <div class="stage">
+        <svg id="curve-svg" role="slider" tabindex="0" aria-label="Utilisation" aria-valuemin="5" aria-valuemax="96" aria-valuenow="80" aria-describedby="fig-curve-cap"></svg>
+      </div>
+      <dl class="readouts">
+        <div><dt>Till busy</dt><dd id="curve-rho">80%</dd></div>
+        <div><dt>Spare time</dt><dd id="curve-spare">20%</dd></div>
+        <div><dt>Wait (service times)</dt><dd id="curve-wait">4.00</dd></div>
+        <div><dt>Wait, 3-min checkout</dt><dd id="curve-min">12 min</dd></div>
+        <div><dt>Wait doubles at</dt><dd id="curve-dbl">88.9%</dd></div>
+      </dl>
+      <figcaption id="fig-curve-cap"><span class="fig-num">Figure 2.</span>Average wait in line
+      for one random till (M/M/1), in multiples of the average service time, against utilisation.
+      Drag the brass dot, or focus the chart and press the arrow keys (Shift for steps of 10%).
+      The “3-minute checkout” readout converts the wait to minutes for a typical supermarket
+      service.</figcaption>
+    </figure>
+
+    <p>Going from 80% to 90% busy doesn’t raise the wait by an eighth. It more than doubles it, from
+    4 to 9 service times. Going on from 90% to 95% more than doubles it again, to 19. Near the top,
+    every time you halve the spare capacity you roughly double the wait. At 100% there is no
+    steady state at all: the line grows without limit.</p>
+
+    <p>This is why systems run “efficiently” close to capacity feel broken: hospital emergency
+    departments, motorway traffic, a web server under load. The last 10% of utilisation costs more
+    waiting than the first 80%. It is also why a small drop in demand, like a school holiday, can
+    make a road feel empty. That drop moves you back down the steep part of the curve.</p>
+
+    <h2>One line or three?</h2>
+
+    <p>Now take three tills. Shops arrange them in two ways. Supermarkets usually give each till
+    its own line. Banks, post offices and airport security often use one shared, snaking line that
+    feeds whichever till comes free next.</p>
+
+    <p>The figure below runs both at once, with <em>exactly the same customers</em>: the same
+    arrival times and the same service times. On the left, each customer picks one of the three
+    lines at random and stays there, which is roughly what happens when you can’t see how full
+    each trolley is. On the right, everyone joins one line. Each till takes 3 minutes per customer on
+    average.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Fast-forward for a few simulated hours and compare the worst waits. Then watch the
+      bottom readout. It counts only customers who arrived when every till was busy, so they had
+      a real choice of three occupied lines, and asks how often the line they picked got them to a
+      till first. It settles near a third. Now tick <em>Customers pick the shortest line</em>:
+      the averages drop, and the readout rises to only about a half.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-lines" aria-labelledby="fig-lines-cap">
+      <div class="stage">
+        <canvas id="lines-canvas" role="img" aria-label="Two animated checkouts side by side with the same customers. Left: three tills, each with its own line. Right: three tills fed by one shared line."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="lines-rho">Tills busy</label>
+          <input type="range" id="lines-rho" min="50" max="95" step="1" value="85">
+          <output id="lines-rho-out" for="lines-rho">85% busy</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="lines-play">Pause</button>
+          <button type="button" class="btn" id="lines-fast" aria-pressed="false">Fast forward</button>
+          <button type="button" class="btn" id="lines-new">New customers</button>
+          <label class="toggle"><input type="checkbox" id="lines-smart"> Customers pick the shortest line</label>
+        </div>
+      </div>
+      <table class="compare">
+        <caption class="visually-hidden">Waiting times in the two arrangements, same customers</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Three separate lines</th><th scope="col">One shared line</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Average wait</th><td id="lines-a-avg">—</td><td id="lines-b-avg">—</td></tr>
+          <tr><th scope="row">Worst wait</th><td id="lines-a-max">—</td><td id="lines-b-max">—</td></tr>
+        </tbody>
+      </table>
+      <dl class="readouts">
+        <div><dt>Customers so far</dt><dd id="lines-n">—</dd></div>
+        <div><dt>Simulated time</dt><dd id="lines-clock">—</dd></div>
+        <div><dt>Shared line, theory (Erlang C)</dt><dd id="lines-theory">—</dd></div>
+        <div><dt>Separate lines, arrived when every till was busy: your line was the fastest</dt><dd id="lines-fastest">—</dd></div>
+      </dl>
+      <figcaption id="fig-lines-cap"><span class="fig-num">Figure 3.</span>Three tills, the same
+      stream of customers, two ways of queuing. By default, customers in the separate lines pick a line at random.
+      “Your line was the fastest” counts only customers who arrived when all three tills were busy,
+      and asks whether either of the other two lines would have got them to a till sooner. Measurements restart when you move the slider.</figcaption>
+    </figure>
+
+    <p>The shared line wins on the average, and wins clearly on the worst case. With separate lines,
+    one customer with a huge trolley or a price check holds up everyone behind them, while another
+    till may sit idle. A shared line never leaves a till idle while someone is waiting. It is also
+    fair: nobody who arrives after you is served before you.</p>
+
+    <p>At 85% busy the shared line (the <strong>M/M/3</strong> queue) averages about 4.9 minutes. The
+    textbook result for it is called the <strong>Erlang C formula</strong>, after the Danish telephone
+    engineer A. K. Erlang. If customers instead picked a line at random, each line would behave like
+    its own M/M/1 queue at 85%, and the average wait would be 17 minutes. Picking the shortest line
+    recovers most of that loss, but not all of it, and it does not stop the worst waits.</p>
+
+    <p>And the other line? When you choose at random, each of three equally good lines is
+    equally likely to be the fastest. So yours is the fastest only about a third of the time. Two
+    times out of three, one of the others really did move faster. The simulation confirms it: over many
+    hours, customers who arrive when every till is busy and pick a line at random are in the fastest
+    line 33% of the time. Picking the shortest line helps, but only to about 48%. You notice and remember
+    the times you lose. Your line is not cursed. The odds are simply against you.</p>
+
+    <h2>It’s the variability, not just the average</h2>
+
+    <p>The formula above assumed “fully random” arrivals and service. Real queues can be more
+    regular (appointments, a machine with a fixed cycle) or more erratic (a till that sometimes gets
+    a full weekly shop and sometimes a single banana). A useful measure is the
+    <strong>coefficient of variation</strong>: the standard deviation of a time divided by its
+    average. Clockwork is 0, fully random is 1, erratic is above 1.</p>
+
+    <p>In 1961 the mathematician John Kingman found a simple approximation for one server:</p>
+
+    <p class="formula">average wait ≈ <var>ρ</var>/(1 − <var>ρ</var>) ×
+    (<var>c</var><sub>a</sub>² + <var>c</var><sub>s</sub>²)/2 × average service time</p>
+
+    <p>Here <var>c</var><sub>a</sub> and <var>c</var><sub>s</sub> are the coefficients of variation
+    of the gaps between arrivals and of the service times. The first factor is the utilisation
+    explosion we have already met. The second is a variability multiplier: it equals 1 when both are
+    fully random, and 0 when both are clockwork.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Keep the till 80% busy. Slide the service variability to 0: the wait halves, with no change
+      to the average speed. Now slide it to 2: the wait is 2.5 times the random case. The strip
+      at the top shows 40 sample service times with the same 3-minute average.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-var" aria-labelledby="fig-var-cap">
+      <div class="stage scrollable">
+        <canvas id="var-canvas" role="img" aria-label="Top: forty sample service times as bars around a 3-minute average. Bottom: average wait against utilisation, showing the fully random curve, Kingman's estimate for the chosen variability and a simulated point."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="var-rho">Till busy</label>
+          <input type="range" id="var-rho" min="50" max="95" step="1" value="80">
+          <output id="var-rho-out" for="var-rho">80%</output>
+        </div>
+        <div class="control stacked">
+          <label for="var-cs">Service variability c<sub>s</sub></label>
+          <input type="range" id="var-cs" min="0" max="2" step="0.1" value="1">
+          <output id="var-cs-out" for="var-cs">1.0 (random)</output>
+        </div>
+        <div class="control stacked">
+          <label for="var-ca">Arrival variability c<sub>a</sub></label>
+          <input type="range" id="var-ca" min="0" max="2" step="0.1" value="1">
+          <output id="var-ca-out" for="var-ca">1.0 (random)</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="var-new">New customers</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Kingman’s estimate</dt><dd id="var-kingman">—</dd></div>
+        <div><dt>Simulated (200,000 customers)</dt><dd id="var-sim">—</dd></div>
+        <div><dt>Fully random, for comparison</dt><dd id="var-mm1">—</dd></div>
+      </dl>
+      <figcaption id="fig-var-cap"><span class="fig-num">Figure 4.</span>One till, average
+      service 3 minutes, average wait in line. Times are drawn from gamma distributions with the
+      chosen coefficient of variation. The simulated value is recomputed for 200,000
+      customers a moment after you stop moving a slider.</figcaption>
+    </figure>
+
+    <p>When arrivals are fully random (<var>c</var><sub>a</sub> = 1), Kingman’s formula is exact. This
+    special case was known earlier as the Pollaczek–Khinchine formula. In other cases it is only an
+    estimate. It is very good when the till is busy, within about 5% above 90% busy, and it gets better
+    the busier the server. But it can be well off when the till is quiet and arrivals are more regular
+    than random: at 50% busy with <var>c</var><sub>a</sub> = 0 and <var>c</var><sub>s</sub> = 1 it
+    gives about twice the true wait, which is why the dot can sit below the curve in Figure 4. Both
+    kinds of variability count equally, and they add.</p>
+
+    <p>That is the logic behind many everyday fixes. <em>Express lanes</em> take the small baskets
+    out of the mix, so each lane has less variable service times. <em>Appointments</em> make
+    arrivals regular. <em>Standard procedures</em> make service regular. None of them makes anyone
+    work faster, and all of them shorten the wait.</p>
+
+    <p>So when a queue feels broken, ask two questions. How close to 100% busy is it? And how
+    variable is it? A little spare capacity, or a little less randomness, buys far more than you’d
+    guess.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Balking and reneging.</strong> Real people see a long line and leave, or give
+          up part-way. This caps real queues and hides some of the explosion, at the cost of lost
+          customers.</li>
+          <li><strong>Jockeying.</strong> In Figure 3 nobody switches lines. People do, which
+          narrows the gap between separate and shared lines. Real shoppers also judge lines by
+          trolley size, not just by head count.</li>
+          <li><strong>Changing demand.</strong> Arrival rates here are constant. Real ones follow
+          the lunch rush and the Saturday peak, so a shop can be 60% busy over a day and above 100%
+          for an hour. Queues built in the rush take a long time to drain.</li>
+          <li><strong>People aren’t random.</strong> Arrivals come in groups, follow bus timetables
+          and react to the queue. Staff speed up when the line is long, and new tills open.</li>
+          <li><strong>Steady state.</strong> The formulas are long-run averages. Over a single
+          afternoon, as Figure 1 shows, the measured average can wander a long way from them,
+          especially above 90% busy.</li>
+          <li>A shared line takes a few seconds longer per customer, to walk to the free till. That
+          is ignored here.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>M. Harchol-Balter, <cite>Performance Modeling and Design of Computer Systems: Queueing
+          Theory in Action</cite> (Cambridge University Press, 2013).
+          <a href="https://doi.org/10.1017/CBO9781139226424">doi:10.1017/CBO9781139226424</a>
+          <span class="note">M/M/1 results (average wait ρ/(1−ρ) service times), the M/M/k server
+          farm and Erlang C, and the M/G/1 (Pollaczek–Khinchine) formula. Section 14.4,
+          “Comparison of Three Server Organizations”, compares <var>k</var> separate queues (each
+          arrival sent to one at random) with one shared queue and with one fast server.</span></li>
+          <li>J. F. C. Kingman, “The single server queue in heavy traffic”, <cite>Mathematical
+          Proceedings of the Cambridge Philosophical Society</cite> 57(4), 902–904 (1961).
+          <a href="https://doi.org/10.1017/S0305004100036094">doi:10.1017/S0305004100036094</a>
+          <span class="note">The heavy-traffic approximation for the wait in a single-server queue
+          with general arrival and service times, used in Figure 4.</span></li>
+          <li>L. Kleinrock, <cite>Queueing Systems, Volume 1: Theory</cite> (Wiley, 1975).
+          <span class="note">Standard reference for the M/M/1 and M/M/c queues and the Erlang C
+          formula.</span></li>
+          <li>Wikipedia, “M/M/c queue” and “Kingman’s formula”.
+          <a href="https://en.wikipedia.org/wiki/M/M/c_queue">en.wikipedia.org</a>
+          <span class="note">Used to cross-check the Erlang C expression and the mean wait
+          C/(cμ − λ), and the form of Kingman’s formula.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="queues">Not yet reviewed</dd>
+          <dt>Revised</dt><dd>1 October 2026, after review: Figure 3 now starts with
+          random line choice (the one-in-three case) and says exactly who is counted; Figure 1
+          marks an off-scale result; Figure 4’s legend no longer collides with the ρ line on phones;
+          the Harchol-Balter note names the section.</dd>
+        </dl>
+        <p>The simulations use a seeded random number generator (mulberry32) and exact event
+        timing: each customer’s start time is computed from the tills’ free times, not
+        approximated frame by frame. We checked them against the formulas: M/M/1 at 50%, 80%
+        and 90% busy (simulated 1.00, 3.99 and 9.00 service times against 1, 4 and 9), M/D/1 and
+        M/G/1 against Pollaczek–Khinchine, and the shared line against Erlang C.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="queues-lib.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

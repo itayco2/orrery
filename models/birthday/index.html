@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why do two people in 23 probably share a birthday? — Orrery</title>
+<meta name="description" content="An explorable explanation of the birthday problem: fill rooms with random birthdays, count the pairs, and see why a 128-bit hash gives only 64 bits of collision resistance.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/birthday/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why do two people in 23 probably share a birthday? — Orrery">
+<meta property="og:description" content="An explorable explanation of the birthday problem: fill rooms with random birthdays, count the pairs, and see why a 128-bit hash gives only 64 bits of collision resistance.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/birthday/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/birthday/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why do two people in 23 probably share a birthday?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why do two people in 23 probably share a birthday? — Orrery">
+<meta name="twitter:description" content="An explorable explanation of the birthday problem: fill rooms with random birthdays, count the pairs, and see why a 128-bit hash gives only 64 bits of collision resistance.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/birthday/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why do two people in 23 probably share a birthday?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Mathematics</p>
+      <h1>Why do two people in 23 probably share a birthday?</h1>
+      <p class="lede">Put 23 people in a room. The chance that at least two of them share a birthday
+      is just over a half. Many people guess something far lower, nearer 6%. The gap between the guess and the
+      truth is about what we choose to count.</p>
+      
+    </header>
+
+    <p>Here is the usual line of thought. A year has 365 days. Twenty-three people can cover at
+    most 23 of those days, about 6% of the year, so a shared birthday ought to be rare. When someone asks “does anyone here
+    share a birthday?”, we quietly hear “does anyone share <em>my</em> birthday?” — and that really
+    is unlikely in a room of 23.</p>
+
+    <p>But the question doesn’t care whose birthday it is. Any two people will do. Before we count
+    anything, let’s just try it.</p>
+
+    <h2>Fill a room</h2>
+
+    <p>In the figure below, each dot is one person, placed on a ring of the 365 days of the year,
+    January at the top and running clockwise. Every birthday is drawn at random, with each day
+    equally likely. When two people land on the same day, their dots stack up and turn red, and
+    the first shared day is labelled.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The room starts with 23 people, and one pair already matches. Press <strong>Empty the
+      room</strong>, then add people one at a time and guess when the first match will come. Then
+      press <strong>Add until a match</strong> a few times and watch how small the rooms are.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-room" aria-labelledby="fig-room-cap">
+      <div class="stage room-stage scrollable">
+        <canvas id="room-canvas" role="img" aria-label="A ring of the 365 days of the year with birthdays marked."></canvas>
+      </div>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn" id="room-add1">Add 1 person</button>
+          <button type="button" class="btn" id="room-add10">Add 10</button>
+          <button type="button" class="btn primary" id="room-until">Add until a match</button>
+          <button type="button" class="btn" id="room-empty">Empty the room</button>
+        </div>
+      </div>
+      <p class="room-status sans muted" id="room-status" aria-live="polite"></p>
+      <dl class="readouts">
+        <div><dt>People</dt><dd id="room-n">23</dd></div>
+        <div><dt>Pairs of people</dt><dd id="room-pairs">253</dd></div>
+        <div><dt>First match</dt><dd id="room-match">—</dd></div>
+        <div><dt>Days shared</dt><dd id="room-shared">—</dd></div>
+      </dl>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn" id="room-run">Run 1,000 rooms of this size</button>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="polite">
+        <div><dt>Rooms with a match (simulated)</dt><dd id="room-sim">—</dd></div>
+        <div><dt>Exact chance</dt><dd id="room-exact">50.7%</dd></div>
+      </dl>
+      <p class="sans muted small" id="room-sim-note"></p>
+      <figcaption id="fig-room-cap"><span class="fig-num">Figure 1.</span>Birthdays on a ring of 365
+      days (29 February left out). Red dots share a day; the circled day is the first match. “Run
+      1,000 rooms” fills that many rooms of the current size out of sight and counts how many have a
+      match; press it again to add another thousand and narrow the interval.</figcaption>
+    </figure>
+
+    <p>If you pressed <strong>Add until a match</strong> a few times, you probably saw rooms of 15,
+    25, 30 — sometimes fewer than 10. Across many tries, half of all rooms have their first match by
+    the 23rd person. And when you run 1,000 rooms of 23, about 507 of them have a match. The number
+    after the ± is the honest size of the sampling error: a thousand random rooms can easily land
+    three points either side of the true value.</p>
+
+    <h2>Count pairs, not people</h2>
+
+    <p>The reason is that a match needs two people, so what matters is how many <em>pairs</em> of
+    people there are. Each person can pair with everyone else, and every pair gets counted twice
+    that way, so a room of <var>n</var> people holds</p>
+
+    <p class="formula"><var>n</var>(<var>n</var> − 1) / 2 pairs.</p>
+
+    <p>That grows roughly like the square of <var>n</var>. Twenty-three people make 253 pairs. Each
+    pair has only a 1-in-365 chance of matching, but 253 chances at 1 in 365 add up.</p>
+
+    <p>Now compare the question we usually hear. Of those 253 pairs, only 22 include <em>you</em>.
+    The chance that one of the other 22 people shares your birthday is 1 − (364/365)<sup>22</sup>,
+    about 5.9%. That is the number our intuition tends to reach for.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Move the slider. On the left, every line is one pair; the green lines are the pairs that
+      include you. Notice how the brass lines fill the circle while your green ones only creep up.
+      On the right, the brass curve is the chance of <em>any</em> shared birthday and the green
+      curve is the chance that someone shares <em>yours</em>.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-pairs" aria-labelledby="fig-pairs-cap">
+      <div class="stage pairs-stage scrollable">
+        <canvas id="pairs-canvas" role="img" aria-label="People joined by one line per pair, and a chart of the chance of a shared birthday."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="pairs-n">People in the room</label>
+          <input type="range" id="pairs-n" min="2" max="100" step="1" value="23">
+          <output id="pairs-n-out" for="pairs-n">23 people</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Pairs</dt><dd id="pairs-pairs">253</dd></div>
+        <div><dt>Pairs that include you</dt><dd id="pairs-yours">22</dd></div>
+        <div><dt><span class="key" style="--key: var(--brass)" aria-hidden="true"></span>Any two share a birthday</dt><dd id="pairs-any">50.7%</dd></div>
+        <div><dt><span class="key" style="--key: var(--verdigris)" aria-hidden="true"></span>Someone shares yours</dt><dd id="pairs-mine">5.9%</dd></div>
+      </dl>
+      <figcaption id="fig-pairs-cap"><span class="fig-num">Figure 2.</span>Left: everyone in the
+      room, with a line for every pair (green: pairs that include you, at the top). Right: exact
+      chances for 1 to 100 people. The dashed line is 50%; the marked points are 23 people (50.7%)
+      and 70 people (99.9%).</figcaption>
+    </figure>
+
+    <p>The pair count is a good guide but not the exact answer, because pairs are not independent:
+    if Ann matches Ben and Ben matches Cat, then Ann matches Cat. The exact calculation is easier
+    from the other side. Ask for the chance that <em>nobody</em> shares. The first person can have
+    any birthday. The second must avoid one day: 364 out of 365. The third must avoid two: 363 out
+    of 365. Keep going and multiply:</p>
+
+    <p class="formula">P(no match) = 365/365 × 364/365 × 363/365 × … × <span class="nowrap">(365 − <var>n</var> + 1)/365</span></p>
+
+    <p>For 23 people this product is 0.4927, so the chance of at least one shared birthday is
+    1 − 0.4927 = <strong>0.5073</strong>, or 50.7%. With 57 people it is 99.0%, and with 70 people
+    99.9%. To reach even odds of someone sharing <em>your</em> birthday you need 253 other people —
+    as many people as there are pairs in a room of 23.</p>
+
+    <h2>Any number of days</h2>
+
+    <p>Nothing here is special to birthdays. Replace the 365 days with any number <var>d</var> of
+    equally likely values — lottery numbers, seat numbers, the outputs of a computer program — and
+    draw at random. A repeat becomes likely once the number of pairs, about
+    <var>n</var><sup>2</sup>/2, is comparable to <var>d</var>. Working that out exactly gives a
+    simple rule: the chance of a repeat reaches 50% after about</p>
+
+    <p class="formula"><var>n</var> ≈ 1.1774 × √<var>d</var> draws,</p>
+
+    <p>where 1.1774 is √(2 ln 2). For 365 days the rule gives 22.5, and the exact answer is 23.
+    For a million values it gives 1,177; the exact count is 1,178. Square roots shrink big numbers
+    dramatically: a million values only need about a thousand draws.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the slider, or pick a preset. Each factor of 100 in <var>d</var> moves the brass curve
+      only one step of 10 to the right. The grey curve is the birthday case, for comparison.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-days" aria-labelledby="fig-days-cap">
+      <div class="stage days-stage scrollable">
+        <canvas id="days-canvas" role="img" aria-label="Chance of a repeat against number of draws, on a log scale."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="days-d">Equally likely values, <var>d</var> (log scale)</label>
+          <input type="range" id="days-d" min="1" max="39" step="0.05" value="2.5623">
+          <output id="days-d-out" for="days-d">365</output>
+        </div>
+        <div class="btn-row" role="group" aria-label="Presets for d">
+          <button type="button" class="btn" data-d="365">365 days</button>
+          <button type="button" class="btn" data-d="1000000">a million</button>
+          <button type="button" class="btn" data-d="4294967296">2³² (32 bits)</button>
+          <button type="button" class="btn" data-d="18446744073709551616">2⁶⁴</button>
+          <button type="button" class="btn" data-d="340282366920938463463374607431768211456">2¹²⁸ (a 128-bit hash)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Size in bits, log₂ <var>d</var></dt><dd id="days-bits">8.5 bits</dd></div>
+        <div><dt>Draws for a 50% chance of a repeat</dt><dd id="days-half">23</dd></div>
+        <div><dt>1.1774 × √<var>d</var></dt><dd id="days-approx">22</dd></div>
+        <div><dt>Draws as a share of <var>d</var></dt><dd id="days-ratio">6.3%</dd></div>
+      </dl>
+      <figcaption id="fig-days-cap"><span class="fig-num">Figure 3.</span>Chance of at least one
+      repeat after a given number of random draws from <var>d</var> equally likely values (brass),
+      with the 50% point marked. Draws are on a log scale, from 1 to 10<sup>21</sup>. Up to a million
+      values the curve is the exact product; above that it uses 1 − e<sup>−<var>n</var>(<var>n</var>−1)/2<var>d</var></sup>,
+      which is indistinguishable there. Up to ten billion values the 50% point is found by multiplying
+      term by term; above that it comes from the formula, marked “≈”.</figcaption>
+    </figure>
+
+    <p>This is why cryptographers care about birthdays. A <em>hash function</em> turns any file into
+    a short fixed-length fingerprint, say 128 bits, so there are <var>d</var> = 2<sup>128</sup>
+    ≈ 3.4 × 10<sup>38</sup> possible fingerprints. Finding a file that matches one <em>particular</em>
+    fingerprint by trial is like waiting for someone with your birthday: about 2<sup>128</sup> tries.
+    But finding <em>any</em> two files with the same fingerprint, a <em>collision</em>, is the
+    birthday problem: about 1.18 × 2<sup>64</sup> ≈ 2 × 10<sup>19</sup> tries. That is why a hash
+    with <var>b</var> bits offers only about <var>b</var>/2 bits of protection against collisions,
+    and why modern standards such as SHA-256 use outputs twice as long as the security level they
+    aim for. The attack is called a <em>birthday attack</em>.</p>
+
+    <h2>Real birthdays are not uniform</h2>
+
+    <p>Everything so far assumed every day is equally likely. Real birthdays aren’t. In the United
+    States from 1994 to 2003 — 39.7 million births, counted by the National Center for Health
+    Statistics — late summer and September were busiest, and holidays were quiet, because many
+    deliveries are scheduled. The busiest date, 19 September, had 11% more births than an average
+    day; 25 December had 37% fewer.</p>
+
+    <p>Does that help or hurt the chance of a match? It helps. When some days are more popular,
+    people crowd onto them, and crowding is exactly what makes matches. Mathematically, equal
+    chances for every day give the <em>fewest</em> matches of any pattern.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The bars show births per date relative to an average day. Slide the unevenness from “all
+      days equal” to “real US rates”, then past it to exaggerate the pattern. Watch how small the
+      change is at real rates, and how it grows when the pattern is exaggerated.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-real" aria-labelledby="fig-real-cap">
+      <div class="stage real-stage scrollable">
+        <canvas id="real-canvas" role="img" aria-label="Births per calendar date relative to an average day."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="real-s">Unevenness</label>
+          <input type="range" id="real-s" min="0" max="2.5" step="0.1" value="1">
+          <output id="real-s-out" for="real-s">real US rates</output>
+        </div>
+        <div class="control">
+          <label for="real-n">People in the room</label>
+          <input type="range" id="real-n" min="2" max="80" step="1" value="23">
+          <output id="real-n-out" for="real-n">23 people</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Shared birthday, all days equal</dt><dd id="real-uni">50.73%</dd></div>
+        <div><dt>With these rates</dt><dd id="real-with">50.83%</dd></div>
+        <div><dt>Difference</dt><dd id="real-diff">+0.10 percentage points</dd></div>
+        <div><dt>Smallest room for 50%</dt><dd id="real-half">23 people</dd></div>
+      </dl>
+      <figcaption id="fig-real-cap"><span class="fig-num">Figure 4.</span>Births per calendar date in
+      the US, 1994–2003, as a multiple of an average day (CDC/NCHS data via FiveThirtyEight; 29
+      February left out). The chances are exact for these rates, not simulated. Beyond “real”, each
+      day’s difference from average is scaled up, to show the direction of the effect.</figcaption>
+    </figure>
+
+    <p>At real rates the chance for 23 people rises by only a tenth of a percentage point, from 50.73%
+    to 50.83%, and 23 is still the smallest room that passes a half. The uniform model is a very
+    good approximation — and where it is wrong, it errs on the side of underestimating matches.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Birth rates in other places and years.</strong> Figure 4 uses one country and one
+          decade. Seasonal patterns differ between countries and have changed over time, but the
+          effect on the birthday problem stays small unless the pattern is far stronger.</li>
+          <li><strong>29 February.</strong> We use 365 days. Adding a leap day a quarter as likely
+          as the others lowers the chance for 23 people from 50.73% to 50.69%.</li>
+          <li><strong>Twins and families.</strong> The model assumes birthdays are independent. A
+          room with twins, or a class of children born in the same school year, breaks that.</li>
+          <li><strong>Real hash attacks.</strong> The √<var>d</var> count is the number of
+          fingerprints to compute. A naive attack must also store and search them all; practical
+          methods (Pollard’s rho, parallel collision search) trade memory for extra computation.
+          Some real hash functions, such as MD5 and SHA-1, have been broken much faster than the
+          birthday bound by exploiting their internal structure. The birthday bound is what a
+          perfect hash can promise, not a guarantee about any particular one.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>W. Feller, <cite>An Introduction to Probability Theory and Its Applications</cite>,
+          vol. 1, 3rd ed. (Wiley, 1968), ch. II §3, example “Birthdays”.
+          <span class="note">The classical calculation of the chance that <var>r</var> people all
+          have different birthdays, and its approximation through logarithms.</span></li>
+          <li>A. J. Menezes, P. C. van Oorschot and S. A. Vanstone, <cite>Handbook of Applied
+          Cryptography</cite> (CRC Press, 1996), §2.1.5 “Birthday problems”; free chapter at
+          <a href="https://cacr.uwaterloo.ca/hac/about/chap2.pdf">cacr.uwaterloo.ca</a>.
+          <span class="note">The general form P = 1 − m(m−1)…(m−n+1)/m<sup>n</sup> for drawing
+          <var>n</var> of <var>m</var> values, with P(365, 23) ≈ 0.507 and P(365, 30) ≈ 0.706; the occupancy-problem view of the same question.</span></li>
+          <li>J. Katz and Y. Lindell, <cite>Introduction to Modern Cryptography</cite>, 3rd ed.
+          (CRC Press, 2021), §6.4.1 “Birthday attacks for finding collisions”, §6.4.2 “Small-space birthday
+          attacks”, and Appendix A.4 on the birthday problem.
+          <span class="note">A collision in an ℓ-bit hash is found with about 2<sup>ℓ/2</sup>
+          evaluations, so collision-resistant hashes need outputs twice the security level; small-space
+          birthday attacks.</span></li>
+          <li>FiveThirtyEight, “births” data set, from the CDC’s National Center for Health
+          Statistics, US births by day, 1994–2003;
+          <a href="https://github.com/fivethirtyeight/data/tree/master/births">github.com/fivethirtyeight/data</a>.
+          <span class="note">Daily US birth counts, 1994–2003 (39.7 million births), summed
+          by calendar date for Figure 4.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="birthday">Not yet reviewed</dd>
+        </dl>
+        <p>All probabilities on this page are computed in your browser; the exact values were checked
+        against an independent calculation in exact fractions. Nothing is loaded from the network.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+<script src="births.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

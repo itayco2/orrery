@@ -1,0 +1,14 @@
+/* Exhibit-only styles for birthday */
+.room-stage { --aspect: 16 / 10; max-width: 40rem; margin: 0 auto; }
+.pairs-stage { --aspect: 16 / 7; }
+.days-stage { --aspect: 16 / 7; }
+@media (max-width: 560px) {
+  .room-stage { --aspect: 1 / 1; }
+  .pairs-stage { --aspect: 4 / 5; }
+  .days-stage { --aspect: 4 / 3.4; }
+}
+.room-status { min-height: 1.4em; margin: .4rem 0 0; font-size: .9rem; }
+.small { font-size: .85rem; margin: .3rem 0 0; }
+.nowrap { white-space: nowrap; }
+.real-stage { --aspect: 16 / 6; }
+@media (max-width: 560px) { .real-stage { --aspect: 4 / 3; } }

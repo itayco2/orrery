@@ -1,0 +1,14 @@
+{
+  "slug": "rainbow",
+  "title": "Why is a rainbow round?",
+  "question": "You can never walk to a rainbow, and the person beside you sees a different one. What is it, and why is it always part of a circle?",
+  "field": "Physics",
+  "summary": "Trace sunlight through a raindrop: the exit angles pile up at about 42° from the shadow of your head, so the drops that flash at you lie on a cone around your eye. Water bends violet more than red, which spreads the colours, and the Sun's height decides how much of the circle is above the ground.",
+  "built": "2026-10-01",
+  "status": "published",
+  "review": {
+    "date": "2026-10-01",
+    "verdict": "pass-with-fixes"
+  },
+  "thumbnail": "thumb.png"
+}

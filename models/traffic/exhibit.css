@@ -1,0 +1,5 @@
+/* traffic exhibit: speed legend */
+.legend { font-size: 0.85rem; color: var(--ink-2); margin: 0.5rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.5rem; }
+.legend .sw { display: inline-block; width: 0.9rem; height: 0.9rem; border-radius: 2px; background: var(--c); vertical-align: -0.12rem; margin-right: 0.15rem; }
+.fig .controls .btn-row { flex-basis: 100%; }
+@media (max-width: 600px) { #fig-ring .stage { --aspect: 1 / 1 !important; } #fig-fd .stage { --aspect: 4 / 3 !important; } }

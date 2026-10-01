@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can circles draw anything? — Orrery</title>
+<meta name="description" content="Circles riding on circles: how ancient astronomers explained Mars going backwards, and why enough turning circles can trace any closed shape.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/epicycles/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Can circles draw anything? — Orrery">
+<meta property="og:description" content="Circles riding on circles: how ancient astronomers explained Mars going backwards, and why enough turning circles can trace any closed shape.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/epicycles/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/epicycles/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Can circles draw anything?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can circles draw anything? — Orrery">
+<meta name="twitter:description" content="Circles riding on circles: how ancient astronomers explained Mars going backwards, and why enough turning circles can trace any closed shape.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/epicycles/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Can circles draw anything?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Mathematics</p>
+      <h1>Can circles draw anything?</h1>
+      <p class="lede">Epicycles — circles riding on circles — are the classic example of a wrong
+      theory patched with ever more parts. Yet with enough of them, turning at the right speeds, you
+      can trace any closed shape you like, including one you draw yourself.</p>
+    </header>
+
+    <p>Watch Mars against the stars for a few months and it drifts slowly eastward, night after
+    night. But roughly every two years and two months it slows, stops, runs backward for about ten
+    weeks, stops again and carries on. Astronomers call the backward stretch <em>retrograde
+    motion</em>. Any theory of the sky has to explain it.</p>
+
+    <p>For fourteen centuries the standard explanation was the one written down by Claudius
+    Ptolemy in Alexandria around 150 CE, in the book we know as the <cite>Almagest</cite>. The
+    planet rides on a small circle, the <em>epicycle</em>, whose centre is carried around the Earth
+    on a big circle, the <em>deferent</em>. It is often retold as a joke: whenever the theory went
+    wrong, add another circle. The joke hides something true and surprising. Circles on circles are
+    not a weak tool. They are, in a precise sense, a tool that can fit anything — and that turns out
+    to be the problem.</p>
+
+    <h2>An arrow on an arrow</h2>
+
+    <p>Think of each circle as an arrow spinning about its tail at a steady rate. One arrow, alone,
+    sweeps its tip around a circle. Now fix the tail of a second, shorter arrow to the tip of the
+    first, and let both spin. The tip of the second arrow is our planet.</p>
+
+    <p>In the figure below, Earth sits at the centre. The big arrow turns once every 687 days; the
+    small one is 0.66 times as long and turns 1.88 times as fast. These are not invented numbers,
+    as we will see. The outer ring stands for the sky: the dashed line is our line of sight, and
+    the marks on the ring show where the planet has appeared over the last 300 days. When the
+    planet’s place in the sky slides backward, both its path and its marks turn red.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press Play and watch the planet’s mark on the sky ring. Notice that it only goes backward
+      while the planet is on the inner part of a loop, closest to Earth. Then make the small arrow
+      shorter or slower: at some point the loops shrink to kinks and the backward motion
+      disappears. Set the small arrow’s length to 0 and you are back to one arrow and one circle.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-retro" aria-labelledby="fig-retro-cap">
+      <div class="stage scrollable" style="--aspect: 1 / 1; max-width: 32rem; margin: 0 auto">
+        <canvas id="retro-canvas" role="img" aria-label="Earth at the centre; a big arrow turns about it and carries a smaller spinning arrow whose tip is the planet. The planet traces a looping path, and on an outer ring representing the sky its direction mostly moves forward but runs backward, marked red, during each loop."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="retro-b">Small arrow: length</label>
+          <input type="range" id="retro-b" min="0" max="1" step="0.01" value="0.66">
+          <output id="retro-b-out" for="retro-b">0.66×</output>
+        </div>
+        <div class="control">
+          <label for="retro-k">Small arrow: speed</label>
+          <input type="range" id="retro-k" min="0" max="5" step="0.01" value="1.88">
+          <output id="retro-k-out" for="retro-k">1.88×</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="retro-play">Pause</button>
+          <button type="button" class="btn" id="retro-mars">Reset to Mars</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Time</dt><dd id="retro-day">day 0</dd></div>
+        <div><dt>Direction seen from Earth</dt><dd id="retro-dir">0°</dd></div>
+        <div><dt>Moving across the sky</dt><dd id="retro-moving">forward</dd></div>
+        <div><dt>Each backward stretch</dt><dd id="retro-loop">—</dd></div>
+        <div><dt>Repeats every</dt><dd id="retro-every">—</dd></div>
+      </dl>
+      <figcaption id="fig-retro-cap"><span class="fig-num">Figure 1.</span>A deferent and an
+      epicycle. Green path: forward motion as seen from Earth; red: backward (retrograde). The big
+      arrow always takes 687 days per turn; time runs at 70 days per second. The last two readouts
+      are calculated exactly from the current settings.</figcaption>
+    </figure>
+
+    <p>Why does the planet go backward? Its motion is the sum of two turnings. Along the outer part
+    of a loop the two arrows carry it the same way. On the inner part, nearest Earth, the small
+    arrow sweeps the planet backward faster than the big arrow carries it forward, so for a while
+    the net motion across our sky is reversed. If the small arrow is too short or too slow, the
+    forward motion always wins and there is no retrograde stretch at all.</p>
+
+    <p>With the default settings the model makes a backward stretch of 73 days, covering 15.9° of
+    sky, once every 780 days. Mars really does this every 780 days — NASA lists its <em>synodic
+    period</em>, the time between one lining-up of Sun, Earth and Mars and the next, as 779.94 days —
+    and its backward stretches last around ten weeks.</p>
+
+    <p>The match is no accident. The big arrow is Mars’s own orbit around the Sun (687 days).
+    The small arrow is Earth’s orbit, seen in reverse: it turns once a year, which is 1.88 times as
+    fast, and its length is Earth’s distance from the Sun divided by Mars’s, 1&nbsp;÷&nbsp;1.524 ≈
+    0.66. Adding the two arrows gives the line from Earth to Mars exactly. Ptolemy’s epicycle for
+    Mars was, in effect, a picture of Earth’s motion that he did not know he was drawing.</p>
+
+    <p>Nicolaus Copernicus, in 1543, put the Sun near the centre and showed that retrograde motion
+    is only apparent: it is what you see from a moving Earth as it overtakes a slower outer planet.
+    But he did not get rid of circles on circles. To match the observations with uniform circular
+    motion he still needed small epicycles, which he preferred to Ptolemy’s <em>equant</em> — a point
+    off the centre from which the motion looked uniform. The circles only went away in 1609, when
+    Johannes Kepler showed that Mars moves on an ellipse, faster when nearer the Sun.</p>
+
+    <h2>More circles, any path</h2>
+
+    <p>Ptolemy’s model of Mars used two circles, plus an offset centre and the equant. What happens if
+    you keep going — a third arrow on the tip of the second, a fourth on the third? In 1960 the
+    philosopher Norwood Russell Hanson showed that with enough of them, circles can trace even a path
+    with sharp corners, such as a square. Each new arrow adds one term to a sum, and that sum is
+    what mathematicians now call a <em>Fourier series</em>: a way of writing a repeating motion as
+    a combination of steady rotations, each turning a whole number of times per cycle.</p>
+
+    <p>Here is the hardest kind of case: a value that jumps. Below, each circle turns an odd
+    number of times per cycle (1, 3, 5, …), and circle number <var>n</var> has radius 4/(π<var>n</var>).
+    We track only the height of the last arrow’s tip, and draw it out to the right over time.
+    The target, in grey, is a <em>square wave</em>: +1 for half of each cycle, −1 for the other
+    half.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press “Add a circle” a few times, or slide up to 50 circles. The flat parts get flatter and
+      the jumps steeper. But watch the peak just after each jump: it gets narrower, yet it never
+      gets lower. The readout shows how high it pokes above the flat top.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-square" aria-labelledby="fig-square-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 7">
+        <canvas id="sq-canvas" role="img" aria-label="A chain of spinning circles on the left; the height of its tip is traced to the right as a wave that approximates a square wave, with small overshooting peaks just after each jump."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="sq-n">Circles</label>
+          <input type="range" id="sq-n" min="1" max="50" step="1" value="4">
+          <output id="sq-n-out" for="sq-n">4 circles</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="sq-add">Add a circle</button>
+          <button type="button" class="btn" id="sq-play">Pause</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Fastest circle turns</dt><dd id="sq-top">7×</dd></div>
+        <div><dt>Highest point (flat top = 1)</dt><dd id="sq-peak">1.184</dd></div>
+        <div><dt>Overshoot, as a share of the jump</dt><dd id="sq-over">9.21%</dd></div>
+      </dl>
+      <figcaption id="fig-square-cap"><span class="fig-num">Figure 2.</span>Building a square
+      wave from circles. Grey: the target. Green: the height of the chain’s tip. The overshoot is
+      measured on the drawn curve itself, not assumed. At 50 circles (the fastest turning 99 times per
+      cycle) it is 8.95%, within 0.01 points of the limit.</figcaption>
+    </figure>
+
+    <p>This stubborn overshoot is the <em>Gibbs phenomenon</em>, first noticed by Henry Wilbraham
+    in 1848 and rediscovered by J. Willard Gibbs in 1899. Wherever the target jumps, the sum of
+    circles overshoots by about 8.95% of the size of the jump, however many circles you add. Its
+    width shrinks as circles are added, so on average the fit keeps improving, but its height does
+    not. Circles, which are smooth, cannot make a clean jump.</p>
+
+    <h2>Draw your own</h2>
+
+    <p>Now for the reverse question: given a shape, which circles draw it? Walk around the shape at
+    an even pace and write down 256 equally spaced points. Treat each point as a single number, a
+    <em>complex number</em> (its sideways position plus <var>i</var> times its height), which is the
+    natural language for arrows. A calculation called the <em>discrete Fourier transform</em> then
+    gives, for each whole-number speed <var>k</var> from −128 to 127 turns per trip around the shape,
+    the one arrow of that speed that belongs in the recipe — its length and its starting angle:</p>
+
+    <p class="formula"><var>c<sub>k</sub></var> = average over all points of
+      (point × a rotation of −<var>k</var> turns per trip)</p>
+
+    <p>In words: spin the whole shape backwards at speed <var>k</var> and find its average position.
+    Parts of the shape moving at speed <var>k</var> stand still in this spinning view and survive
+    the averaging; everything else goes round and cancels out. Chain all 256 arrows together and
+    their tip passes exactly through all 256 points. Use only the biggest few and you get the best
+    rough sketch that those few can make.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Draw a single closed loop in the box with your mouse or finger — the end is joined to the
+      start for you — or pick a shape. Then slide the number of circles down to 1, 2, 3… A handful
+      already gives the overall shape; the corners and fine wiggles need many more. The recipe
+      lists the biggest arrows: positive speeds turn anticlockwise, negative clockwise.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-draw" aria-labelledby="fig-draw-cap">
+      <div class="draw-layout">
+        <div class="draw-left">
+        <div class="stage draw-stage" style="--aspect: 1 / 1">
+          <canvas id="draw-canvas" role="img" aria-label="Drawing area. A chain of spinning arrows, largest first, traces an approximation of the chosen shape, which is shown in grey behind it. Draw a closed loop here with a mouse, finger or pen to replace the shape; keyboard users can choose a preset shape instead."></canvas>
+        </div>
+        <div class="controls">
+          <div class="control">
+            <label for="draw-n">Circles used</label>
+            <input type="range" id="draw-n" min="1" max="255" step="1" value="12">
+            <output id="draw-n-out" for="draw-n">12 circles</output>
+          </div>
+          <div class="btn-row" role="group" aria-label="Preset shapes">
+            <button type="button" class="btn" data-preset="heart">Heart</button>
+            <button type="button" class="btn" data-preset="star">Star</button>
+            <button type="button" class="btn" data-preset="square">Square</button>
+            <button type="button" class="btn" data-preset="eight">Figure eight</button>
+            <button type="button" class="btn" id="draw-play">Pause</button>
+          </div>
+        </div>
+        <p class="sans small" id="draw-status" aria-live="polite">Showing: a heart.</p>
+        </div>
+        <div class="recipe">
+          <dl class="readouts">
+            <div><dt>Average gap from the shape (% of its longer side)</dt><dd id="draw-err">—</dd></div>
+            <div><dt>Share of the shape’s “energy” in these circles</dt><dd id="draw-share">—</dd></div>
+          </dl>
+
+          <table>
+            <caption>The recipe: biggest circles first</caption>
+            <thead><tr><th scope="col">#</th><th scope="col">Speed (turns per trip)</th><th scope="col">Radius (% of longer side)</th><th scope="col">Start angle</th></tr></thead>
+            <tbody id="draw-recipe"></tbody>
+          </table>
+          <p class="muted sans small">Greyed rows are not in use at the current setting.</p>
+        </div>
+      </div>
+      <figcaption id="fig-draw-cap"><span class="fig-num">Figure 3.</span>Your shape (grey),
+      resampled to 256 points, and the path traced by the chosen number of its biggest circles
+      (green). “Energy” is the sum of the squared radii, the usual measure of how much of a shape the
+      circles account for.</figcaption>
+    </figure>
+
+    <p>Try the square outline with 10 or 20 circles. The corners come out rounded, but unlike the
+    square wave, the green path does not shoot past them: here the pen never jumps, it only turns
+    sharply, and for a continuous path like that the gap shrinks everywhere as circles are added.
+    For any closed path made of smooth pieces — anything you can draw without lifting the pen — the
+    circles’ path closes in on it at every point. That is the precise sense in which circles can
+    draw anything.</p>
+
+    <p>Notice too how fast the energy share climbs. For the heart, the 12 biggest circles already
+    hold about 99.9% of it, and their path is on average less than 1% of the heart’s width away from it. Most shapes people draw are like this: a few slow, large circles
+    carry the outline, and many fast, tiny ones add the details. Related frequency-based ideas —
+    though not epicycles as such — let formats like JPEG and MP3 spend few bits on the fine,
+    fast-changing detail that we barely notice.</p>
+
+    <h2>What the circles cannot tell you</h2>
+
+    <p>Here is the twist that follows from Hanson’s result. Because circles on circles can fit any closed path,
+    fitting the planets with them proves nothing about why the planets move. Ptolemy’s system was
+    not wrong because its mathematics was weak; its mathematics was, if anything, too strong. It
+    could describe whatever the sky did, so it could not explain it. Kepler’s ellipses made a much
+    riskier claim — one simple curve per planet, with the Sun at a fixed point inside it — and
+    Newton’s law of gravity then said why it had to be so. A good theory rules things out.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li>Figure 1 uses two perfect circles in one plane. Real orbits are ellipses (Mars’s
+          eccentricity is 0.093) and are tilted slightly to one another (1.85° for Mars), so real
+          retrograde stretches vary in length and on the sky trace loops or zigzags rather than
+          running back along the same line. Ptolemy’s own model also had an offset deferent and the
+          equant, which we omit.</li>
+          <li>The sky ring shows direction only, as if the stars were painted on a circle around
+          Earth; it ignores how bright or far away the planet is.</li>
+          <li>Figure 3 works with 256 samples of your shape, so it can use at most 256 circles and
+          cannot follow detail finer than the gap between samples. A drawing whose ends are far apart
+          gets a straight closing line, which counts as part of the shape.</li>
+          <li>“Circles can draw anything” holds for closed paths that are continuous and made of smooth
+          pieces. For paths with jumps, the Gibbs overshoot never goes away; for strange continuous
+          curves with infinitely fine wiggles, the sum can fail to settle at some points, though it
+          still improves on average.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>N. R. Hanson, “The Mathematical Power of Epicyclical Astronomy”, <cite>Isis</cite>
+          51 (2), 150–158 (1960). doi:10.1086/348869.
+          <span class="note">A geometric argument that epicycles can approximate a triangle and a
+          square, and in general any periodic planar motion, as closely as you like. Writing this as
+          a Fourier series of complex rotations, and the point that fitting power is not explanatory
+          power, are the modern gloss used on this page, not Hanson’s own wording.</span></li>
+          <li>NASA Space Science Data Coordinated Archive, “Mars Fact Sheet”.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html">nssdc.gsfc.nasa.gov</a>
+          <span class="note">Mars: semimajor axis 1.524 × Earth’s, sidereal period 686.98 days,
+          Earth 365.256 days, synodic period 779.94 days, eccentricity 0.0935, inclination 1.85°.</span></li>
+          <li>S. Rabin, “Nicolaus Copernicus”, <cite>Stanford Encyclopedia of Philosophy</cite>.
+          <a href="https://plato.stanford.edu/entries/copernicus/">plato.stanford.edu</a>
+          <span class="note">Ptolemy’s deferent, epicycle, eccentric and equant; Copernicus’s
+          rejection of the equant, his continued use of epicycles, and his account of retrograde
+          motion as only apparent.</span></li>
+          <li>E. W. Weisstein, “Gibbs Phenomenon” and “Wilbraham–Gibbs Constant”, <cite>MathWorld</cite>.
+          <a href="https://mathworld.wolfram.com/Wilbraham-GibbsConstant.html">mathworld.wolfram.com</a>
+          <span class="note">The limiting overshoot at a jump, (Si(π)/π − ½) × jump ≈ 0.0895 × jump;
+          Wilbraham (1848) and Gibbs (1899).</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="epicycles">Not yet reviewed</dd>
+        </dl>
+        <p>The numbers in the text were checked against the model: with the Mars settings it gives
+        a backward stretch of 72.7 days and 15.9° every 779.9 days; the square-wave overshoot is
+        13.7% with one circle and 8.95% with fifty.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

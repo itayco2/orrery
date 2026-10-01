@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Does a better gene always win? — Orrery</title>
+<meta name="description" content="Why most beneficial mutations vanish: natural selection against genetic drift, with simulated populations you can run.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/selection/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Does a better gene always win? — Orrery">
+<meta property="og:description" content="Why most beneficial mutations vanish: natural selection against genetic drift, with simulated populations you can run.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/selection/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/selection/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Does a better gene always win?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Does a better gene always win? — Orrery">
+<meta name="twitter:description" content="Why most beneficial mutations vanish: natural selection against genetic drift, with simulated populations you can run.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/selection/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Does a better gene always win?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Life</p>
+      <h1>Does a better gene always win?</h1>
+      <p class="lede">“Survival of the fittest” suggests that a gene which helps its carriers will
+      spread. Usually it doesn’t. Most helpful new mutations disappear within a few generations,
+      lost to plain bad luck.</p>
+    </header>
+
+    <p>Every new genetic variant starts the same way: as a single copy, in a single individual,
+    created by a copying error in DNA. Suppose this variant is genuinely useful. Its carriers have,
+    on average, 1% more offspring than everyone else. Over thousands of generations, surely it
+    takes over?</p>
+
+    <p>The common picture of evolution says yes. The mathematics says: probably not. A variant
+    with a 1% advantage, starting as one copy in a large population, ends up in every member of
+    the population only about <strong>2% of the time</strong>. The other 98% of the time it
+    vanishes, usually within a few generations of appearing. To see why, start with what happens
+    when no variant is better than any other.</p>
+
+    <h2>Chance alone</h2>
+
+    <p>Imagine a population that stays the same size, <var>N</var> individuals, generation after
+    generation. To make the next generation, we pick a parent at random from the current one,
+    copy it, and repeat <var>N</var> times. Some individuals are picked twice or three times;
+    others not at all. This is the <em>Wright–Fisher model</em>, named after Sewall Wright and
+    Ronald Fisher, who used it around 1930 to found the mathematics of evolution. It describes
+    organisms with one copy of each gene (<em>haploid</em>), like bacteria.</p>
+
+    <p>Below, the population starts half gold and half green. Neither colour is better. Watch the
+    share of gold wander up and down, in eight separate populations at once, until it hits 0% or
+    100%. That wandering is called <em>genetic drift</em>. When a variant reaches 100% it is
+    <em>fixed</em>: there is nothing left for it to compete with, and only a new mutation can
+    change things. Try a small population (<var>N</var> = 10) and a large one (<var>N</var> = 500).</p>
+
+    <figure class="fig wide" id="fig-drift" aria-labelledby="fig-drift-cap">
+      <div class="stage plot" id="drift-stage">
+        <canvas id="drift-canvas" role="img" aria-label="Left: the individuals of one population as gold and green dots. Right: the share of gold in eight populations against generation; each line wanders until it reaches 0% or 100%."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="drift-n">Population size <var>N</var></label>
+          <input type="range" id="drift-n" min="10" max="500" step="10" value="50">
+          <output id="drift-n-out" for="drift-n">50</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="drift-play">Pause</button>
+          <button type="button" class="btn" id="drift-reset">Start again</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Generation</dt><dd id="drift-gen">0</dd></div>
+        <div><dt>Populations where one colour has won</dt><dd id="drift-done">0 of 8</dd></div>
+        <div><dt>Average time to win (theory)</dt><dd id="drift-theory">69 generations</dd></div>
+      </dl>
+      <figcaption id="fig-drift-cap"><span class="fig-num">Figure 1.</span>Genetic drift. Left:
+      the <var>N</var> individuals of the first population (gold or green). Right: the share of gold
+      in eight populations, each starting at 50%. The line for the population on the left is drawn
+      thicker.</figcaption>
+    </figure>
+
+    <p>Two things to notice. First, drift always ends. Sooner or later one colour is lost for
+    good, because once it is gone, no parent can pass it on. Second, small populations get there
+    much faster. Starting from half and half, the average time until one colour wins is about
+    1.4&nbsp;× <var>N</var> generations: about 14 generations when <var>N</var> = 10, about 700
+    when <var>N</var> = 500.</p>
+
+    <p>There is a neat consequence. With no advantage on either side, every individual alive today
+    has the same chance to be the ancestor of the whole future population. So a single new neutral
+    variant, one copy among <var>N</var>, has a chance of exactly 1&nbsp;in&nbsp;<var>N</var> of
+    ending up fixed.</p>
+
+    <h2>A better gene appears</h2>
+
+    <p>Now give one variant an edge. Its carriers are a little more likely to be picked as
+    parents: if the variant is rare, each carrier has on average 1&nbsp;+&nbsp;<var>s</var>
+    offspring, while everyone else has 1. The number <var>s</var> is the <em>selection
+    coefficient</em>; <var>s</var> = 0.01 means a 1% advantage. That is a large advantage by the
+    standards of real mutations.</p>
+
+    <p>The trouble is the start. One carrier doesn’t have exactly 1.01 offspring. It has 0, 1, 2
+    or 3, at random. In the Wright–Fisher model the chance of having none at all is about
+    e<sup>−1</sup>, or 37%, and a 1% advantage lowers that only to 36%. A small advantage barely
+    changes the odds while there are only a handful of copies. Selection is a statement about averages, and
+    averages need numbers.</p>
+
+    <p>The figure runs 1,000 separate populations of 1,000 individuals each. In every one, a
+    single copy of the better variant appears. Each line follows the number of copies in one
+    population, on scales that stretch out the early generations. Press <strong>Run 1,000
+    populations</strong> and watch most of the lines drop out almost at once. Then change
+    <var>s</var> and run again; every run adds a point to the chart of the fraction that won.</p>
+
+    <figure class="fig wide" id="fig-fix" aria-labelledby="fig-fix-cap">
+      <div class="stage plot" id="fix-stage">
+        <canvas id="fix-canvas" role="img" aria-label="Left: number of copies of a new beneficial variant against generation, one line per population, on logarithmic scales; most lines end within a few generations. Right: fraction of populations in which the variant took over, against its advantage s, with the theory curve and the neutral 1 in 1,000."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="fix-s">Advantage <var>s</var></label>
+          <input type="range" id="fix-s" min="0" max="0.1" step="0.005" value="0.02">
+          <output id="fix-s-out" for="fix-s">2.0%</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="fix-run">Run 1,000 populations</button>
+          <button type="button" class="btn" id="fix-clear">Clear chart</button>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="off">
+        <div><dt>Generation</dt><dd id="fix-gen">0</dd></div>
+        <div><dt>Lost</dt><dd id="fix-lost">0</dd></div>
+        <div><dt>Still in play</dt><dd id="fix-alive">0</dd></div>
+        <div><dt>Fixed</dt><dd id="fix-fixed">0</dd></div>
+        <div><dt>Theory for this <var>s</var></dt><dd id="fix-theory">3.9%</dd></div>
+      </dl>
+      <ul class="legend" aria-hidden="true">
+        <li><span class="sw c-th"></span>Theory (diffusion formula)</li>
+        <li><span class="sw dash c-2s"></span>2<var>s</var> (Haldane)</li>
+        <li><span class="sw dash c-neu"></span>Neutral: 1 in 1,000</li>
+        <li><span class="dot c-sim"></span>Your runs</li>
+      </ul>
+      <figcaption id="fig-fix-cap"><span class="fig-num">Figure 2.</span>One copy of a better
+      variant in each of 1,000 populations of <var>N</var> = 1,000. Left: copies against generation
+      (both scales logarithmic); green lines are populations where the variant won. Right: the
+      fraction that won, for each <var>s</var> you have run (bars show ±2 standard errors).</figcaption>
+    </figure>
+
+    <p>The fraction that wins is small, and it grows in step with <var>s</var>: roughly twice the
+    advantage. This result, that a new beneficial variant survives with probability about
+    2<var>s</var>, was worked out by J.&nbsp;B.&nbsp;S. Haldane in 1927. A 1% advantage wins
+    about 2% of the time; a 5% advantage about 9%. Even a large advantage loses most of the time.
+    Once a variant has more than roughly 1/<var>s</var> copies (50 copies when
+    <var>s</var> = 2%), though, its fate is nearly sealed: drift can no longer pull it back down,
+    and selection carries it the rest of the way.</p>
+
+    <p>Notice too that the better variant still does far better than a neutral one. At
+    <var>s</var> = 2% it wins about 40 times as often as the neutral 1 in 1,000. Selection works; it
+    just works on odds, not on certainties.</p>
+
+    <h2>Chance against selection</h2>
+
+    <p>Motoo Kimura found a formula, in 1962, that covers any population size and any
+    <var>s</var>, including harmful variants (<var>s</var> below zero). For one new copy in a
+    haploid population of size <var>N</var>, the chance that it ends up fixed is close to</p>
+
+    <p class="formula"><var>P</var> ≈ (1 − e<sup>−2<var>s</var></sup>) / (1 − e<sup>−2<var>N</var><var>s</var></sup>)</p>
+
+    <p>In words: the top is about 2<var>s</var>, Haldane’s answer. The bottom is close to 1 when
+    <var>N</var>·<var>s</var> is large, and then the population size doesn’t matter. When
+    <var>N</var>·<var>s</var> is small, the bottom is about 2<var>N</var><var>s</var>, the
+    <var>s</var> cancels out, and <var>P</var> is about 1/<var>N</var>, just as if the variant
+    were neutral.</p>
+
+    <p>So what matters is the product <var>N</var>·<var>s</var>. If it is much bigger than 1,
+    selection decides. If it is much smaller than 1 (either sign), drift decides, and the
+    population behaves as if the variant made no difference at all. Try <var>N</var> = 100 and
+    <var>s</var> = −0.1%: the variant is harmful, yet it takes over almost as often as a neutral
+    one. Then make the population 100 times larger.</p>
+
+    <figure class="fig wide" id="fig-map" aria-labelledby="fig-map-cap">
+      <div class="stage plot" id="map-stage">
+        <canvas id="map-canvas" role="img" aria-label="The chance of fixation compared with a neutral variant, plotted against N times s. Below about N·s = −1 the chance collapses towards zero; between −1 and +1 it stays near neutral; above +1 it rises in proportion to N·s. A marker shows the current N and s."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="map-n">Population size <var>N</var></label>
+          <input type="range" id="map-n" min="1" max="4" step="0.05" value="2">
+          <output id="map-n-out" for="map-n">100</output>
+        </div>
+        <div class="control">
+          <label for="map-s">Advantage <var>s</var></label>
+          <input type="range" id="map-s" min="-0.05" max="0.05" step="0.0005" value="-0.001">
+          <output id="map-s-out" for="map-s">−0.10%</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="map-sim">Check by simulating 4,000 populations</button>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="polite">
+        <div><dt><var>N</var>·<var>s</var></dt><dd id="map-ns">−0.10</dd></div>
+        <div><dt>Chance of fixation</dt><dd id="map-p">0.90%</dd></div>
+        <div><dt>Neutral, 1/<var>N</var></dt><dd id="map-neutral">1.0%</dd></div>
+        <div><dt>Compared with neutral</dt><dd id="map-ratio">0.90 ×</dd></div>
+        <div><dt>Simulated</dt><dd id="map-simout">not run</dd></div>
+      </dl>
+      <p class="verdict" id="map-verdict" aria-live="polite">Drift dominates.</p>
+      <figcaption id="fig-map-cap"><span class="fig-num">Figure 3.</span>The chance of fixation
+      divided by the neutral 1/<var>N</var>, against <var>N</var>·<var>s</var> (the vertical scale
+      is logarithmic). The shaded band, |<var>N</var>·<var>s</var>| &lt; 1, is where drift
+      dominates. The dot is your population; values below 0.0001× are drawn along the bottom edge.</figcaption>
+    </figure>
+
+    <p>This is why population size matters so much. In a population of a million, a variant with a
+    0.01% advantage has <var>N</var>·<var>s</var> = 100, and selection sees it clearly.
+    In a population of a few hundred, the same variant is invisible to selection; harmful variants
+    with small effects can drift to fixation, which is one reason small, isolated populations
+    accumulate damaging mutations.</p>
+
+    <p>Kimura took the idea further. In 1968 he proposed the <em>neutral theory</em> of molecular
+    evolution: that most of the differences in DNA between species were fixed by drift, not by
+    selection, because most of them have |<var>N</var>·<var>s</var>| well below 1. How much of
+    evolution that covers is still debated. That drift is a force alongside selection is not.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">Check of the model</span>
+      <p>The figures use the formula above, and the simulations draw the next generation by
+      random sampling. They agree: for <var>N</var> = 1,000 and <var>s</var> = 1%, the formula
+      gives 1.98% and 40,000 simulated populations gave 2.01%. At large <var>s</var> the formula
+      runs slightly high (18.1% against 17.3% simulated at <var>s</var> = 10%), because it assumes
+      small changes per generation.</p>
+    </aside>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Two copies of each gene.</strong> Humans and most animals are
+          <em>diploid</em>. A new variant then sits beside an ordinary copy, and its effect
+          depends on <em>dominance</em>: whether one copy shows its effect fully, partly or not
+          at all. If one copy gives an advantage <var>s</var> and two copies give 2<var>s</var>,
+          a new variant still wins about 2<var>s</var> of the time, but the boundary between drift
+          and selection is set by 4<var>N</var><var>s</var> rather than 2<var>N</var><var>s</var>. A fully recessive helpful variant is almost invisible to
+          selection while rare.</li>
+          <li><strong>Mutation and recombination.</strong> Here a variant appears once. In reality
+          the same mutation can arise again and again, so a lost variant gets new chances; and a
+          gene is linked to its neighbours on the chromosome, which can drag it up or down.</li>
+          <li><strong>A fixed environment.</strong> <var>s</var> stays the same forever. Real
+          advantages change with climate, diet, disease and competitors.</li>
+          <li><strong>No structure.</strong> Every individual can mate with or replace any other.
+          Real populations are split by distance and geography, which changes how drift acts.</li>
+          <li><strong>Census versus effective size.</strong> The <var>N</var> in these formulas is
+          the <em>effective population size</em>: the size of an ideal population that drifts as
+          fast as the real one. Because of unequal family sizes, uneven sex ratios and past
+          bottlenecks, it is usually much smaller than the head count. For humans it is often put
+          at around 10,000, against 8 billion people alive.</li>
+          <li><strong>Constant size.</strong> A population that is growing gives new variants a
+          better chance; one that is shrinking, a worse one.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>J. B. S. Haldane, “A mathematical theory of natural and artificial selection, part V:
+          selection and mutation”, <cite>Proceedings of the Cambridge Philosophical Society</cite>
+          23 (1927) 838–844. <a href="https://doi.org/10.1017/S0305004100015644" aria-label="Haldane 1927, doi.org">doi.org</a>
+          <span class="note">The probability about 2<var>s</var> that a single new beneficial
+          mutation survives in a large population.</span></li>
+          <li>M. Kimura, “On the probability of fixation of mutant genes in a population”,
+          <cite>Genetics</cite> 47 (1962) 713–719. <a href="https://doi.org/10.1093/genetics/47.6.713" aria-label="Kimura 1962, doi.org">doi.org</a>
+          <span class="note">The diffusion formula for the fixation probability; the neutral case
+          equals the starting frequency. The haploid form used here replaces 4<var>N</var> with
+          2<var>N</var>.</span></li>
+          <li>M. Kimura, “Evolutionary rate at the molecular level”, <cite>Nature</cite> 217
+          (1968) 624–626. <a href="https://doi.org/10.1038/217624a0" aria-label="Kimura 1968, doi.org">doi.org</a>
+          <span class="note">The neutral theory of molecular evolution.</span></li>
+          <li>Z. Patwa and L. M. Wahl, “The fixation probability of beneficial mutations”,
+          <cite>Journal of the Royal Society Interface</cite> 5 (2008) 1279–1289.
+          <a href="https://doi.org/10.1098/rsif.2008.0248" aria-label="Patwa and Wahl 2008, doi.org">doi.org</a>
+          <span class="note">Review: the history from Fisher (1922), Haldane (1927) and Wright
+          (1931) to Kimura, and the assumptions behind 2<var>s</var>.</span></li>
+          <li>S. Wright, “Evolution in Mendelian populations”, <cite>Genetics</cite> 16 (1931)
+          97–159. <a href="https://doi.org/10.1093/genetics/16.2.97" aria-label="Wright 1931, doi.org">doi.org</a>
+          <span class="note">Random drift in finite populations; the model of sampling each
+          generation from the last.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="selection">Not yet reviewed</dd>
+        </dl>
+        <p>The model (model.js) is a haploid Wright–Fisher simulation. It was checked against
+        Kimura’s formula at nine combinations of <var>N</var> and <var>s</var>, and against the
+        known drift time from half and half.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

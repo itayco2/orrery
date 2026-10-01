@@ -1,0 +1,8 @@
+/* galton: local styles (the kit has no radio-group style) */
+.radio-row { display: flex; flex-wrap: wrap; gap: .4rem 1rem; border: 0; padding: 0; margin: 0; font-family: var(--sans); font-size: .9rem; }
+.radio-row legend { font-weight: 600; margin-bottom: .3rem; padding: 0; }
+.radio-row label { display: inline-flex; align-items: center; gap: .35rem; cursor: pointer; }
+.radio-row input { accent-color: var(--brass); }
+.shape-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.shape-row .lbl { font-family: var(--sans); font-size: .9rem; font-weight: 600; margin-right: .3rem; }
+.key { display: inline-block; width: .9em; height: .2em; vertical-align: middle; margin-right: .35em; border-radius: 1px; }

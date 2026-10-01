@@ -1,0 +1,14 @@
+{
+  "slug": "error-correction",
+  "title": "How does a scratched CD still play?",
+  "question": "A scratch wipes out thousands of bits at once. Why doesn't the music stop?",
+  "field": "Computing",
+  "summary": "Flip bits in Hamming's three-circle code and watch the failed checks point at the culprit, then drag a scratch across a stored picture and see how shuffling the bits lets every error be fixed.",
+  "built": "2026-10-01",
+  "status": "published",
+  "review": {
+    "date": "2026-10-01",
+    "verdict": "pass-with-fixes"
+  },
+  "thumbnail": "thumb.png"
+}

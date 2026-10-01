@@ -1,0 +1,14 @@
+{
+  "slug": "sky-colour",
+  "title": "Why is the sky blue and the sunset red?",
+  "question": "Air is transparent and sunlight is white. So where do the blue sky and the red sunset come from?",
+  "field": "Physics",
+  "summary": "Air molecules scatter blue light about six times more strongly than red. Send light through a box of air, lower the Sun to the horizon through up to 38 atmospheres, and see why the sky isn't violet and clouds are white.",
+  "built": "2026-10-01",
+  "status": "published",
+  "review": {
+    "date": "2026-10-01",
+    "verdict": "pass-with-fixes"
+  },
+  "thumbnail": "thumb.png"
+}

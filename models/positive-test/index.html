@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You tested positive. Now what? — Orrery</title>
+<meta name="description" content="A test that is 99% accurate says you have a rare disease. Count the people in a town of 10,000 to see why the chance you are sick is only about 9%.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/positive-test/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="You tested positive. Now what? — Orrery">
+<meta property="og:description" content="A test that is 99% accurate says you have a rare disease. Count the people in a town of 10,000 to see why the chance you are sick is only about 9%.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/positive-test/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/positive-test/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “You tested positive. Now what?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You tested positive. Now what? — Orrery">
+<meta name="twitter:description" content="A test that is 99% accurate says you have a rare disease. Count the people in a town of 10,000 to see why the chance you are sick is only about 9%.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/positive-test/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “You tested positive. Now what?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Reasoning</p>
+      <h1>You tested positive. Now what?</h1>
+      <p class="lede">A disease affects 1 person in 1,000. A test catches 99% of the people who have
+      it and wrongly flags only 1% of the people who don’t. Your result is positive. How likely is it
+      that you are sick?</p>
+    </header>
+
+    <p>Most people say “about 99%”. The test is 99% accurate, after all. The real answer is about
+    <strong>9%</strong>. More than nine out of ten people who get that positive result are
+    perfectly healthy.</p>
+
+    <p>That sounds like a trick, but it isn’t. It is what happens whenever a test looks for something
+    rare, and it catches out experts too. In 1978, researchers at four Harvard Medical School
+    teaching hospitals put a similar question to 60 people — 20 fourth-year medical students, 20
+    junior doctors and 20 senior physicians: a disease found in 1 in 1,000 people, a test with a 5%
+    false-positive rate. Assuming the test never misses a sick person, the right answer is about 2%. Only 11 of the 60 gave it;
+    the most common answer, from 27 of them, was 95%. When the question was repeated in 2014, the
+    results were much the same.</p>
+
+    <p>The way out is not a cleverer formula. It is to stop thinking about <em>percentages of a
+    test</em> and start counting <em>people</em>.</p>
+
+    <h2>A town of 10,000</h2>
+
+    <p>Imagine testing everyone in a town of 10,000 people. One in 1,000 of them has the disease, so
+    about <strong>10 people</strong> are sick. They are the red circles below. The test finds 99% of
+    them, so nearly all 10 test positive (filled red).</p>
+
+    <p>Now the other 9,990 people, who are healthy. The test wrongly flags 1% of them: about
+    <strong>100 people</strong> (gold). One percent of a big number is still a lot of people. Look at
+    the picture: the positive results are mostly gold.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press <b>Pick a random positive</b> a few times. Each press points at one person who tested
+      positive — someone in your position. Keep a count of how often they are actually sick.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-town" aria-labelledby="fig-town-cap">
+      <div class="stage town-stage">
+        <canvas id="town-canvas" role="img" aria-label="Ten thousand dots, one per person. Ten are red: the sick, all of whom tested positive. About one hundred are gold: healthy people who tested positive anyway. The remaining dots are faint grey: healthy, negative."></canvas>
+      </div>
+      <ul class="legend sans" aria-hidden="true">
+        <li><span class="sw sw-tp"></span>sick, tested positive</li>
+        <li><span class="sw sw-fn"></span>sick, tested negative</li>
+        <li><span class="sw sw-fp"></span>healthy, tested positive</li>
+        <li><span class="sw sw-tn"></span>healthy, tested negative</li>
+      </ul>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="town-pick">Pick a random positive</button>
+          <button type="button" class="btn" id="town-test">Run the test again</button>
+        </div>
+        <p class="pick-out sans" aria-live="polite"><span id="town-pick-out">Nobody picked yet.</span>
+        <span class="muted" id="town-tally"></span></p>
+      </div>
+      <dl class="readouts">
+        <div><dt>Sick</dt><dd id="town-sick">10</dd></div>
+        <div><dt>Positive results</dt><dd id="town-pos">110</dd></div>
+        <div><dt>…of whom sick</dt><dd id="town-tp">10</dd></div>
+        <div><dt>Chance a positive is sick</dt><dd id="town-ppv">9.0%</dd></div>
+      </dl>
+      <figcaption id="fig-town-cap"><span class="fig-num">Figure 1.</span>One dot per person in a
+      town of 10,000, with the disease in 1 in 1,000 and a test that is 99% sensitive and 99%
+      specific. Counts are rounded to whole people: strictly, 9.9 sick people and 99.9 healthy people
+      test positive on average, so the exact chance is 9.9 ÷ 109.8 = 9.0%.</figcaption>
+    </figure>
+
+    <p>So a positive result takes you from 1 in 1,000 (0.1%) to about 1 in 11 (9%). That is a big
+    jump — ninety times more likely than before — but it is nowhere near 99%. The “99%” describes
+    what the test does to sick people. It says nothing, by itself, about how many of the positives
+    are sick. That depends on how many sick people there were to find in the first place.</p>
+
+    <h2>Three dials</h2>
+
+    <p>Three numbers decide everything here, and it helps to name them carefully.</p>
+
+    <ul>
+      <li><strong>Prevalence</strong>: the share of the people being tested who actually have the
+      disease. Here, 1 in 1,000.</li>
+      <li><strong>Sensitivity</strong>: of the people who <em>have</em> the disease, the share the
+      test flags as positive. Here, 99%. The ones it misses are <em>false negatives</em>.</li>
+      <li><strong>Specificity</strong>: of the people who <em>don’t</em> have it, the share the test
+      correctly clears. Here, 99%. The other 1% — the <em>false-positive rate</em> — are
+      <em>false positives</em>.</li>
+    </ul>
+
+    <p>The number you actually want after a positive result is different from all three. It is the
+    <strong>positive predictive value</strong>: of everyone who tests positive, the share who are
+    sick. After a negative result, you want to know the reverse: of everyone who tests negative, how
+    many are sick anyway? (Doctors usually quote the opposite, the <em>negative predictive
+    value</em>: the share of negatives who are truly healthy.)</p>
+
+    <p>The diagram under the dots is a <em>natural-frequency tree</em>: it splits the town first by
+    whether people are sick, then by their test result. To find the chance you are sick after a
+    positive, read the two “test positive” boxes and ask: out of all of those, how many are sick?</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Push <b>sensitivity</b> all the way to 100%. The answer barely moves: the problem was never
+      the sick people the test missed. Now push <b>specificity</b> up to 99.9%. The gold crowd
+      shrinks tenfold and the answer jumps to about 50%. Then slide <b>prevalence</b> up and watch
+      the red outnumber the gold.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-dials" aria-labelledby="fig-dials-cap">
+      <div class="controls">
+        <div class="control stacked">
+          <label for="dials-prev">Prevalence</label>
+          <input type="range" id="dials-prev" min="-4" max="-0.3" step="0.05" value="-3">
+          <output id="dials-prev-out" for="dials-prev">1 in 1,000 (0.10%)</output>
+        </div>
+        <div class="control stacked">
+          <label for="dials-sens">Sensitivity</label>
+          <input type="range" id="dials-sens" min="50" max="100" step="0.1" value="99">
+          <output id="dials-sens-out" for="dials-sens">99.0%</output>
+        </div>
+        <div class="control stacked">
+          <label for="dials-spec">Specificity</label>
+          <input type="range" id="dials-spec" min="50" max="100" step="0.1" value="99">
+          <output id="dials-spec-out" for="dials-spec">99.0%</output>
+        </div>
+        <div class="btn-row"><button type="button" class="btn" id="dials-reset">Back to 1 in 1,000, 99%, 99%</button></div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Sick, given a positive</dt><dd id="dials-ppv">9.0%</dd></div>
+        <div><dt>Sick, given a negative</dt><dd id="dials-npv">0.001%</dd></div>
+        <div><dt>True positives</dt><dd id="dials-tp">10</dd></div>
+        <div><dt>False positives</dt><dd id="dials-fp">100</dd></div>
+      </dl>
+      <div class="dials-pair">
+      <div class="stage town-stage">
+        <canvas id="dials-town" role="img" aria-label="The same town of 10,000 people, recoloured as the dials change: red for sick people, filled if they tested positive; gold for healthy people who tested positive."></canvas>
+      </div>
+      <div class="stage tree-stage">
+        <canvas id="dials-tree" role="img" aria-label="Natural-frequency tree."></canvas>
+      </div>
+      </div>
+      <figcaption id="fig-dials-cap"><span class="fig-num">Figure 2.</span>The town again, now with
+      the three dials, and the same counts laid out as a tree. Prevalence runs on a logarithmic scale
+      from 1 in 10,000 to 1 in 2. Counts are rounded to whole people; the two percentages at the top
+      are exact.</figcaption>
+    </figure>
+
+    <p>Here is the arithmetic the tree is doing, in one line:</p>
+
+    <p class="formula">chance sick after a positive = true positives ÷ (true positives + false positives)</p>
+
+    <p>With the default dials that is 9.9 ÷ (9.9 + 99.9) ≈ 9.0%. The false positives win because
+    they are a small slice (1%) of a huge group (9,990 people), while the true positives are a big
+    slice (99%) of a tiny one (10 people).</p>
+
+    <p>Counting like this is not just a teaching trick. In a 1995 study, the psychologists Gerd
+    Gigerenzer and Ulrich Hoffrage gave people problems like this one. When the facts were stated as
+    probabilities (“the probability is 1% that…”), 16% of the answers used correct reasoning. When
+    the same facts were stated as counts (“10 out of every 1,000 women…”), that rose to 46%, with no
+    teaching at all.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">Their example</span>
+      <p>Gigerenzer and Hoffrage used a mammography problem: 1% of the women screened have breast
+      cancer, 80% of those get a positive mammogram, and so do 9.6% of the women without it. Set the
+      dials to 1 in 100, 80% and 90.4% and you get 7.8%. (These were numbers for a textbook
+      problem, not a description of modern screening.)</p>
+    </aside>
+
+    <h2>Who gets tested matters</h2>
+
+    <p>Prevalence is not a fixed property of a disease. It is a property of <em>the group of people
+    being tested</em>. Test everyone in a town, and the sick are 1 in 1,000. Test only people who
+    walked into a clinic with the right symptoms, and they might be 1 in 10. Doctors call this the
+    <em>prior</em>, or pre-test probability: how likely the disease was before the result came
+    back.</p>
+
+    <p>The same test, with the same 99% and 99%, means very different things in these two groups.
+    In the figure below, drag along the chart (or focus it and use the arrow keys) to change who is
+    being tested. The red curve is the chance you are sick after a positive result; the green curve
+    is the chance you are sick after a negative one.</p>
+
+    <figure class="fig wide" id="fig-prior" aria-labelledby="fig-prior-cap">
+      <div class="stage" style="--aspect: 16 / 8">
+        <canvas id="prior-canvas" role="slider" aria-label="Prevalence among the people tested"
+          aria-valuemin="-4" aria-valuemax="-0.05" aria-valuenow="-3" aria-describedby="fig-prior-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="btn-row" role="group" aria-label="Who is tested">
+          <button type="button" class="btn" data-prior="0.001">Screen everyone (1 in 1,000)</button>
+          <button type="button" class="btn" data-prior="0.1">People with symptoms (1 in 10)</button>
+          <button type="button" class="btn" data-prior="0.5">Strong suspicion (1 in 2)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Prevalence (prior)</dt><dd id="prior-p">1 in 1,000</dd></div>
+        <div><dt>Sick, given a positive</dt><dd id="prior-ppv">9.0%</dd></div>
+        <div><dt>Sick, given a negative</dt><dd id="prior-neg">0.001%</dd></div>
+      </dl>
+      <figcaption id="fig-prior-cap"><span class="fig-num">Figure 3.</span>The same test (99%
+      sensitive, 99% specific) used on groups with different prevalence. Horizontal axis: how
+      common the disease is among the people tested, on a logarithmic scale. Vertical axis: the
+      chance a person is sick after a positive result (red) and after a negative result
+      (green).</figcaption>
+    </figure>
+
+    <p>Among people with symptoms (1 in 10), a positive result means about a 92% chance of disease;
+    in whole-town screening (1 in 1,000), 9%. Notice the other curve too. In screening, a negative
+    result is extremely reassuring. Among people who were already quite likely to be sick (1 in 2),
+    a negative still leaves about a 1% chance — worth taking seriously if the disease is
+    dangerous.</p>
+
+    <p>This is why doctors usually don’t screen everyone for rare conditions, and why a positive
+    screening result is normally followed by a second, different test rather than by treatment.</p>
+
+    <h2>Test again</h2>
+
+    <p>So what should you do with your positive result? Test again. Take the 110 people who tested
+    positive in our town, and test them a second time. Of the 10 who are sick, about 9.9 test
+    positive again. Of the 100 healthy ones, only 1% do: about 1 person. Now the positives are
+    roughly 10 sick people and 1 healthy one — about a 91% chance of disease.</p>
+
+    <p>There is a compact way to do this that works for any number of tests. Instead of a
+    probability, use <strong>odds</strong>: the number of sick people for each healthy one. Before
+    any test, the odds are 1 to 999. Each positive result multiplies the odds by the same number,
+    the <strong>likelihood ratio</strong>: how much more often the test says “positive” to a sick
+    person than to a healthy one.</p>
+
+    <p class="formula">odds after = odds before × likelihood ratio,&nbsp; where likelihood ratio =
+    sensitivity ÷ false-positive rate</p>
+
+    <p>For our test that ratio is 99% ÷ 1% = 99. One positive: 1 to 999 becomes 99 to 999, about 1
+    to 10 — the same 9% as before. Two positives: 9,801 to 999, about 10 to 1, or 91%. This is
+    <em>Bayes’ rule</em>, written in the form that is easiest to use in your head.</p>
+
+    <figure class="fig wide" id="fig-again" aria-labelledby="fig-again-cap">
+      <div class="stage again-stage">
+        <canvas id="again-canvas" role="img" aria-label="Odds scale."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="again-n">Positive results in a row</label>
+          <input type="range" id="again-n" min="0" max="4" step="1" value="2">
+          <output id="again-n-out" for="again-n">2 positives</output>
+        </div>
+        <div class="control stacked">
+          <label for="again-prior">Prior</label>
+          <input type="range" id="again-prior" min="-4" max="-0.3" step="0.05" value="-3">
+          <output id="again-prior-out" for="again-prior">1 in 1,000 (0.10%)</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="again-indep" checked> The tests’ errors are independent</label>
+        </div>
+      </div>
+      <ol class="steps sans num" id="again-steps" aria-live="polite"></ol>
+      <dl class="readouts">
+        <div><dt>After <span id="again-count">2</span> positives</dt><dd id="again-final">90.7%</dd></div>
+      </dl>
+      <figcaption id="fig-again-cap"><span class="fig-num">Figure 4.</span>Each positive result
+      multiplies the odds by the likelihood ratio, 99 for a test that is 99% sensitive and 99%
+      specific. On this scale, where equal distances mean equal multiplications of the odds, every
+      positive result is the same-sized hop.</figcaption>
+    </figure>
+
+    <p>That multiplication has a catch, and the checkbox is it. It assumes that the second test
+    makes its mistakes <em>independently</em> of the first: a healthy person who fooled the first
+    test is no more likely than anyone else to fool the second. That is roughly true for a different
+    kind of test. It is false if you simply run the same test on the same sample again, or if
+    something about you — another condition, a medicine, a cross-reacting antibody — causes the false
+    positive. Then the second result just repeats the first, and it tells you almost nothing new.
+    Untick the box to see that case: the hop disappears.</p>
+
+    <p>So the habit to take away is a question: <strong>out of how many?</strong> When you hear that
+    a test is 99% accurate, ask how many people being tested actually have the thing — and count the
+    false alarms among everyone who doesn’t.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Yes-or-no results.</strong> Many real tests give a number (a level in the blood,
+          a density on an image), and a cut-off turns it into “positive”. Moving the cut-off trades
+          sensitivity against specificity; a very high value usually means more than a borderline
+          one.</li>
+          <li><strong>Fixed sensitivity and specificity.</strong> We treat them as properties of the
+          test alone. In practice they can vary with how advanced the disease is, who reads the
+          result, and the group being tested.</li>
+          <li><strong>Knowing the prevalence.</strong> Your own prior depends on your age, symptoms,
+          family history and why you were tested, and it is rarely known precisely.</li>
+          <li><strong>Averages, not a real town.</strong> The dots show the expected numbers, rounded
+          to whole people. A real town of 10,000 would have, by chance, perhaps 5 or 15 sick people,
+          not exactly 10.</li>
+          <li><strong>Independence.</strong> Figure 4 either multiplies by the full likelihood ratio or
+          by nothing. Real repeat tests usually sit in between, with partly shared errors.</li>
+          <li>The numbers here are illustrations, not the figures of any real test, and nothing on
+          this page is medical advice.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>W. Casscells, A. Schoenberger and T. B. Graboys, “Interpretation by physicians of
+          clinical laboratory results”, <cite>New England Journal of Medicine</cite> 299 (1978):
+          999–1001. <a href="https://doi.org/10.1056/NEJM197811022991808">doi.org</a>
+          <span class="note">The Harvard survey: 60 respondents; prevalence 1/1,000, false-positive
+          rate 5%, sensitivity not stated; 11 gave about 2%, 27 gave 95%.</span></li>
+          <li>A. K. Manrai, G. Bhatia, J. Strymish, I. S. Kohane and S. H. Jain, “Medicine’s
+          uncomfortable relationship with math: calculating positive predictive value”,
+          <cite>JAMA Internal Medicine</cite> 174 (2014): 991–993.
+          <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/1861033">jamanetwork.com</a>
+          <span class="note">The same question asked again in 2014: 14 of 61 answered correctly;
+          95% was again the most common answer.</span></li>
+          <li>G. Gigerenzer and U. Hoffrage, “How to improve Bayesian reasoning without instruction:
+          frequency formats”, <cite>Psychological Review</cite> 102 (1995): 684–704.
+          <a href="https://doi.org/10.1037/0033-295X.102.4.684">doi.org</a>
+          <span class="note">Study 1: 16% Bayesian answers with the standard probability format, 46%
+          with the standard frequency format; the mammography problem (1%, 80%, 9.6%).</span></li>
+          <li>J. Shreffler and M. R. Huecker, “Diagnostic Testing Accuracy: Sensitivity, Specificity, Predictive
+          Values and Likelihood Ratios”, <cite>StatPearls</cite> (NCBI Bookshelf, NBK557491).
+          <a href="https://www.ncbi.nlm.nih.gov/books/NBK557491/">ncbi.nlm.nih.gov</a>
+          <span class="note">Definitions of sensitivity, specificity and predictive values; positive
+          likelihood ratio = sensitivity ÷ (1 − specificity).</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="positive-test">Not yet reviewed</dd>
+          <dt>Revised</dt><dd>1 October 2026, after review: Figure 1 keeps its height
+          after the first pick, and the ring around a picked person on the edge of the town is no
+          longer cut off.<br>
+          1 October 2026: Figure 4's text alternative now reads its steps one at a time,
+          separated by semicolons.</dd>
+        </dl>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

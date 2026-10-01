@@ -1,0 +1,32 @@
+/* Exhibit-only styles for positive-test */
+.town-stage { --aspect: 125 / 80; }
+.tree-stage { --aspect: 16 / 6.2; margin-top: 1rem; }
+.fig .stage.tree-stage { touch-action: auto; }
+@media (max-width: 560px) {
+  .town-stage { --aspect: 80 / 125; }
+  .tree-stage { --aspect: 4 / 3; }
+}
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem 1.2rem; margin: .6rem 0 0; padding: 0;
+  font-size: .85rem; color: var(--ink-2); }
+.legend li { display: flex; align-items: center; gap: .4rem; margin: 0; }
+.legend .sw { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; box-sizing: border-box; }
+.sw-tp { background: var(--alarm); border: 2px solid var(--alarm); }
+.sw-fn { background: transparent; border: 2px solid var(--alarm); }
+.sw-fp { background: var(--brass-lit); border: 1px solid var(--brass); }
+.sw-tn { background: var(--ink-3); opacity: .45; transform: scale(.55); }
+/* The result line always sits on its own row with room reserved for its longest text,
+   so the figure doesn't grow after the first pick. */
+.pick-out { flex: 1 0 100%; margin: 0; min-height: 1.5em; font-size: .95rem; line-height: 1.5; }
+@media (max-width: 760px) { .pick-out { min-height: 3em; } }
+@media (max-width: 480px) { .pick-out { min-height: 4.5em; } }
+.pick-out .muted { margin-left: .5rem; }
+.steps { margin: .8rem 0 0; padding-left: 1.4rem; font-size: .92rem; }
+.steps li { margin: .15rem 0; }
+.again-stage { --aspect: 16 / 4.6; }
+@media (max-width: 560px) { .again-stage { --aspect: 16 / 8; } }
+.dials-pair { display: grid; gap: 1rem; margin-top: 1rem; }
+.dials-pair .tree-stage { margin-top: 0; }
+@media (min-width: 720px) {
+  .dials-pair { grid-template-columns: 1fr 1fr; align-items: center; }
+  .dials-pair .town-stage, .dials-pair .tree-stage { --aspect: 1 / 1; }
+}

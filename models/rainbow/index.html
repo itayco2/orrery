@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is a rainbow round? — Orrery</title>
+<meta name="description" content="Trace sunlight through a raindrop, watch the exit angles pile up at 42°, and see why the bow is a circle centred on the shadow of your head.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/rainbow/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why is a rainbow round? — Orrery">
+<meta property="og:description" content="Trace sunlight through a raindrop, watch the exit angles pile up at 42°, and see why the bow is a circle centred on the shadow of your head.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/rainbow/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/rainbow/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why is a rainbow round?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why is a rainbow round? — Orrery">
+<meta name="twitter:description" content="Trace sunlight through a raindrop, watch the exit angles pile up at 42°, and see why the bow is a circle centred on the shadow of your head.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/rainbow/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why is a rainbow round?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Physics</p>
+      <h1>Why is a rainbow round?</h1>
+      <p class="lede">A rainbow looks like an arch standing somewhere over the landscape. But you can
+      never walk to it, and the person standing next to you sees a slightly different one. So what
+      is it, and why is it always a piece of a circle?</p>
+    </header>
+
+    <p>The usual picture is of a coloured object hanging in the air at some place, like a bridge.
+    That picture is wrong. A rainbow is not a thing at a place; it is a <em>direction</em>. It is
+    the set of directions, measured from your own eye, in which raindrops happen to send you a lot
+    of sunlight. Every drop that lies in one of those directions flashes at you, whether it is
+    100&nbsp;metres or 2&nbsp;kilometres away. Move, and a different set of drops does the job.</p>
+
+    <p>To see why those directions form a circle, start with a single drop and a single ray of
+    sunlight.</p>
+
+    <h2>One ray, one drop</h2>
+
+    <p>A falling raindrop of ordinary size (a millimetre or two across) is very nearly a sphere.
+    When sunlight reaches it, three things happen to the light that makes a rainbow. It is
+    <em>refracted</em> (bent) as it crosses from air into water, because light travels more slowly
+    in water. It is <em>reflected</em> once from the inside of the back of the drop. And it is
+    refracted again on the way out. The <em>deviation</em> is the total angle through which the ray
+    has been turned, from its original direction to its final one. A ray that went straight back
+    towards the Sun would have a deviation of 180°.</p>
+
+    <p>How much a ray is turned depends on where it enters. Call that the <em>impact parameter</em>:
+    how far from the drop’s centre line the ray strikes, as a fraction of the drop’s radius. Zero
+    means dead centre; one means grazing the edge.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the yellow dot (on the drop, or along the curve on the right), or use the slider.
+      Start at the centre and move outwards. Watch the deviation fall, stop, and then rise again.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-one" aria-labelledby="fig-one-cap">
+      <div class="stage split">
+        <canvas id="one-canvas" role="slider" aria-label="Where the ray enters the drop"
+                aria-valuemin="0" aria-valuemax="99" aria-valuenow="60" aria-describedby="fig-one-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="one-b">Where the ray enters</label>
+          <input type="range" id="one-b" min="0" max="0.99" step="0.01" value="0.6">
+          <output id="one-b-out" for="one-b">0.60</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Angle of incidence</dt><dd id="one-i">36.9°</dd></div>
+        <div><dt>Deviation</dt><dd id="one-dev">—</dd></div>
+        <div><dt>Angle from antisolar point</dt><dd id="one-theta">—</dd></div>
+      </dl>
+      <figcaption id="fig-one-cap"><span class="fig-num">Figure 1.</span>Left: a ray of yellow
+      light (589&nbsp;nm) enters the drop, is bent, reflects once off the back and is bent again as
+      it leaves. The faint grey path is the ray of minimum deviation. The green arc is the angle
+      between the outgoing ray and the direction straight back towards the Sun. Right: the deviation
+      for every entry point; the green dot marks the minimum, 138.0°.</figcaption>
+    </figure>
+
+    <p>A ray through the centre comes straight back: deviation 180°. Rays further out are turned
+    less, down to about 138° for a ray entering at 0.86 of the radius. Beyond that, the deviation
+    rises again. The ray at the bottom of that valley is called the <em>Descartes ray</em>, after
+    René Descartes, who worked it out by tracing rays through a large glass globe filled with water
+    and published the result in <cite>Les Météores</cite> in 1637. (He was not the first to try a
+    water-filled glass globe: Theodoric of Freiberg and Kamal al-Din al-Farisi did so around 1304–1309.
+    Descartes added the law of refraction and the numbers.)</p>
+
+    <p>Turn it around: the outgoing ray makes an angle of 180° − 138° = 42° with the line pointing
+    straight away from the Sun. Stand with your back to the Sun and look at the shadow of your own
+    head. That point, exactly opposite the Sun, is the <em>antisolar point</em>. No ray that
+    reflects once inside a drop can leave at more than 42° from it.</p>
+
+    <h2>A whole beam</h2>
+
+    <p>The bottom of a valley is flat. Near the minimum, a big change in where the ray enters makes
+    almost no change to where it leaves. So when a whole beam of sunlight falls on the drop, a large
+    share of it leaves in nearly the same direction, about 42° from the antisolar point. That
+    pile-up is the rainbow.</p>
+
+    <p>The figure below sends 4,000 evenly spaced rays into the upper half of a drop and counts how
+    many leave in each half-degree of angle from the antisolar point. The light piles up against a
+    hard edge and nothing at all comes out beyond it.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Slide the wavelength from red (700&nbsp;nm) to violet (400&nbsp;nm) and watch the edge
+      move. Then tick the box to compare red and violet side by side.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-beam" aria-labelledby="fig-beam-cap">
+      <div class="stage split scrollable">
+        <canvas id="beam-canvas" role="img" aria-label="Twenty-four parallel rays pass through a drop and leave bunched near one angle; beside it, a histogram of exit angles for 4,000 rays rises steeply to a sharp edge near 42 degrees and is empty beyond it."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="beam-l">Wavelength</label>
+          <input type="range" id="beam-l" min="400" max="700" step="5" value="650">
+          <output id="beam-l-out" for="beam-l">650 nm</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="beam-both"> Compare red (700&nbsp;nm) and violet (400&nbsp;nm)</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Refractive index of water</dt><dd id="beam-n">—</dd></div>
+        <div><dt>Edge of the bow</dt><dd id="beam-peak">—</dd></div>
+        <div><dt>Rays in the last degree</dt><dd id="beam-share">—</dd></div>
+      </dl>
+      <figcaption id="fig-beam-cap"><span class="fig-num">Figure 2.</span>Left: rays of one colour
+      through a drop. Right: how many of 4,000 rays leave at each angle from the antisolar point, in
+      half-degree bins. “Rays in the last degree” is the share of all rays that leave within one
+      degree inside the edge.</figcaption>
+    </figure>
+
+    <p>About one ray in eight leaves within the last degree before the edge, so a narrow ring
+    of directions gets far more light than any other. (The figure counts rays in one flat slice
+    through the drop, evenly spaced. In a real round drop each ray stands for a ring of light, and
+    the outer rays stand for more of it; weighted that way the share is about one-fifth.) The edge itself depends on colour. Water bends
+    violet light a little more than red: its <em>refractive index</em> (the ratio of the speed of
+    light in vacuum to its speed in water) is about 1.331 for red light at 700&nbsp;nm and 1.344 for
+    violet at 400&nbsp;nm. That small difference moves the edge from 42.4° for red to 40.6° for
+    violet. Isaac Newton, in <cite>Opticks</cite> (1704), was the first to explain the bow’s colours
+    this way: each colour has its own amount of bending, and so its own rainbow, nested inside one
+    another. Red is on the outside, violet on the inside.</p>
+
+    <h2>From one drop to the sky</h2>
+
+    <p>Now step back. You stand with the Sun behind you. Sunlight falls on every drop in a shower,
+    all in the same direction. A drop sends you its bright flash only if the line from your eye to
+    that drop makes an angle of about 42° with the line from your eye to the antisolar point.</p>
+
+    <p>Which drops satisfy that? All the ones lying on a cone with its tip at your eye, its axis
+    pointing at the shadow of your head, and a half-angle of 42°. Any drop on that cone, near or far,
+    works; any drop off it doesn’t. Looked at from its tip, a cone is a circle. That is the whole
+    answer: <strong>the rainbow is round because the drops that can send you their flash all sit at
+    the same angle from one point, and a set of directions all at the same angle from one direction
+    is a circle.</strong></p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Below is a side view: you, a friend standing 4&nbsp;metres behind you, and a curtain of
+      rain. Drag yourself left and right (or focus the picture and use the arrow keys). The coloured
+      drops are the ones sending you rainbow light; the green rings are your friend’s.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-cone" aria-labelledby="fig-cone-cap">
+      <div class="stage" style="--aspect: 16 / 8">
+        <canvas id="cone-canvas" role="slider" aria-label="Where you stand" aria-valuemin="5" aria-valuemax="20"
+                aria-valuenow="8" aria-describedby="fig-cone-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="cone-sun">Height of the Sun</label>
+          <input type="range" id="cone-sun" min="0" max="45" step="1" value="20">
+          <output id="cone-sun-out" for="cone-sun">20°</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Drops lit for you</dt><dd id="cone-you">—</dd></div>
+        <div><dt>Drops lit for your friend</dt><dd id="cone-friend">—</dd></div>
+        <div><dt>Drops lit for both</dt><dd id="cone-both">—</dd></div>
+      </dl>
+      <figcaption id="fig-cone-cap"><span class="fig-num">Figure 3.</span>A slice through the sky
+      straight away from the Sun, showing only the top of the bow (distances in metres, people drawn
+      to scale at 1.7&nbsp;m). Each dashed line from an eye points along the edge of that person’s
+      42° cone; the other dashed line points at the shadow of their head. Coloured drops lie between
+      40.6° and 42.4° from your antisolar point and are drawn in the colour they send you; there are
+      2,600 drops in the slice.</figcaption>
+    </figure>
+
+    <p>It also explains the rest. The bow is always opposite the Sun, because its centre is the
+    antisolar point. Your neighbour has their own antisolar point and their own cone, so they see
+    light from mostly different drops, at least among the nearby rain shown in Figure 3. That
+    changes with distance. The ring of lit drops is about 3&nbsp;cm thick for every metre of
+    distance, while your friend’s cone is displaced by only a metre or two (it depends on the Sun’s height); so beyond
+    roughly 50 to 100&nbsp;m the two rings overlap, and for a shower a kilometre away you share nearly all
+    the same drops. Each of you sees such a drop at a very slightly different angle, so the colour
+    it sends you can differ (clearly for rain a few tens of metres away, hardly at all at a kilometre). And the ground usually hides part of the circle.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Raise the Sun and watch the bow sink. At what height does it vanish? Then tick the box for
+      the second bow and look at the band of sky between the two.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-sky" aria-labelledby="fig-sky-cap">
+      <div class="stage sky scrollable">
+        <canvas id="sky-canvas" role="img" aria-label="The sky opposite the Sun with a rainbow arc."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="sky-sun">Height of the Sun</label>
+          <input type="range" id="sky-sun" min="0" max="60" step="1" value="20">
+          <output id="sky-sun-out" for="sky-sun">20°</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="sky-second"> Show the second bow</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Top of the first bow</dt><dd id="sky-top">—</dd></div>
+        <div><dt>Share of the circle above the ground</dt><dd id="sky-arc">—</dd></div>
+      </dl>
+      <figcaption id="fig-sky-cap"><span class="fig-num">Figure 4.</span>Your view with your back
+      to the Sun, about 145° of sky from side to side. The colours are computed, not painted: for
+      every point of the sky, the model adds up the light that identical drops send towards you at
+      that angle from the antisolar point (cross), for 31 wavelengths from 400 to 700&nbsp;nm. The
+      projection keeps circles circular and the horizon straight. On a narrow screen the picture
+      is small; turning the phone sideways gives a larger one.</figcaption>
+    </figure>
+
+    <p>The antisolar point is as far below the horizon as the Sun is above it. With the Sun at 20°,
+    the top of the bow stands 42° − 20° = 22° up. With the Sun on the horizon, the centre of the bow
+    is on the horizon too, and you see a full half-circle. Once the Sun climbs above about 42°, the
+    whole primary circle is below the horizon and there is no primary rainbow to be seen from the
+    ground (the fainter second bow, 51° out, hangs on until the Sun is about 50° high; tick the
+    box to see it). That is
+    why you don’t see rainbows around midday in summer: in London the midsummer Sun stands 62° high
+    at noon. From an aeroplane or a mountain top, where you can look down into the rain, you can
+    sometimes see the full circle.</p>
+
+    <p>Notice too that the sky is brighter <em>inside</em> the bow than outside it. Figure 2 showed
+    why: every ray leaves at 42° or less from the antisolar point, so the drops inside the circle all
+    send you some light, while the primary bow sends nothing at all from outside it.</p>
+
+    <h2>The second bow and the dark band</h2>
+
+    <p>Some light reflects twice inside the drop before leaving. Its deviation also has a minimum,
+    and that gives a fainter second bow at about 51° from the antisolar point (50.2° for red, 53.6°
+    for violet in this model). The extra reflection turns the light the other way round, so the
+    colours are reversed: red on the inside. The second bow is fainter because some light escapes
+    the drop at each reflection. And twice-reflected light leaves only at angles <em>outside</em>
+    51°.</p>
+
+    <p>So between about 42° and 51° neither kind of light arrives: the primary sends its light inside
+    its circle, the secondary outside its own. That strip of noticeably darker sky between the two
+    bows is called <em>Alexander’s dark band</em>, after Alexander of Aphrodisias, who described it
+    around 200&nbsp;AD, about eleven centuries before Theodoric and al-Farisi first explained the two bows.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Waves.</strong> Light is treated as rays. Real light is a wave, and rays leaving
+          the drop near the same angle interfere. That produces faint extra pastel bands just inside
+          the primary bow (<em>supernumerary bows</em>) and moves the brightest part of the bow
+          slightly inside the ray-optics edge. George Airy’s theory (1838) and the full Mie solution
+          handle this.</li>
+          <li><strong>Drop size and shape.</strong> All drops here are perfect spheres of one size.
+          Large drops (over about 2&nbsp;mm) flatten as they fall, which weakens the top of the bow;
+          tiny cloud or fog droplets (a few hundredths of a millimetre) spread each colour so widely
+          by diffraction that the colours merge into a nearly white <em>fogbow</em>.</li>
+          <li><strong>Polarisation.</strong> The model averages the two polarisations when it works
+          out how much light is reflected and transmitted. Real rainbow light is strongly polarised
+          along the bow (you can make parts of it vanish with polarising sunglasses).</li>
+          <li><strong>The Sun and the sky.</strong> The Sun’s disc (0.53° across) is included only as
+          a simple blur; sunlight is treated as having equal energy at every wavelength; the sky
+          behind the bow is a flat grey backdrop; and the brightness of the drawing is a choice of
+          exposure, not a measurement. Water’s refractive index is taken at 20&nbsp;°C.</li>
+          <li><strong>Only up to two reflections.</strong> Third and fourth-order bows exist, but
+          they lie towards the Sun and are almost never seen.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>M. Daimon and A. Masumura, “Measurement of the refractive index of distilled water from
+          the near-infrared region to the ultraviolet region,” <cite>Applied Optics</cite> 46(18),
+          3811–3820 (2007); 20&nbsp;°C Sellmeier coefficients as tabulated by refractiveindex.info.
+          <a href="https://refractiveindex.info/?shelf=main&amp;book=H2O&amp;page=Daimon-20.0C">refractiveindex.info</a>
+          <span class="note">The formula for water’s refractive index against wavelength used in
+          every figure (n = 1.3334 at 589&nbsp;nm).</span></li>
+          <li>C. R. Nave, “Primary Rainbow,” <cite>HyperPhysics</cite>, Georgia State University.
+          <a href="https://hyperphysics.gsu.edu/hbase/atmos/rbowpri.html">hyperphysics.gsu.edu</a>
+          <span class="note">The primary bow lies between about 40° and 42° from the antisolar point,
+          the secondary about 10° further out; no bow at midday when the 42° circle is below the
+          horizon. The model gives 40.6°–42.4° and 50.2°–53.6°.</span></li>
+          <li>L. Cowley, “Alexander’s dark band,” <cite>Atmospheric Optics</cite>.
+          <a href="https://www.atoptics.co.uk/blog/alexanders-dark-band/">atoptics.co.uk</a>
+          <span class="note">The darker sky between the bows, described by Alexander of Aphrodisias
+          about 200&nbsp;AD in his commentary on Aristotle’s <cite>Meteorology</cite>.</span></li>
+          <li>I. Newton, <cite>Opticks</cite> (London, 1704), Book I, Part II, Prop. IX.
+          <a href="https://www.newtonproject.ox.ac.uk/view/texts/normalized/NATP00034">newtonproject.ox.ac.uk</a>
+          <span class="note">Colours differ in “refrangibility”; Newton explains the rainbow’s colours
+          this way and credits Descartes with the geometry of the bow.</span></li>
+          <li>R. Descartes, <cite>Les Météores</cite>, published with the <cite>Discours de la
+          méthode</cite> (Leiden, 1637); see the University of Oklahoma Libraries’ history-of-science
+          exhibit. <a href="https://galileo.ou.edu/exhibits/meteorology.html">galileo.ou.edu</a>
+          <span class="note">The 1637 date, and that the essay contains Descartes’ explanation of the
+          rainbow and his law of refraction. (The catalogue page does not give the angles; the
+          globe experiment and the figures of about 42° and 51° are from the text of <cite>Les
+          Météores</cite> itself and standard histories, and the model reproduces them.)
+          Theodoric of Freiberg (<cite>De iride</cite>, c. 1304–1310) and Kamal al-Din al-Farisi
+          (1309) earlier explained the bows with water-filled flasks.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="rainbow">Not yet reviewed</dd>
+          <dt>Revised</dt><dd>1 October 2026: in Figure 2 the “no rays beyond the edge” label now
+          fits at every width.</dd>
+        </dl>
+        <p>The model is geometric ray optics through a sphere, with Fresnel’s equations for how much
+        light is reflected at each surface. Its numbers and checks are in the workshop notes
+        (company/work/rainbow/notes.md).</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

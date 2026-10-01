@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where do traffic jams come from when nothing’s wrong? — Orrery</title>
+<meta name="description" content="A ring road of simulated drivers shows how a jam forms with no cause, travels backwards, and why above a certain density more cars carry less traffic.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/traffic/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Where do traffic jams come from when nothing’s wrong? — Orrery">
+<meta property="og:description" content="A ring road of simulated drivers shows how a jam forms with no cause, travels backwards, and why above a certain density more cars carry less traffic.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/traffic/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/traffic/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Where do traffic jams come from when nothing’s wrong?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where do traffic jams come from when nothing’s wrong? — Orrery">
+<meta name="twitter:description" content="A ring road of simulated drivers shows how a jam forms with no cause, travels backwards, and why above a certain density more cars carry less traffic.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/traffic/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Where do traffic jams come from when nothing’s wrong?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Society</p>
+      <h1>Where do traffic jams come from when nothing’s wrong?</h1>
+      <p class="lede">You crawl for ten minutes, then the road clears, and there was nothing there: no
+      crash, no roadworks, no lane closing. The jam had no cause you could see. It was made by the
+      drivers themselves, and it was moving backwards the whole time.</p>
+    </header>
+
+    <p>It is natural to assume every jam has a culprit somewhere up ahead. Often it does. But in
+    2008 a team of Japanese physicists led by Yuki Sugiyama showed that you don’t need one. They put
+    22 cars on a circular track 230 metres round, on a flat open field, and asked the drivers to
+    cruise at a steady 30&nbsp;km/h. There was nothing on the track to cause a jam. Within minutes,
+    one formed anyway: a cluster of stopped cars, while the cars outside it drove at about
+    40&nbsp;km/h. The cluster crept backwards round the track at roughly 20&nbsp;km/h, and it did
+    not go away.</p>
+
+    <p>Such a jam is called a <em>phantom jam</em>. To see how one forms, we need a model of
+    drivers simple enough to understand completely.</p>
+
+    <h2>A road made of boxes</h2>
+
+    <p>In 1992 Kai Nagel and Michael Schreckenberg proposed a model of motorway traffic that fits on
+    an index card. Cut the road into <em>cells</em> 7.5&nbsp;m long, about the space one car takes up
+    in a queue, bumper to bumper. Each cell holds one car or none. Time moves in steps of one second.
+    A car’s speed is a whole number of cells per step, from 0 up to 5. One cell per second is
+    27&nbsp;km/h, so the top speed of 5 is 135&nbsp;km/h.</p>
+
+    <p>Every second, every driver does the same four things:</p>
+    <ol>
+      <li><strong>Speed up</strong> by one, unless already at the top speed.</li>
+      <li><strong>Don’t hit anyone.</strong> If the gap to the car ahead (the number of empty cells) is
+      smaller than your speed, slow down to the gap.</li>
+      <li><strong>Dawdle.</strong> With probability <var>p</var>, slow down by one more for no
+      reason: a glance at the phone, a slightly late reaction, easing off over a crest.</li>
+      <li><strong>Move</strong> forward by your speed.</li>
+    </ol>
+
+    <p>That third rule is the whole story. Take it away (set <var>p</var> to zero) and every car
+    settles into a perfectly smooth, jam-free pattern whenever there is room for one. Leave it in, and
+    the small hesitations start to pile up.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The ring below is 900&nbsp;m round. Cars start evenly spaced and at rest, and are coloured by
+      speed. Watch the red clusters, which are cars standing still: they form without any cause, and
+      drift the opposite way to the traffic. Then lower the number of cars to about 12 and press Restart: the jams disappear and nobody stops. Set the dawdle probability to 0 and press Restart:
+      no jam ever forms.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-ring" aria-labelledby="fig-ring-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 9">
+        <canvas id="ring-canvas" role="img" aria-label="Cars driving anticlockwise round a circular road, coloured by speed from red (stopped) to teal (top speed). Clusters of red, stopped cars form and drift clockwise, against the traffic."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="ring-n">Cars on the ring</label>
+          <input type="range" id="ring-n" min="1" max="90" step="1" value="24">
+          <output id="ring-n-out" for="ring-n">24</output>
+        </div>
+        <div class="control">
+          <label for="ring-p">Dawdle probability <var>p</var></label>
+          <input type="range" id="ring-p" min="0" max="0.6" step="0.05" value="0.2">
+          <output id="ring-p-out" for="ring-p">0.20</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="ring-play">Pause</button>
+          <button type="button" class="btn" id="ring-reset">Restart, evenly spaced</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Density</dt><dd id="ring-dens">27 cars/km</dd></div>
+        <div><dt>Average speed</dt><dd id="ring-speed">0 km/h</dd></div>
+        <div><dt>Flow past a point</dt><dd id="ring-flow">0 cars/h</dd></div>
+        <div><dt>Cars standing still</dt><dd id="ring-stopped">0</dd></div>
+      </dl>
+      <p class="legend sans" aria-hidden="true"><span class="sw" style="--c:#c8322b"></span>stopped
+        <span class="sw" style="--c:#e07b2a"></span>27 <span class="sw" style="--c:#d9a83a"></span>54
+        <span class="sw" style="--c:#9cae45"></span>81 <span class="sw" style="--c:#4c9e6b"></span>108
+        <span class="sw" style="--c:#2a8a96"></span>135&nbsp;km/h</p>
+      <figcaption id="fig-ring-cap"><span class="fig-num">Figure 1.</span>The Nagel–Schreckenberg
+      model on a ring road of 120 cells (900&nbsp;m). Traffic runs anticlockwise; one second of model
+      time passes every fifth of a second. Speed and flow are averaged over the last minute of model
+      time.</figcaption>
+    </figure>
+
+    <p>Here is what happens. A driver dawdles and slows down. The driver behind, who was following
+    at a comfortable gap, finds the gap shrinking and must slow down too, and usually a little more,
+    because they react a step late. The next driver slows more still. If the cars are far apart, the
+    slowdown is absorbed by the spare room and dies out. If they are close together, there is no
+    spare room, and the slowdown grows car by car until someone has to stop. Now there is a jam.</p>
+
+    <p>Once a car is stopped, it can only leave when the car in front has pulled away. Cars leave
+    from the front of the jam one at a time, while new cars arrive at the back. So the jam loses cars
+    at its front and gains them at its back: it moves backwards, even though every car in it is
+    moving forwards, or waiting to.</p>
+
+    <h2>Seeing the jam move</h2>
+
+    <p>A ring is hard to read over time. The next figure unrolls a 1.5&nbsp;km ring into a straight
+    line, so cars drive left to right (and a car leaving the right edge comes back on the left). Each
+    row of dots is the road at one moment; the next second is drawn just below it, so time runs down
+    the page. This is a <em>space-time diagram</em>, the tool traffic engineers use for exactly this
+    question.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Follow the solid line: it is one car, and it always slants to the right, because cars only
+      go forwards. The red stripes are jams. Notice that they slant to the <em>left</em>. Now click or tap anywhere on the diagram (the car nearest that position, in the bottom row, is the one that stops) or press “Make a car brake”, to make one driver stop
+      for two seconds, and watch the stripe that grows from that moment.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-st" aria-labelledby="fig-st-cap">
+      <div class="stage" style="--aspect: 16 / 9">
+        <canvas id="st-canvas" role="img" aria-label="Space-time diagram: position along a 1.5 km road across, time going down. Cars trace lines slanting right; jams appear as red stripes slanting left, moving upstream. Click to make the nearest car brake."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="st-n">Cars on the road</label>
+          <input type="range" id="st-n" min="5" max="80" step="1" value="40">
+          <output id="st-n-out" for="st-n">40</output>
+        </div>
+        <div class="control">
+          <label for="st-p">Dawdle probability <var>p</var></label>
+          <input type="range" id="st-p" min="0" max="0.6" step="0.05" value="0.2">
+          <output id="st-p-out" for="st-p">0.20</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="st-play">Pause</button>
+          <button type="button" class="btn primary" id="st-brake">Make a car brake</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Density</dt><dd id="st-dens">27 cars/km</dd></div>
+        <div><dt>Cars standing still</dt><dd id="st-stopped">0</dd></div>
+        <div><dt>Model time</dt><dd id="st-time">0 s</dd></div>
+      </dl>
+      <figcaption id="fig-st-cap"><span class="fig-num">Figure 2.</span>Space-time diagram of a
+      200-cell (1.5&nbsp;km) ring. Position runs left to right in the direction of traffic; each row
+      is one second, newest at the bottom. Colours as in Figure 1; the solid line follows one car.
+      Clicking makes the car nearest the click stop for two seconds.</figcaption>
+    </figure>
+
+    <p>The stripes lean left by roughly one car length every second or two. In this model, with a
+    dawdle probability between 0.1 and 0.25, a jam’s front edge moves upstream at about 15 to
+    23&nbsp;km/h (see the checks in the colophon). That is close to what is measured on real
+    motorways, where stop-and-go waves travel against the traffic at about 15&nbsp;km/h, give or
+    take 5, almost regardless of the road. Sugiyama’s jam on the test track moved back at roughly
+    20&nbsp;km/h.</p>
+
+    <p>This explains the experience of driving through a phantom jam. You meet it, crawl through it,
+    and leave it at the front. By the time you are out, the jam is several hundred metres behind
+    where you entered it, and there is nothing to see, because the jam was never a place. It was a
+    wave passing through the cars.</p>
+
+    <h2>More cars, less traffic</h2>
+
+    <p>How many cars does it take? To answer that, we need two numbers. <em>Density</em> is how many
+    cars there are per kilometre of lane. <em>Flow</em> is how many cars pass a fixed point per hour;
+    it is what a road is for. On a ring, flow is simply density times average speed:</p>
+
+    <p class="formula">flow = density × average speed</p>
+
+    <p>so 20 cars per kilometre at 100&nbsp;km/h makes 2,000 cars an hour. Figure 3 runs the model at
+    many densities, lets each settle for five minutes of model time, measures the flow over the next
+    ten, and plots the result. Traffic engineers call this curve the <em>fundamental diagram</em>.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the density slider from left to right and watch the flow. At first, more cars mean
+      more flow. Past the peak, every extra car <em>lowers</em> the flow, because the jams eat more
+      speed than the car adds. Then change <var>p</var>: the more drivers hesitate, the lower the peak
+      and the earlier it comes.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-fd" aria-labelledby="fig-fd-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 9">
+        <canvas id="fd-canvas" role="img" aria-label="Flow against density measured from the model. Flow rises steeply to a peak at a low density, then falls in a straight-ish line to zero at a full road. A dashed line shows the jam-free case."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="fd-rho">Density</label>
+          <input type="range" id="fd-rho" min="2" max="80" step="1" value="27">
+          <output id="fd-rho-out" for="fd-rho">27 cars/km</output>
+        </div>
+        <div class="control">
+          <label for="fd-p">Dawdle probability <var>p</var></label>
+          <input type="range" id="fd-p" min="0" max="0.6" step="0.05" value="0.25">
+          <output id="fd-p-out" for="fd-p">0.25</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Flow at this density</dt><dd id="fd-flow">–</dd></div>
+        <div><dt>Average speed</dt><dd id="fd-speed">–</dd></div>
+        <div><dt>Peak flow</dt><dd id="fd-peak">–</dd></div>
+        <div><dt>Critical density</dt><dd id="fd-crit">–</dd></div>
+      </dl>
+      <figcaption id="fig-fd-cap"><span class="fig-num">Figure 3.</span>The fundamental diagram,
+      measured from the model on a 500-cell (3.75&nbsp;km) ring, one lane. Dots: measured flow at each
+      density. Dashed line: the exact result with no dawdling (<var>p</var>&nbsp;=&nbsp;0). The ring
+      marks the density chosen with the slider.</figcaption>
+    </figure>
+
+    <p>The density at the peak is the <em>critical density</em>. Below it, traffic is free: a
+    dawdle is absorbed. Above it, the road is congested and jams form on their own. With
+    <var>p</var>&nbsp;=&nbsp;0.25 the model peaks at about 1,850 cars per hour at 15 to 17 cars per
+    kilometre: one car every 60&nbsp;m or so. A real motorway lane carries at most about 2,400
+    cars an hour in ideal conditions, and often nearer 2,000 in practice. Sugiyama’s group, looking
+    at motorway data, put the critical density near 25
+    vehicles per kilometre. (Their test track was much denser, 22 cars in 230&nbsp;m, about 96 per kilometre, because everyone was driving at only 30&nbsp;km/h, so the two numbers are not directly comparable.)</p>
+
+    <p>Note the cruel asymmetry. Below the critical density, adding cars adds flow. Above it, adding
+    cars makes everyone slower and moves fewer people. With <var>p</var>&nbsp;=&nbsp;0.25, a lane at 50 cars per kilometre in this model carries about 1,400 cars an hour, less than one at 15 (about 1,800).</p>
+
+    <p>Can one driver help? A team led by Raphael Stern and Daniel Work (paper published 2018) repeated the ring experiment on a 260&nbsp;m track at the University of Arizona with more than 20 cars, then switched one of them to a computer that held
+    a smooth, steady speed instead of chasing the car in front. The waves died out. Compared with the
+    runs where waves were present, they measured up to 40% less fuel burned and up to 15% more
+    traffic flow. The calm car works by leaving a gap large enough to soak up each slowdown before
+    it reaches the car behind. (This page’s model is too crude to show that fairly: with speeds in
+    steps of 27&nbsp;km/h and no overtaking, a capped car mostly acts as a slow lead car.)</p>
+
+    <p>So the answer to the question is: when the road is busy enough, nothing needs to go wrong.
+    The ordinary, tiny unevenness of human driving, amplified from car to car, is enough. Sugiyama’s
+    drivers were told to drive steadily, and they tried; the jam came anyway.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>One lane, no overtaking.</strong> Real motorways have several lanes, and lane
+          changes both spread jams across lanes and trigger new ones when a car cuts in.</li>
+          <li><strong>Identical drivers and cars.</strong> Every driver here has the same top speed
+          and the same chance of dawdling, and every vehicle is 7.5&nbsp;m. Real traffic mixes
+          lorries, cautious and aggressive drivers, and cars of very different lengths.</li>
+          <li><strong>Crude timing and braking.</strong> Speeds jump in steps of 27&nbsp;km/h, a
+          driver reacts within exactly one second, and a car can brake from 135&nbsp;km/h to 0 in a
+          single second, which no real car can. Continuous “car-following” models handle reaction
+          time and braking more realistically.</li>
+          <li><strong>No bottlenecks.</strong> Most real congestion does start at a bottleneck: an
+          on-ramp, a lane drop, a hill, an accident. This exhibit isolates the case where there is
+          none. A ring road also keeps the number of cars fixed, while a real road has cars entering
+          and leaving.</li>
+          <li><strong>The numbers are approximate.</strong> The model’s peak flow and critical density
+          depend on <var>p</var>, which is not a measured property of real drivers. Treat the shape of
+          the curves as the lesson, not the exact values.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>Y. Sugiyama, M. Fukui, M. Kikuchi, K. Hasebe, A. Nakayama, K. Nishinari, S. Tadaki and
+          S. Yukawa, “Traffic jams without bottlenecks — experimental evidence for the physical
+          mechanism of the formation of a jam”, <cite>New Journal of Physics</cite> 10, 033001
+          (2008). <a href="https://doi.org/10.1088/1367-2630/10/3/033001">doi.org</a>
+          <span class="note">The experiment: 22 vehicles on a 230&nbsp;m circuit, drivers asked to
+          cruise at about 30&nbsp;km/h; a jam forms with no bottleneck, cars outside it move at about
+          40&nbsp;km/h, and the jam moves backward at roughly 20&nbsp;km/h; critical density near 25
+          vehicles/km from motorway data.</span></li>
+          <li>K. Nagel and M. Schreckenberg, “A cellular automaton model for freeway traffic”,
+          <cite>Journal de Physique I</cite> 2, 2221–2229 (1992).
+          <a href="https://doi.org/10.1051/jp1:1992277">doi.org</a>
+          <span class="note">The model used in every figure: the four update rules, and the
+          transition from smooth flow to start-stop waves as density increases.</span></li>
+          <li>M. Schönhof and D. Helbing, “Empirical features of congested traffic states and their
+          implications for traffic modeling”, <cite>Transportation Science</cite> 41, 135–166 (2007);
+          preprint <a href="https://arxiv.org/abs/cond-mat/0408138">arXiv:cond-mat/0408138</a>.
+          <span class="note">Measured on German motorways: stop-and-go waves travel against the
+          traffic at about 15&nbsp;±&nbsp;5&nbsp;km/h.</span></li>
+          <li>R. E. Stern, S. Cui, M. L. Delle Monache and others, “Dissipation of stop-and-go waves
+          via control of autonomous vehicles: Field experiments”, <cite>Transportation Research Part
+          C</cite> 89, 205–221 (2018); preprint <a href="https://arxiv.org/abs/1705.01693">arXiv:1705.01693</a>.
+          <span class="note">One automated car among more than 20 on a ring track damped the waves;
+          up to 40% less fuel and up to 15% more throughput than with waves present.</span></li>
+          <li>Transportation Research Board, <cite>Highway Capacity Manual 2000</cite>, chapter 23
+          “Basic freeway segments”.
+          <span class="note">Capacity of a freeway lane: up to 2,400 passenger cars per hour under
+          ideal conditions (free-flow speed 120&nbsp;km/h or more); flow near capacity typically
+          2,000–2,300.</span></li>
+          <li>D. Helbing, “Traffic and related self-driven many-particle systems”, <cite>Reviews of
+          Modern Physics</cite> 73, 1067–1141 (2001); preprint
+          <a href="https://arxiv.org/abs/cond-mat/0012229">arXiv:cond-mat/0012229</a>.
+          <span class="note">Review: the 7.5&nbsp;m cell and 1&nbsp;s step interpretation of the
+          Nagel–Schreckenberg model, the fundamental diagram, and the near-constant speed of jam
+          waves.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="traffic">Not yet reviewed</dd>
+        </dl>
+        <p>Checks: with <var>p</var>&nbsp;=&nbsp;0 the measured flow matches the exact result,
+        flow&nbsp;=&nbsp;min(5ρ,&nbsp;1&nbsp;−&nbsp;ρ) cars per step for density ρ cars per cell,
+        peaking at 3,000 cars/h at 22 cars/km. With <var>p</var>&nbsp;=&nbsp;0.25, the front of a
+        queue of stopped cars moved upstream at 13–17&nbsp;km/h in repeated runs; with
+        <var>p</var>&nbsp;=&nbsp;0.1, about 23&nbsp;km/h.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="traffic-lib.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

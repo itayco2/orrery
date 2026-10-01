@@ -1,0 +1,5 @@
+# Orrery public repository: the static site plus its licences. Keep a checkout clean.
+__pycache__/
+*.pyc
+.DS_Store
+*.swp

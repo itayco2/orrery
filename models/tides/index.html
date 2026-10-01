@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why are there two tides a day? — Orrery</title>
+<meta name="description" content="The Moon pulls the sea towards it — so why is there a high tide on the far side too? A working model of tides: differential gravity, the turning Earth, and spring and neap tides.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/tides/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why are there two tides a day? — Orrery">
+<meta property="og:description" content="The Moon pulls the sea towards it — so why is there a high tide on the far side too? A working model of tides: differential gravity, the turning Earth, and spring and neap tides.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/tides/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/tides/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why are there two tides a day?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why are there two tides a day? — Orrery">
+<meta name="twitter:description" content="The Moon pulls the sea towards it — so why is there a high tide on the far side too? A working model of tides: differential gravity, the turning Earth, and spring and neap tides.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/tides/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why are there two tides a day?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Astronomy</p>
+      <h1>Why are there two tides a day?</h1>
+      <p class="lede">Everyone knows the Moon pulls the sea towards it. That explains a high tide on
+      the side of the Earth facing the Moon. So why is there another high tide, at the same time,
+      on the side facing away?</p>
+    </header>
+
+    <p>On most coasts the sea comes in and goes out twice a day. High tide arrives roughly every
+    12 hours and 25 minutes. If the Moon simply pulled the water towards itself, there would be one
+    heap of water under the Moon and a coast would pass under it once a day. That is not what
+    happens.</p>
+
+    <p>The answer is not that the Moon pulls the sea. The answer is that the Moon pulls
+    <em>unevenly</em> on different parts of the Earth, and the sea is free to respond to that
+    unevenness.</p>
+
+    <h2>The Moon pulls everything, just not equally</h2>
+
+    <p>Gravity weakens with distance: double the distance and the pull drops to a quarter. The side of
+    the Earth facing the Moon is about 6,400 km closer to it than the Earth’s centre, and the far side
+    is 6,400 km farther away. The Moon is about 384,000 km off, so these differences are small, but
+    they are not zero.</p>
+
+    <p>Figure 1 shows the Moon’s pull at sixteen points on the Earth’s surface and at its centre. At
+    first, with the Moon at its real distance, the arrows look identical: the near side is pulled
+    only about 3% harder than the centre. Now tick <strong>Subtract the pull at the centre</strong>.
+    The whole Earth is falling towards the Moon together (that is what an orbit is), so what matters
+    for the sea is how each point’s pull <em>differs</em> from the pull on the Earth as a whole.</p>
+
+    <figure class="fig wide" id="fig-stretch" aria-labelledby="fig-stretch-cap">
+      <div class="stage stretch-stage">
+        <canvas id="stretch-canvas" role="img" aria-label="The Earth as a circle with arrows at sixteen points showing the Moon's pull, and the Moon to the right. With the centre's pull subtracted, the arrows point outward towards and away from the Moon, and inward at the sides."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="stretch-dist">Distance to the Moon</label>
+          <input type="range" id="stretch-dist" min="20" max="120" step="0.1" value="60.3">
+          <output id="stretch-dist-out" for="stretch-dist">60.3 Earth radii</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="stretch-tidal"> Subtract the pull at the centre</label>
+        </div>
+      </div>
+      <p class="fig-note" id="stretch-mag" aria-live="polite">All arrows are drawn to the same scale.</p>
+      <dl class="readouts">
+        <div><dt>Pull at Earth’s centre</dt><dd id="stretch-pull">3.32 × 10⁻⁵ m/s²</dd></div>
+        <div><dt>Near side pulled harder by</dt><dd id="stretch-near">3.4%</dd></div>
+        <div><dt>Tidal stretch (near side)</dt><dd id="stretch-tide">1.13 × 10⁻⁶ m/s²</dd></div>
+        <div><dt>Pull vs today</dt><dd id="stretch-pull-x">×1.00</dd></div>
+        <div><dt>Stretch vs today</dt><dd id="stretch-tide-x">×1.00</dd></div>
+      </dl>
+      <figcaption id="fig-stretch-cap"><span class="fig-num">Figure 1.</span>The Moon’s pull on
+      the Earth, computed exactly at each point. Tick the box to subtract the pull at the centre and see
+      the tidal pattern. Drag the Moon, or use the slider, to change its distance (shown on a squeezed
+      scale; the real Moon is about 60 Earth radii away).</figcaption>
+    </figure>
+
+    <p>What is left is the <strong>tidal force</strong>: a stretch along the Earth–Moon line and a
+    squeeze across it. On the near side the leftover arrow points towards the Moon, because that side
+    is pulled harder than the centre. On the far side it points <em>away</em> from the Moon, because
+    that side is pulled less hard than the centre: the Earth is pulled out from under it, so to speak.
+    At the sides, the leftover arrows point slightly inward, because the pulls there all aim at the
+    Moon and so converge a little.</p>
+
+    <p>This is two bulges, not one. Nothing about the Earth’s spin is needed to make the far-side
+    bulge; it comes purely from the pull being weaker over there.</p>
+
+    <h3>How strong is it?</h3>
+
+    <p>The Moon’s pull at the Earth’s centre is about 3.3 × 10⁻⁵ m/s². The tidal stretch at the
+    point directly under the Moon is about 1.1 × 10⁻⁶ m/s², roughly one ten-millionth of the
+    9.8 m/s² gravity you feel. That is far too small to lift water straight up. What it does is push
+    water <em>sideways</em> along the surface, over thousands of kilometres of ocean, towards the two
+    points under and opposite the Moon.</p>
+
+    <p>Now drag the Moon to half its distance and watch the two “vs today” readouts. The pull grows
+    4 times, but the stretch grows 8 times. Move it out to double the distance: the pull falls to a
+    quarter, the stretch to an eighth. The pull follows 1/<var>d</var>², the stretch follows 1/<var>d</var>³. In words: the tidal force is the <em>difference</em> in pull across the Earth’s
+    width, and the pull’s change over a fixed width shrinks one power of distance faster than the pull
+    itself. For a body of mass <var>M</var> at distance <var>d</var>, on a planet of radius
+    <var>R</var>, the stretch at the near point is about</p>
+
+    <p class="formula">tidal acceleration ≈ 2<var>G</var><var>M</var><var>R</var> / <var>d</var>³</p>
+
+    <p>where <var>G</var> is the gravitational constant. For the Moon this gives
+    1.10 × 10⁻⁶ m/s², matching the exact value in the figure to within 3%. That small gap is also why the readout
+    says ×8.2 at half the distance, not exactly ×8: the figure uses the exact difference at the near
+    side, which sits a little closer to the Moon than the formula assumes. The 1/<var>d</var>³ rule is
+    the main term, and it gets more exact the farther away the Moon is.</p>
+
+    <h2>Two bulges, one turning Earth</h2>
+
+    <p>If the ocean could settle into the shape these forces ask for, it would form an egg stretched
+    towards and away from the Moon. This idealised shape is called the <strong>equilibrium
+    tide</strong>. Working it out, the water directly under the Moon would stand about 36 cm above
+    average, and the water at the sides about 18 cm below: a range of about half a metre.</p>
+
+    <p>The Earth turns inside this shape once a day. In Figure 2 you are looking down on the North
+    Pole; the gold dot is a spot on the coast at the equator, and the graph on the right traces its
+    water level. Notice that the dot passes under two bulges per turn, and read the time between high
+    tides on the graph.</p>
+
+    <figure class="fig wide" id="fig-turn" aria-labelledby="fig-turn-cap">
+      <div class="stage turn-stage scrollable">
+        <canvas id="turn-canvas" role="img" aria-label="The Earth seen from above the North Pole, turning inside an egg-shaped layer of water stretched towards the Moon and away from it. A marker on the coast passes under both bulges each day; a graph traces its water level, with two high tides about 12 hours 25 minutes apart."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="turn-speed">Speed</label>
+          <input type="range" id="turn-speed" min="1" max="12" step="1" value="3">
+          <output id="turn-speed-out" for="turn-speed">3 h per second</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="turn-play">Pause</button>
+          <button type="button" class="btn" id="turn-step">Step 1 hour</button>
+          <label class="toggle"><input type="checkbox" id="turn-hold"> Hold the Moon still</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Time</dt><dd id="turn-time">0 h 0 min</dd></div>
+        <div><dt>Water level at the dot</dt><dd id="turn-level">−18 cm</dd></div>
+        <div><dt>Between the last two high tides</dt><dd id="turn-gap">12 h 25 min</dd></div>
+      </dl>
+      <figcaption id="fig-turn-cap"><span class="fig-num">Figure 2.</span>The equilibrium tide from
+      the Moon alone, at the equator. The bulges are exaggerated about two million times and the Moon is
+      drawn far too close; the graph uses the real heights. The animation pauses off-screen, and waits
+      for you to press Play if you prefer reduced motion.</figcaption>
+    </figure>
+
+    <p>Why 12 hours 25 minutes and not exactly 12 hours? Because the Moon does not wait. While the
+    Earth turns once, the Moon moves about 13° further along its orbit in the same direction, so the
+    coast needs about 50 extra minutes to catch up with it. One full cycle, from the Moon overhead to
+    the Moon overhead again, takes 24 hours 50 minutes: a <strong>lunar day</strong>. Two bulges per
+    lunar day gives high tides 12 hours 25 minutes apart, and this is why high tide comes about
+    50 minutes later each day.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Tick <strong>Hold the Moon still</strong> and let two more high tides go by. Without the
+      Moon’s motion, the gap shrinks to 11 h 58 min: half of one turn of the Earth measured against
+      the stars.</p>
+    </aside>
+
+    <h2>The Sun does it too</h2>
+
+    <p>The Sun pulls on the Earth about 180 times harder than the Moon does. So why do we hear mostly
+    about the Moon? Because the tide depends on the <em>difference</em> in pull across the Earth, and
+    that falls off as 1/<var>d</var>³. The Sun is 27 million times more massive than the Moon, but
+    389 times farther away, and 389³ is about 59 million. The table puts the numbers side by side.</p>
+
+    <div class="table-wrap">
+    <table class="ratio">
+      <thead><tr><th scope="col"></th><th scope="col">Mass (kg)</th><th scope="col">Distance (km)</th><th scope="col">Pull (m/s²)</th><th scope="col">Stretch (m/s²)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Moon</th><td>7.35 × 10²²</td><td>384,400</td><td>3.3 × 10⁻⁵</td><td>1.10 × 10⁻⁶</td></tr>
+        <tr><th scope="row">Sun</th><td>1.99 × 10³⁰</td><td>149,600,000</td><td>5.9 × 10⁻³</td><td>0.51 × 10⁻⁶</td></tr>
+        <tr><th scope="row">Sun ÷ Moon</th><td>27 million</td><td>389</td><td>179</td><td>0.46</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>27 million ÷ 59 million ≈ 0.46. The Sun makes its own pair of bulges, a little under half the
+    size of the Moon’s, always pointing at the Sun. The Moon’s pair goes round once a month. The two
+    add up.</p>
+
+    <p>In Figure 3 the Sun is off to the left. The dashed gold outline is the Sun’s tide on its own;
+    the green shape is the total. Drag the Moon round its orbit (or use the slider) and watch the
+    tidal range, the difference between high and low water, in the graph.</p>
+
+    <figure class="fig wide" id="fig-sun" aria-labelledby="fig-sun-cap">
+      <div class="stage sun-stage">
+        <canvas id="sun-canvas" role="img" aria-label="The Earth with sunlight from the left and the Moon on its orbit. The water outline combines the Sun's and the Moon's tides. A graph shows the tidal range through a lunar month: largest at new and full moon, smallest at the quarters."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="sun-days">Days since new moon</label>
+          <input type="range" id="sun-days" min="0" max="29.5" step="0.1" value="7.4">
+          <output id="sun-days-out" for="sun-days">7.4 days</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="sun-play">Run the month</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Moon</dt><dd id="sun-phase">First quarter</dd></div>
+        <div><dt>Equilibrium range at the equator</dt><dd id="sun-range">29 cm</dd></div>
+        <div><dt>Compared with spring tide</dt><dd id="sun-rel">37% of spring</dd></div>
+      </dl>
+      <figcaption id="fig-sun-cap"><span class="fig-num">Figure 3.</span>Sun and Moon tides added
+      together (equilibrium tide, equator, Moon’s orbit taken as circular and in the plane of the
+      Earth’s orbit). Shapes exaggerated; numbers real. Drag the Moon, or use the slider.</figcaption>
+    </figure>
+
+    <p>At new moon and full moon, Sun, Earth and Moon lie in a line and the two sets of bulges stack:
+    these are <strong>spring tides</strong> (nothing to do with the season; the water “springs up”).
+    The equilibrium range is about 78 cm. At first and last quarter the Sun’s bulges sit where the
+    Moon’s low water is, and partly fill it in: these are <strong>neap tides</strong>, with a range of
+    about 29 cm, roughly a third of spring. Full and new moon come every 29.5 days, so spring tides
+    come every 14.8 days, and real tide tables show the same fortnightly rhythm.</p>
+
+    <h2>So, why two tides a day?</h2>
+
+    <p>Because the Moon pulls the near side of the Earth more than the centre, and the centre more
+    than the far side. Seen from the Earth, that stretches the oceans both ways along the line to the
+    Moon. A coast turning under two bulges meets high water twice per lunar day of 24 hours
+    50 minutes. The stretch fades as the cube of distance, which is why the nearby Moon beats the
+    enormous, distant Sun, and why the Sun can only strengthen or weaken the Moon’s tides.</p>
+
+    <h2>Real coasts aren’t the textbook</h2>
+
+    <p>Everything above is the equilibrium tide, and real tides are not that. The bulges would have
+    to sweep round the Earth at about 1,600 km/h at the equator, but a wave as long as an ocean,
+    in water 4 km deep, travels at only about 700 km/h; and continents stand in the way. Instead, each ocean basin sloshes in response to the
+    rhythmic push. The tide rotates around points of nearly zero range, called <strong>amphidromic
+    points</strong>. Some coasts, such as parts of the Gulf of Mexico, get only one high tide a day.
+    And where a basin’s natural sloshing period is close to 12 hours 25 minutes, the tide resonates:
+    in the Minas Basin at the head of the Bay of Fundy, Canada, the water can rise as much as 16 m
+    between low and high tide, thirty times the Moon’s equilibrium range. The forcing is the one in this exhibit; the
+    response is shaped by the sea floor and the shore.</p>
+
+    <figure class="fig" id="fig-real" aria-labelledby="fig-real-cap">
+      <div class="bars" role="img" aria-label="Bar chart of tidal ranges to scale: the Moon's equilibrium tide 0.54 metres, Moon and Sun at spring tide 0.78 metres, the Bay of Fundy's Minas Basin up to 16 metres.">
+        <div class="bar-row"><span class="bar-label">Moon’s equilibrium tide</span><span class="bar-track"><span class="bar" style="width: 3.4%"></span></span><span class="bar-val num">0.54 m</span></div>
+        <div class="bar-row"><span class="bar-label">Moon + Sun, spring tide</span><span class="bar-track"><span class="bar" style="width: 4.9%"></span></span><span class="bar-val num">0.78 m</span></div>
+        <div class="bar-row"><span class="bar-label">Minas Basin, Bay of Fundy</span><span class="bar-track"><span class="bar real" style="width: 100%"></span></span><span class="bar-val num">up to 16 m</span></div>
+      </div>
+      <figcaption id="fig-real-cap"><span class="fig-num">Figure 4.</span>Tidal range (high water
+      minus low water), drawn to one scale. The first two bars are this exhibit’s equilibrium values
+      at the equator; the last is a measured range where a basin resonates with the tide.</figcaption>
+    </figure>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>The oceans’ real response.</strong> The figures show the equilibrium tide: the
+          shape the sea would take if it adjusted instantly over a water-covered Earth. Real tides are
+          set by the size and depth of ocean basins, continents, resonance and friction. Times of high
+          water at a real port can lag the Moon by hours, and ranges vary from centimetres to over
+          15 m.</li>
+          <li><strong>The Moon’s tilted, eccentric orbit.</strong> The Moon’s orbit is tilted about 5°
+          to the Earth’s, and the Earth’s axis is tilted 23.4°, so the bulges usually sit north or
+          south of the equator. That makes the two daily tides unequal (the “diurnal inequality”). The
+          Moon’s distance also varies by about ±5%, changing its tidal force by about ±16%; the Earth’s
+          distance from the Sun varies by ±1.7%. All of these are left out.</li>
+          <li><strong>Earth tides.</strong> The solid Earth is not rigid: its rock also rises and falls
+          by a few tens of centimetres twice a day. The ocean tide we measure is relative to the moving
+          ground, which reduces it by about 30%. The heights here assume a rigid Earth.</li>
+          <li><strong>Only the equator.</strong> Figures 2 and 3 show a point on the equator, seen
+          from above the pole. Away from the equator the equilibrium range is smaller.</li>
+          <li><strong>Frames.</strong> Many textbooks explain the far bulge with “centrifugal force”
+          from the Earth and Moon circling their common centre of mass. Done carefully, that gives the
+          same tidal force as here; done carelessly (blaming the Earth’s daily spin), it is wrong. This
+          exhibit uses only the difference in gravity, measured from the Earth’s centre, which is the
+          same calculation without the extra machinery.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>NOAA, “Tides” (education resource collection).
+          <a href="https://www.noaa.gov/education/resource-collections/ocean-coasts/tides">noaa.gov</a>
+          <span class="note">Tidal force as the difference between the Moon’s pull at a point and its
+          average pull on the Earth; two bulges from a horizontal stretching of the ocean.</span></li>
+          <li>NOAA National Ocean Service, “Tides and Water Levels: What causes tides?”
+          <a href="https://oceanservice.noaa.gov/education/tutorial_tides/tides02_cause.html">oceanservice.noaa.gov</a>
+          <span class="note">Sun’s pull on the Earth about 177 times the Moon’s, but 390 times
+          farther, so its tide-generating force is about half the Moon’s.</span></li>
+          <li>J. Bosboom and M. J. F. Stive, <cite>Coastal Dynamics</cite>, §3.7.6 “Tidal
+          constituents” (TU Delft, via LibreTexts).
+          <a href="https://geo.libretexts.org/Bookshelves/Oceanography/Coastal_Dynamics_(Bosboom_and_Stive)/03:_Ocean_waves/3.07:_Generation_of_the_tide/3.7.6:_Tidal_constituents">geo.libretexts.org</a>
+          <span class="note">Equilibrium amplitudes of the main lunar (M2, 0.24 m, period 12.42 h)
+          and solar (S2, 0.11 m) constituents; their ratio 0.46.</span></li>
+          <li>NOAA, “JetStream Max: Bay of Fundy: The Highest Tides in the World”.
+          <a href="https://www.noaa.gov/ocean/fundy-max">noaa.gov</a>
+          <span class="note">Water near Wolfville in the Minas Basin can rise up to 16 m between low
+          and high tide.</span></li>
+          <li>NOAA National Ocean Service, “Tides and Water Levels: Types and Causes of Tidal Cycles”.
+          <a href="https://oceanservice.noaa.gov/education/tutorial_tides/tides07_cycles.html">oceanservice.noaa.gov</a>
+          <span class="note">Most coasts have two high and two low tides a day; many areas of the
+          Gulf of Mexico have one (a diurnal tide).</span></li>
+      </ol>
+        <p class="muted">Model values were computed here from G·M for the Moon (4.903 × 10¹² m³/s²)
+        and the Sun (1.327 × 10²⁰ m³/s²), the mean distances above and the Earth’s mean radius,
+        6,371 km. The equilibrium height on a rigid Earth is (M<sub>Moon</sub>/M<sub>Earth</sub>)
+        (R/d)³ R · (3cos²θ − 1)/2, which gives +36 cm and −18 cm. For comparison with source 3: that is a range of 0.54 m, so an
+        amplitude of 0.27 m with the Moon over the equator; the table’s M2 value, 0.24 m, is 0.908 of
+        that, the standard factor for averaging over the Moon’s tilted orbit.</p>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="tides">Not yet reviewed</dd>
+          <dt>Revised</dt><dd>1 October 2026: the gallery thumbnail now shows the whole “12 h 25 min” label.</dd>
+        </dl>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

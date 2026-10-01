@@ -1,0 +1,22 @@
+/* Exhibit-only styles for moon-phases */
+#fig-phases .stage, #fig-shadow .stage, #fig-face .stage { --aspect: 16 / 8; }
+@media (max-width: 640px) {
+  #fig-phases .stage, #fig-shadow .stage, #fig-face .stage { --aspect: 5 / 8; }
+}
+.season-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 0.75rem; align-items: center; }
+.season-grid .stage.orbit { --aspect: 1 / 1; }
+.season-grid .stage.chart { --aspect: 16 / 9; }
+@media (max-width: 640px) {
+  .season-grid { grid-template-columns: minmax(0, 1fr); }
+  .season-grid .stage.orbit { max-width: 20rem; width: 100%; margin: 0 auto; }
+}
+.season-list { font-family: var(--sans); font-size: 0.9rem; margin: 0.5rem 0 0; }
+.season-list ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+.key { font-family: var(--sans); font-size: 0.85rem; color: var(--ink-2); margin: 0.5rem 0 0; }
+.key .sw { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; vertical-align: -0.05em; margin-right: 0.25em; border: 1.3px solid var(--ink-2); }
+.key .sw.full { background: var(--brass-lit); border-color: var(--brass); }
+.key .sw.new { background: var(--paper); }
+.key .sw.ring { border-color: var(--alarm); border-width: 2px; }
+/* each key item stays in one piece; items wrap as whole units */
+.key span { display: inline-block; margin-right: 0.9em; }
+.scale-strip { width: 100%; height: auto; display: block; margin: 0.5rem 0; }

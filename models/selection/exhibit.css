@@ -1,0 +1,22 @@
+/* Exhibit-only styles for selection. */
+.fig .stage.plot { --aspect: 16 / 8; }
+@media (max-width: 36rem) {
+  #fig-drift .stage.plot, #fig-fix .stage.plot { --aspect: 4 / 5.6; }
+  #fig-map .stage.plot { --aspect: 4 / 3.6; }
+  #main .fig .control { grid-template-columns: 1fr auto; }
+  #main .fig .control > input[type="range"] { grid-column: 1 / -1; grid-row: 2; }
+}
+.legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; margin: 0.6rem 0 0; padding: 0;
+  list-style: none; font-family: var(--sans); font-size: 0.85rem; color: var(--ink-2); }
+.legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; }
+.legend .sw { display: inline-block; width: 1.4rem; height: 0; border-top: 3px solid currentColor; }
+.legend .sw.dash { border-top-style: dashed; }
+.legend .dot { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: currentColor; }
+.c-th { color: var(--brass); }
+.c-2s { color: var(--ink-3); }
+.c-neu { color: var(--alarm); }
+.c-sim { color: var(--verdigris); }
+.verdict { font-family: var(--sans); font-size: 0.95rem; color: var(--ink-2); margin: 0.7rem 0 0; }
+.fig .control > output { min-width: 4.8em; text-align: right; }
+#fig-map .control { flex: 1 1 18rem; }
+#fig-map .btn-row { flex: 1 1 100%; }

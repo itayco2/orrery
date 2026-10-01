@@ -1,0 +1,37 @@
+/* Exhibit-only styles for error-correction */
+.noise-stage { --aspect: 16 / 3.1; }
+@media (max-width: 560px) { .noise-stage { --aspect: 16 / 11.5; } }
+.fig .stage.noise-stage, .fig .stage.pics-stage { touch-action: auto; }
+
+.venn-stage { --aspect: 300 / 262; max-width: 24rem; margin: 0 auto; }
+.venn-circle { fill: var(--verdigris-lit); fill-opacity: .08; stroke: var(--ink-3); stroke-width: 1.5; transition: fill-opacity .2s; }
+.venn-circle.fail { fill: var(--alarm); fill-opacity: .16; stroke: var(--alarm); stroke-width: 3; }
+.venn-label { font: 600 18px var(--sans); fill: var(--ink-2); text-anchor: middle; }
+.venn-label.fail { fill: var(--alarm); }
+.venn-bit { cursor: pointer; }
+.venn-bit .disc { fill: var(--paper); stroke: var(--ink-2); stroke-width: 1.5; }
+.venn-bit.is-parity .disc { fill: var(--paper-3); }
+.venn-bit .ring { fill: none; stroke: none; stroke-width: 3; }
+.venn-bit.flipped .ring { stroke: var(--alarm); stroke-dasharray: 4 3; }
+.venn-bit.suspect .disc { fill: var(--brass-lit); stroke: var(--brass); stroke-width: 2.5; }
+.venn-bit .val { font: 600 16px var(--mono); fill: var(--ink); text-anchor: middle; pointer-events: none; }
+.venn-bit .name { font: 12px var(--sans); fill: var(--ink-2); text-anchor: middle; pointer-events: none; }
+.venn-bit:focus { outline: none; }
+.venn-bit:focus-visible .disc { stroke: var(--focus); stroke-width: 3; }
+.venn-status { margin: .6rem 0 0; min-height: 3em; font-size: .95rem; }
+
+.strip-stage { --aspect: 56 / 20; cursor: crosshair; }
+.pics-stage { --aspect: 16 / 5.6; margin-top: .8rem; }
+@media (max-width: 560px) { .pics-stage { --aspect: 16 / 6.4; } }
+
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem 1.2rem; margin: .6rem 0 0; padding: 0;
+  font-size: .85rem; color: var(--ink-2); }
+.legend li { display: flex; align-items: center; gap: .4rem; margin: 0; }
+.legend .sw { display: inline-block; width: .8rem; height: .8rem; }
+.sw-ink { background: var(--ink-2); }
+.sw-alarm { background: var(--alarm); }
+.sw-brass { background: var(--brass); }
+.sw-suspect { background: var(--brass-lit); border: 2px solid var(--brass); border-radius: 50%; }
+.sw-flip { border: 2px dashed var(--alarm); border-radius: 50%; }
+.cd-stage { --aspect: 16 / 2.7; cursor: ew-resize; }
+@media (max-width: 560px) { .cd-stage { --aspect: 16 / 6; } }

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why can’t we forecast the weather a month ahead? — Orrery</title>
+<meta name="description" content="A double pendulum obeys exact laws with no randomness, yet two started a millionth of a degree apart soon do completely different things. Why deterministic does not mean predictable.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/chaos/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why can’t we forecast the weather a month ahead? — Orrery">
+<meta property="og:description" content="A double pendulum obeys exact laws with no randomness, yet two started a millionth of a degree apart soon do completely different things. Why deterministic does not mean predictable.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/chaos/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/chaos/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why can’t we forecast the weather a month ahead?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why can’t we forecast the weather a month ahead? — Orrery">
+<meta name="twitter:description" content="A double pendulum obeys exact laws with no randomness, yet two started a millionth of a degree apart soon do completely different things. Why deterministic does not mean predictable.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/chaos/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why can’t we forecast the weather a month ahead?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Physics</p>
+      <h1>Why can’t we forecast the weather a month ahead?</h1>
+      <p class="lede">Weather obeys the laws of physics, and computers are enormously powerful. So why
+      does useful forecasting run out after about ten days today, with a hard limit near two weeks
+      that no computer can push back much? A swinging toy with two joints
+      holds the answer.</p>
+    </header>
+
+    <p>A common belief is that forecasts fail because the weather is partly random, or because our
+    computers are not yet fast enough. Neither is the real reason. The deeper problem shows up in
+    something far simpler than the sky: a <em>double pendulum</em>, which is just a pendulum with a
+    second pendulum hanging from its end.</p>
+
+    <p>Nothing about it is random. Two rods, two weights, gravity, and Newton’s laws of motion.
+    If you know exactly where the weights start and how fast they are moving, the laws fix
+    everything that happens next. Physicists call a system like this <em>deterministic</em>: the
+    present completely determines the future.</p>
+
+    <h2>A pendulum with a joint</h2>
+
+    <p>In the figure below each rod is 1 metre long and each weight is 1 kilogram. Drag either
+    weight to a new starting position and let go. Start with a small nudge (press
+    <strong>Small swing</strong>): the weights rock back and forth in a steady, nearly repeating
+    rhythm. Then try <strong>Big swing</strong>, or lift the lower weight above the pivot, and
+    watch the trail of the lower weight.</p>
+
+    <figure class="fig wide" id="fig-pend" aria-labelledby="fig-pend-cap">
+      <div class="stage" style="--aspect: 4 / 3; max-width: 34rem; margin: 0 auto">
+        <canvas id="pend-canvas" role="img" aria-label="A double pendulum hanging from a pivot. Drag either weight, or focus it and use the arrow keys, to set its starting position; the lower weight leaves a fading trail."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="pend-a1">Upper rod starts at</label>
+          <input type="range" id="pend-a1" min="-180" max="180" step="1" value="143">
+          <output id="pend-a1-out" for="pend-a1">143°</output>
+        </div>
+        <div class="control">
+          <label for="pend-a2">Lower rod starts at</label>
+          <input type="range" id="pend-a2" min="-180" max="180" step="1" value="86">
+          <output id="pend-a2-out" for="pend-a2">86°</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="pend-play">Pause</button>
+          <button type="button" class="btn" id="pend-restart">Restart</button>
+          <button type="button" class="btn" id="pend-small">Small swing</button>
+          <button type="button" class="btn" id="pend-big">Big swing</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Time</dt><dd id="pend-t">0.0 s</dd></div>
+        <div><dt>Upper rod</dt><dd id="pend-th1">143°</dd></div>
+        <div><dt>Lower rod</dt><dd id="pend-th2">86°</dd></div>
+        <div><dt>Energy error</dt><dd id="pend-e">0</dd></div>
+      </dl>
+      <figcaption id="fig-pend-cap"><span class="fig-num">Figure 1.</span>A double pendulum. Angles
+      are measured from straight down. Drag a weight, use the sliders, or focus the picture and press the arrow keys (←/→ upper rod, ↑/↓ lower rod) to set where it starts;
+      it starts from rest. “Energy error” is how far the simulation’s total energy has drifted,
+      as a fraction: a check that the arithmetic is sound.</figcaption>
+    </figure>
+
+    <p>The small swing looks like an ordinary pendulum: regular and predictable. You could
+    measure it for a minute and confidently say where the weights will be an hour from now. The big
+    swing is different. The lower weight flips over the top, hesitates, reverses, whirls the other
+    way. It never quite repeats. This irregular behaviour, produced by exact laws with no chance in
+    them, is called <em>chaos</em>.</p>
+
+    <p>But irregular is not the same as unpredictable. A complicated dance is still perfectly
+    predictable if you can calculate it. The real trouble is subtler.</p>
+
+    <h2>Twins that don’t stay twins</h2>
+
+    <p>No measurement is perfect. Suppose you measure the starting angle of a real pendulum and
+    are off by a millionth of a radian. (A <em>radian</em> is the angle unit mathematicians
+    prefer: about 57°. A millionth of a radian is about the width of a human hair seen from 100 metres
+    away.) Surely such a tiny error cannot matter?</p>
+
+    <p>The next figure starts 20 pendulums, each one tilted a little further than its neighbour,
+    by the amount you choose. At first they sit exactly on top of each other and look like one.
+    Press <strong>Play</strong> and watch the moment they come apart. Then make the difference a
+    thousand times smaller and try again.</p>
+
+    <figure class="fig wide" id="fig-twins" aria-labelledby="fig-twins-cap">
+      <div class="stage" style="--aspect: 4 / 3; max-width: 34rem; margin: 0 auto">
+        <canvas id="twins-canvas" role="img" aria-label="Twenty double pendulums drawn on top of each other in different colours. They start almost identically, move together for a while, then spread apart into a tangle."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="twins-k">Difference between neighbours</label>
+          <input type="range" id="twins-k" min="3" max="12" step="1" value="6">
+          <output id="twins-k-out" for="twins-k">10⁻⁶ rad</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="twins-play">Play</button>
+          <button type="button" class="btn" id="twins-restart">Restart</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Time</dt><dd id="twins-t">0.0 s</dd></div>
+        <div><dt>Widest spread</dt><dd id="twins-spread">1.1 × 10⁻³°</dd></div>
+        <div><dt>First visibly apart</dt><dd id="twins-apart">not yet</dd></div>
+      </dl>
+      <figcaption id="fig-twins-cap"><span class="fig-num">Figure 2.</span>Twenty double pendulums,
+      all starting from rest at the “Big swing” position (upper rod 143°, lower rod 86°), except
+      that each one’s upper rod is tilted further than the previous one by the difference you
+      choose. “Widest spread” is the largest angle between the lower rod of the first (blue) pendulum and that of
+      any other; “visibly apart” means more than 5°.</figcaption>
+    </figure>
+
+    <p>With a difference of a millionth of a radian between neighbours, the pendulums move as one
+    for about six seconds, and then within a few more seconds they are scattered across every
+    possible position. Make the difference a thousand times smaller and they hold together for only
+    about four seconds longer. Another thousand times smaller: about three seconds more. This is called <em>sensitive dependence on initial conditions</em>, and it
+    is the defining feature of chaos.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">The computer is part of the experiment</span>
+      <p>A computer stores each number to about 16 significant digits and rounds after every
+      calculation. Each rounding is a tiny nudge, about 10⁻¹⁶ of the number. For the small swing
+      this does not matter. For the big swing, those nudges grow like any other error, so even our
+      simulation follows “the” exact motion only for the first twenty seconds or so. After that it is one
+      realistic motion among many. That is not a flaw in this page; it is the point.</p>
+    </aside>
+
+    <h2>How fast do errors grow?</h2>
+
+    <p>To see the pattern, measure the gap between two twins as time passes. The next figure plots
+    that gap for ten pairs of twins whose starting difference ranges from 10⁻³ radians down to
+    10⁻¹² radians (a trillionth). The vertical axis is <em>logarithmic</em>: each gridline is ten
+    times the one below, so something that multiplies by the same factor every second shows up as
+    a straight line.</p>
+
+    <p>Choose a starting difference with the slider, or tap a curve. The dashed line marks the gap
+    at which we say the forecast has failed: 0.5 radians, about 29°. Look at where each curve
+    crosses it.</p>
+
+    <figure class="fig wide" id="fig-horizon" aria-labelledby="fig-horizon-cap">
+      <div class="stage" style="--aspect: 16 / 10">
+        <canvas id="horizon-canvas" role="img" aria-label="A graph of the gap between pairs of twin pendulums against time, on a logarithmic scale. Each curve rises roughly as a straight line and then levels off; curves that start lower cross the failure line later, at roughly evenly spaced times."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="hz-k">Starting difference</label>
+          <input type="range" id="hz-k" min="3" max="12" step="1" value="6">
+          <output id="hz-k-out" for="hz-k">10⁻⁶ rad</output>
+        </div>
+        <div class="control">
+          <label for="hz-start">Swing</label>
+          <select id="hz-start">
+            <option value="big" selected>Big swing (143°, 86°)</option>
+            <option value="small">Small swing (10°, 10°)</option>
+          </select>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Forecast good for</dt><dd id="hz-time">—</dd></div>
+        <div><dt>Average gain per 10× better start</dt><dd id="hz-gain">—</dd></div>
+      </dl>
+      <div class="table-scroll">
+        <table class="sans num hz-table" id="hz-table">
+          <caption class="visually-hidden">Time until each pair of twins is 0.5 radians apart</caption>
+          <thead><tr><th scope="row">Starting difference (rad)</th></tr></thead>
+          <tbody><tr><th scope="row">Forecast good for (s)</th></tr></tbody>
+        </table>
+      </div>
+      <figcaption id="fig-horizon-cap"><span class="fig-num">Figure 3.</span>The gap between two
+      twin pendulums (distance between their angle pairs, in radians) against time, for starting
+      differences from 10⁻³ to 10⁻¹² rad. Logarithmic vertical scale. The table gives, for each pair,
+      the time until the gap first exceeds 0.5 rad.</figcaption>
+    </figure>
+
+    <p>For the big swing, each curve climbs in a rough straight line (wobbly, because the pendulum
+    speeds up and slows down) until the gap is about as large as it can get, and then levels
+    off: two pendulums cannot be more different than “anywhere versus anywhere else”. A straight
+    line on this scale means <em>exponential growth</em>: the error multiplies by a fixed factor in
+    each equal stretch of time. For this pendulum it grows about tenfold every one to two seconds.</p>
+
+    <p>Now read the table. Making the starting measurement ten times more precise does not make the
+    forecast ten times longer. It adds a roughly fixed amount of time, here one to two seconds. Going
+    from 10⁻³ to 10⁻¹² radians, a billion times better, buys only about twelve seconds. If the
+    error grows by a factor of <var>e</var><sup><var>λt</var></sup>, where <var>λ</var> is the growth
+    rate, then:</p>
+
+    <p class="formula">forecast time ≈ (1/<var>λ</var>) · ln(tolerance ÷ starting error)</p>
+
+    <p>In words: the forecast time depends on the <em>logarithm</em> of how precise you are, so
+    every extra digit of precision buys the same small extra slice of time. Switch to the small
+    swing and the picture changes completely: the gap grows only slowly, never reaches the failure
+    line, and prediction works as far ahead as you like. Regular motion forgives small errors.
+    Chaotic motion punishes them.</p>
+
+    <h2>From pendulums to the sky</h2>
+
+    <p>In 1961 the meteorologist Edward Lorenz at MIT was running a 12-variable model of the
+    atmosphere on a small valve computer. Wanting to look at one run more closely, he retyped some
+    numbers from a printout and restarted it. The printout had rounded the numbers to three decimal places (so a value like 0.506127 went back in as 0.506), while the computer worked with more digits. At first the new run matched the old one, then the
+    differences “more or less steadily doubled in size every four days or so”, and by the second
+    simulated month there was no resemblance at all.</p>
+
+    <p>In 1963 Lorenz published <cite>Deterministic Nonperiodic Flow</cite>, showing that even a
+    three-variable model of convection behaves this way, and concluded that very-long-range weather
+    prediction may be impossible. The atmosphere, like the big swing, is chaotic. Small errors in
+    today’s measurements — a gust not observed over the Pacific, a temperature reading off by a
+    tenth of a degree — double in a matter of days. Errors in the smallest motions, such as single thunderstorms, grow fastest of all and spread to larger and larger scales.</p>
+
+    <p>Lorenz’s three-variable model describes a slowly rolling cell of fluid heated from below:
+    <var>x</var> is how fast it turns (its sign is the direction), and <var>y</var> and
+    <var>z</var> describe how the temperature inside is arranged. The next figure runs two copies of
+    it whose <var>x</var> differs at the start by the amount you choose, and draws their paths. Press
+    <strong>Play</strong>. The famous two-lobed “butterfly” appears as the fluid flips unpredictably
+    between turning one way and the other, and the two paths, at first one line, eventually go
+    their own ways.</p>
+
+    <figure class="fig wide" id="fig-lorenz" aria-labelledby="fig-lorenz-cap">
+      <div class="stage" style="--aspect: 4 / 3; max-width: 34rem; margin: 0 auto">
+        <canvas id="lorenz-canvas" role="img" aria-label="Two paths traced through Lorenz’s convection model, forming a two-lobed butterfly shape. They start almost together, follow the same route for a while, then separate onto different lobes."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="lz-k">Starting difference in <var>x</var></label>
+          <input type="range" id="lz-k" min="2" max="12" step="1" value="5">
+          <output id="lz-k-out" for="lz-k">10⁻⁵</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="lz-play">Play</button>
+          <button type="button" class="btn" id="lz-restart">Restart</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Model time</dt><dd id="lz-t">0.0</dd></div>
+        <div><dt>Distance apart</dt><dd id="lz-d">0.00001</dd></div>
+        <div><dt>More than 5 apart</dt><dd id="lz-apart">not yet</dd></div>
+      </dl>
+      <figcaption id="fig-lorenz-cap"><span class="fig-num">Figure 4.</span>Lorenz’s 1963 equations
+      (with his values σ = 10, ρ = 28, β = 8/3), seen from the side: <var>x</var> across, <var>z</var>
+      up. Two runs start at <var>x</var> = 1, <var>y</var> = 1, <var>z</var> = 20, one of them nudged
+      in <var>x</var>. Time is in the model’s own units, not days.</figcaption>
+    </figure>
+
+    <p>With a difference of 10⁻⁵ the paths part after about 13 units of model time; each factor of
+    ten closer adds only about 2½ units. It is the same pattern as the pendulum’s table, in a model
+    built to imitate the atmosphere.</p>
+
+    <p>How far ahead can we hope to go? A 2019 study by Fuqing Zhang and colleagues ran two of the
+    world’s best forecasting models at very high resolution with almost perfect starting data. Their
+    answer for day-to-day weather in the mid-latitudes (where most people live) was an
+    <em>intrinsic</em> limit of roughly two weeks. Useful skill today runs out nearer ten days. Cutting today’s errors in the starting data tenfold, an enormous task, would add up to about five days: still far short of a month. That is the table of
+    Figure 3, written in the sky.</p>
+
+    <p>Forecasters have learned to work with chaos rather than against it. Instead of one
+    forecast, centres such as the European Centre for Medium-Range Weather Forecasts run an
+    <em>ensemble</em>: 51 forecasts, 50 of them started from slightly altered versions of today’s
+    best estimate, exactly like the fan of pendulums in Figure 2. When the members stay together,
+    the forecast is confident. When they fan out, the forecast says so, as a probability: “60%
+    chance of rain”.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">Weather is not climate</span>
+      <p>Chaos limits <em>weather</em> forecasting: saying what the atmosphere will be doing at a
+      particular place and time. It does not stop us predicting <em>climate</em>: the long-run
+      statistics, such as the average July temperature, under given conditions like the amount of
+      sunlight and greenhouse gas. In Figure 2 you cannot say where any one pendulum will be after
+      a minute, but you can say how much energy they all have and roughly how often the lower rod
+      flips. Weather is an initial-value problem; climate is a question about the statistics.</p>
+    </aside>
+
+    <p>So the answer to the opening question is that “deterministic” and “predictable” are
+    different things. A system can obey exact laws and still be impossible to forecast far ahead,
+    because it multiplies the error in what we know, and no measurement is perfect. Better
+    computers and better observations still help: forecasts have gained about one day of useful range per decade since the 1980s. But each gain is paid for in exponentially harder work, against a wall that sits somewhere
+    around two weeks.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Friction.</strong> The simulated pendulum has no air resistance and no friction
+          at the pivots, so it swings forever. A real one slowly runs down, and small asymmetries in
+          its bearings matter.</li>
+          <li><strong>Idealised parts.</strong> The rods are perfectly rigid and weightless, the
+          weights are points, and the motion stays in a flat plane. A real double pendulum made of
+          bars has differently shaped equations, though it is chaotic in the same way.</li>
+          <li><strong>One way of measuring the gap.</strong> Figure 3 measures only the two angles, and
+          the “failure” line at 0.5 rad is our choice. A different tolerance moves every horizon
+          by the same amount, so the fixed gain per factor of ten remains.</li>
+          <li><strong>A pendulum is a toy, not the atmosphere.</strong> The atmosphere has
+          billions of interacting motions at every scale, and errors at small scales spread upward
+          to large ones, which a two-part pendulum cannot show. The analogy is in the mathematics
+          of error growth, not in the details. The weather numbers on this page come from the
+          sources below, not from the pendulum.</li>
+          <li><strong>Figure 4 is a caricature of convection.</strong> Lorenz’s three equations keep
+          only three modes of motion of a fluid layer heated from below; a real convecting fluid, let
+          alone the atmosphere, has vastly more. They show how chaos arises, not how air moves.</li>
+          <li><strong>The two-week limit is for day-to-day weather.</strong> Zhang and colleagues’ limit
+          applies to the weather on a particular day. Seasonal outlooks (“a warmer than usual winter”)
+          and climate statistics are averages over many days and places, and they can be forecast
+          further ahead because they depend on slow drivers such as ocean temperatures and greenhouse
+          gases rather than on the exact starting state.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>E. N. Lorenz, “Deterministic Nonperiodic Flow”, <cite>Journal of the Atmospheric
+          Sciences</cite> 20 (2), 130–141 (1963).
+          <a href="https://doi.org/10.1175/1520-0469(1963)020%3C0130:DNF%3E2.0.CO;2">doi.org</a>
+          <span class="note">Nonperiodic solutions of deterministic equations are unstable to small
+          changes in the starting state; implications for very-long-range weather prediction.</span></li>
+          <li>F. Zhang, Y. Q. Sun, L. Magnusson, R. Buizza, S.-J. Lin, J.-H. Chen and K. Emanuel, “What
+          Is the Predictability Limit of Midlatitude Weather?”, <cite>Journal of the Atmospheric
+          Sciences</cite> 76 (4), 1077–1091 (2019).
+          <a href="https://doi.org/10.1175/JAS-D-18-0269.1">doi.org</a>
+          <span class="note">An intrinsic limit of about two weeks for midlatitude weather; reducing
+          initial-condition error tenfold would extend deterministic forecasts by only about 4–5
+          days.</span></li>
+          <li>A. E. Motter and D. K. Campbell, “Chaos at fifty”, <cite>Physics Today</cite> 66 (5),
+          27 (2013). <a href="https://arxiv.org/abs/1306.5777">arXiv:1306.5777</a>
+          <span class="note">The story of Lorenz’s rounding discovery (12-variable model, three
+          decimal places, errors doubling about every four days), with Lorenz’s own account.</span></li>
+          <li>ECMWF, “Fact sheet: Ensemble weather forecasting” (2017).
+          <a href="https://www.ecmwf.int/en/about/media-centre/focus/2017/fact-sheet-ensemble-weather-forecasting">ecmwf.int</a>
+          <span class="note">How ensemble forecasts work: 51 members, one control and 50 with
+          perturbed starting conditions and models; spread as a measure of confidence.</span></li>          <li>P. Bauer, A. Thorpe and G. Brunet, “The quiet revolution of numerical weather
+          prediction”, <cite>Nature</cite> 525, 47–55 (2015).
+          <a href="https://doi.org/10.1038/nature14956">doi.org</a>
+          <span class="note">Forecast skill has improved steadily, by about one day of lead time per
+          decade.</span></li>
+          <li>E. Neumann, “Double Pendulum”, <cite>myPhysicsLab</cite>.
+          <a href="https://www.myphysicslab.com/pendulum/double-pendulum-en.html">myphysicslab.com</a>
+          <span class="note">The equations of motion used in the simulation (point masses on
+          massless rods).</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="chaos">Not yet reviewed</dd>
+          <dt>Revised</dt><dd>1 October 2026, after review: lede says ten days today and two weeks at most; Figure 3 computes lazily in small steps; two notes added to “What this model leaves out”.</dd>
+        </dl>
+        <p>The simulation integrates the equations of motion with the classical fourth-order
+        Runge–Kutta method at a fixed step of 1 ms in Figures 1 to 3 (Figure 4 uses 0.005 model-time
+        units). Over a minute of the big swing the total energy drifts by less than one part in a
+        billion; small-swing periods match the textbook values of 2.62 s and 1.09 s.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

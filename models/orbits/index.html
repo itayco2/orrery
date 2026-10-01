@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why doesn’t the Moon fall down? — Orrery</title>
+<meta name="description" content="Newton’s cannon, Kepler’s ellipses and the force law: why the Moon falls all the time and never lands.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/orbits/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why doesn’t the Moon fall down? — Orrery">
+<meta property="og:description" content="Newton’s cannon, Kepler’s ellipses and the force law: why the Moon falls all the time and never lands.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/orbits/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/orbits/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why doesn’t the Moon fall down?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why doesn’t the Moon fall down? — Orrery">
+<meta name="twitter:description" content="Newton’s cannon, Kepler’s ellipses and the force law: why the Moon falls all the time and never lands.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/orbits/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why doesn’t the Moon fall down?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Exhibit · Physics</p>
+      <h1>Why doesn’t the Moon fall down?</h1>
+      <p class="lede">Nothing holds the Moon up. Earth’s gravity pulls on it every second, and it
+      does fall, all the time. It is also moving sideways so fast that it keeps missing.</p>
+      <p class="byline">Four working models: Newton’s cannon, a planet you launch yourself, the real
+      planets, and a universe with a different law of gravity.</p>
+    </header>
+
+    <p>A common answer is that the Moon, like the astronauts on the International Space Station, is
+    “beyond gravity”. It isn’t. The station flies about 400&nbsp;km up, and at that height Earth’s
+    pull is still 89% as strong as it is on the ground. The astronauts float for a different reason:
+    they and their station are falling together, so nothing pushes on their feet. An orbit is a fall
+    that never reaches the ground.</p>
+
+    <h2>Newton’s cannon</h2>
+
+    <p>Isaac Newton explained this with a thought experiment. Put a cannon on a very tall mountain,
+    above the air, and fire a ball horizontally. Gravity bends its path down and it lands some way
+    off. Fire faster and it lands farther away. But the Earth is round, so the ground under a fast
+    ball curves away beneath it. Fire fast enough and the ground curves away exactly as fast as the
+    ball falls. The ball never lands; it is in <em>orbit</em>, a path that repeatedly circles a
+    body.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Raise the speed a step at a time: each shot lands farther round the Earth, and earlier
+      shots stay as faint traces. Then press <strong>Circular speed</strong>, then try 9&nbsp;km/s,
+      then <strong>Escape speed</strong>. Lower the mountain to 0&nbsp;km to see the speeds needed at
+      the ground.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-cannon" aria-labelledby="fig-cannon-cap">
+      <div class="stage cannon-stage">
+        <canvas id="cannon-canvas" role="img" aria-label="Newton's cannon on the Earth."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="cannon-speed">Launch speed</label>
+          <input type="range" id="cannon-speed" min="0" max="12" step="0.01" value="6.9">
+          <output id="cannon-speed-out" for="cannon-speed">6.90 km/s</output>
+        </div>
+        <div class="control">
+          <label for="cannon-h">Mountain height</label>
+          <input type="range" id="cannon-h" min="0" max="3000" step="50" value="1000">
+          <output id="cannon-h-out" for="cannon-h">1,000 km</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="cannon-circ">Circular speed (7.35 km/s)</button>
+          <button type="button" class="btn" id="cannon-esc">Escape speed (10.40 km/s)</button>
+          <button type="button" class="btn" id="cannon-clear">Clear old shots</button>
+          <button type="button" class="btn" id="cannon-play">Pause</button>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="polite">
+        <div><dt>Ball falls in its first second</dt><dd id="cannon-fall">—</dd></div>
+        <div><dt>Ground curves away over that second’s travel</dt><dd id="cannon-drop">—</dd></div>
+        <div><dt>What happens</dt><dd id="cannon-result">—</dd></div>
+        <div><dt>Time</dt><dd id="cannon-time">—</dd></div>
+      </dl>
+      <figcaption id="fig-cannon-cap"><span class="fig-num">Figure 1.</span>A cannon on a mountain
+      fires horizontally, to the right. The Earth, the mountain and the paths are drawn to scale; there
+      is no air. Each shot is computed step by step from Newton’s law of gravity with the real mass of
+      the Earth.</figcaption>
+    </figure>
+
+    <p>Look at the two numbers under the figure. Whatever the launch speed, the ball falls the same
+    distance in its first second: about 4.9&nbsp;m at the ground, 3.7&nbsp;m from the top of the
+    1,000&nbsp;km mountain, where gravity is a little weaker. Speed doesn’t change how fast it falls; it changes how far it goes
+    while falling. A circle of radius <var>R</var> drops away below a straight line by about
+    <var>d</var>²/2<var>R</var> over a distance <var>d</var>. Here <var>R</var> is the distance from the Earth’s
+    centre: 6,371&nbsp;km at the ground. At 7.9&nbsp;km/s the ball covers 7.9&nbsp;km in a second, and the ground
+    drops by 7.9²/(2&nbsp;×&nbsp;6,371)&nbsp;km&nbsp;= 4.9&nbsp;m. The fall and the curve match.</p>
+
+    <p>That speed is the <em>circular speed</em>. It depends only on how strong gravity is and how
+    far you are from the centre of the Earth:</p>
+
+    <p class="formula"><var>v</var><sub>circ</sub> = √(<var>GM</var>&#8202;/&#8202;<var>r</var>)</p>
+
+    <p>Here <var>G</var> is Newton’s gravitational constant, <var>M</var> the Earth’s mass, and
+    <var>r</var> the distance from the Earth’s centre. The product <var>GM</var> for the Earth is
+    known very precisely: 398,600&nbsp;km³/s². At the surface this gives 7.9&nbsp;km/s. At the
+    Space Station’s height it gives 7.67&nbsp;km/s and one lap every 92&nbsp;minutes, which is what
+    the station really does. Notice what is missing from the formula: the mass of the ball. A
+    feather and a space station at the same height orbit at the same speed.</p>
+
+    <p>Fire faster than circular speed and the ball climbs away from the Earth on the far side, slows
+    as it climbs, and falls back to the mountain top: the orbit has stretched into an
+    <em>ellipse</em>. (From a mountain as tall as the one in the figure, a little less than circular
+    speed is already enough: the ball dips on the far side of the Earth but clears the ground. That
+    is an ellipse too, with the mountain top as its highest point.) At √2 times circular speed, 11.2&nbsp;km/s from the ground, it never comes
+    back. That is the <em>escape speed</em>.</p>
+
+    <h2>Newton’s Moon test</h2>
+
+    <p>The Moon is the same kind of cannonball, just much farther away. Newton made this check
+    himself, roughly in the 1660s and carefully in his <cite>Principia</cite> of 1687. The Moon is about 60 Earth radii away (384,400&nbsp;km). If gravity
+    weakens with the square of distance, it should pull 60²&nbsp;= 3,600 times more weakly there
+    than at the ground: 9.81&nbsp;m/s² ÷ 3,600 = 2.72&nbsp;mm/s². In one second, an acceleration
+    that small makes something fall 1.36&nbsp;mm.</p>
+
+    <p>Now the Moon itself. It travels round a circle of radius 384,400&nbsp;km once every
+    27.32&nbsp;days, a speed of 1.02&nbsp;km/s. In one second it moves 1.02&nbsp;km, and its path
+    bends away from a straight line by <var>v</var>²/2<var>r</var>&nbsp;= 1.36&nbsp;mm. The Moon
+    falls towards the Earth exactly as far each second as an apple would if it were up there. The
+    force that drops apples is the force that steers the Moon.</p>
+
+    <h2>Launch a planet</h2>
+
+    <p>The same law holds the planets round the Sun. Johannes Kepler had found, from Tycho Brahe’s
+    observations, that each planet moves on an ellipse with the Sun at one <em>focus</em>, one of
+    the two special points inside an ellipse (the distances from any point on the ellipse to the two
+    foci always add up to the same total). Newton showed that an inverse-square force makes exactly
+    this happen.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the tip of the arrow to set the planet’s starting speed and direction (or focus the
+      figure and use the arrow keys). Watch the empty focus move as the ellipse stretches. Then try
+      this: keep the arrow the same length but swing its direction. The shape changes; the period
+      doesn’t.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-planet" aria-labelledby="fig-planet-cap">
+      <div class="stage planet-stage">
+        <canvas id="planet-canvas" role="slider" aria-label="Planet launch velocity"
+                aria-valuemin="0" aria-valuemax="60" aria-valuenow="25" aria-describedby="fig-planet-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn" id="planet-circ">Circular orbit</button>
+          <button type="button" class="btn" id="planet-reset">Reset</button>
+          <button type="button" class="btn" id="planet-play">Pause</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Launch speed</dt><dd id="planet-v">—</dd></div>
+        <div><dt>Eccentricity</dt><dd id="planet-e">—</dd></div>
+        <div><dt>Period</dt><dd id="planet-T">—</dd></div>
+        <div><dt>Closest to the Sun</dt><dd id="planet-rp">—</dd></div>
+        <div><dt>Farthest</dt><dd id="planet-ra">—</dd></div>
+      </dl>
+      <figcaption id="fig-planet-cap"><span class="fig-num">Figure 2.</span>A planet launched
+      1&nbsp;AU (Earth’s distance, 150 million&nbsp;km) from the Sun. The arrow is its starting
+      velocity; at 29.8&nbsp;km/s straight up the orbit is a circle, like Earth’s. The orbit is cut
+      into 12 slices that each take the same time, one twelfth of the period. Arrow keys change the
+      velocity (Shift for bigger steps).</figcaption>
+    </figure>
+
+    <p>The <em>eccentricity</em> measures how stretched an ellipse is: 0 for a circle, close to 1 for
+    a long thin one. Earth’s orbit has 0.017; the Moon’s, 0.055.</p>
+
+    <p>The shaded slices show Kepler’s second law. Each slice is swept out in the same time, and
+    each has the same area. Near the Sun the planet moves fast and its slices are short and wide;
+    far out it crawls and they are long and thin. This is the conservation of angular momentum: with
+    a force that points straight at the Sun, nothing can speed up or slow down the planet’s
+    sweeping.</p>
+
+    <p>The period depends only on the size of the ellipse. If <var>a</var> is half its longest
+    diameter (the <em>semi-major axis</em>), then <var>T</var>&nbsp;= 2π√(<var>a</var>³/<var>GM</var>):
+    Kepler’s third law. A given launch speed at a given distance fixes the planet’s energy, and the
+    energy fixes <var>a</var>, so swinging the arrow changes the shape but not the period.</p>
+
+    <p>Kepler found this third law in 1619 by comparing the planets themselves. Figure 3 plots
+    the real ones: how far each is from the Sun, in <em>astronomical units</em> (AU, the Earth’s
+    average distance, 149.6 million&nbsp;km), against how long its year is. With these units the
+    law becomes simply <var>T</var>²&nbsp;= <var>a</var>³.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Move your own planet along the line and compare the last two readouts: they are always
+      equal. Then switch off the logarithmic axes. On ordinary axes the inner planets crowd into
+      a corner and the law looks like a bent curve; on logarithmic axes, where each step multiplies
+      by the same factor, it is a straight line that rises 3 steps for every 2 across.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-kepler" aria-labelledby="fig-kepler-cap">
+      <div class="stage kepler-stage">
+        <canvas id="kepler-canvas" role="img" aria-label="Orbital period against distance from the Sun for the eight planets."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="kepler-a">Your planet’s distance</label>
+          <input type="range" id="kepler-a" min="-0.7" max="1.6" step="0.001" value="0.442">
+          <output id="kepler-a-out" for="kepler-a">2.77 AU</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="kepler-log" checked> Logarithmic axes</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Its year lasts</dt><dd id="kepler-T">—</dd></div>
+        <div><dt><var>a</var>³ (AU³)</dt><dd id="kepler-a3">—</dd></div>
+        <div><dt><var>T</var>² (years²)</dt><dd id="kepler-T2">—</dd></div>
+      </dl>
+      <figcaption id="fig-kepler-cap"><span class="fig-num">Figure 3.</span>The eight planets
+      (green) and the line <var>T</var>²&nbsp;= <var>a</var>³ (brass). The slider starts at
+      2.77&nbsp;AU, the dwarf planet Ceres in the asteroid belt. Each planet lies within 2.5% of
+      the line using NASA’s rounded distances; Neptune, at 164&nbsp;years, is the farthest
+      off.</figcaption>
+    </figure>
+
+    <h2>What if gravity were different?</h2>
+
+    <p>Why ellipses, and not some other curve? It comes down to the exact way gravity weakens with
+    distance. Newton’s law says the force falls off as 1/<var>r</var>², the inverse square. Suppose
+    instead it fell off as 1/<var>r</var><sup><var>n</var></sup> for some other power
+    <var>n</var>.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Slide <var>n</var> slowly through 2. Watch the red dots, which mark each closest approach.
+      Only at exactly <var>n</var>&nbsp;= 2 do they sit on top of each other. Then press
+      <strong>Spring</strong>.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-law" aria-labelledby="fig-law-cap">
+      <div class="stage law-stage">
+        <canvas id="law-canvas" role="img" aria-label="An orbit under a different force law."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="law-n">Force ∝ 1/rⁿ</label>
+          <input type="range" id="law-n" min="1" max="3" step="0.05" value="2.5" list="law-n-marks">
+          <datalist id="law-n-marks"><option value="2"></option></datalist>
+          <output id="law-n-out" for="law-n">n = 2.50</output>
+        </div>
+        <div class="control">
+          <label for="law-v">Speed (% of circular)</label>
+          <input type="range" id="law-v" min="0.5" max="1.2" step="0.01" value="0.8">
+          <output id="law-v-out" for="law-v">80%</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="law-newton">Newton (n = 2)</button>
+          <button type="button" class="btn" id="law-spring" aria-pressed="false">Spring (force ∝ r)</button>
+          <button type="button" class="btn" id="law-play">Pause</button>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="polite">
+        <div><dt>Force law</dt><dd id="law-name">—</dd></div>
+        <div><dt>Turn from one closest approach to the next</dt><dd id="law-aps">—</dd></div>
+        <div><dt>Closest point</dt><dd id="law-shift">—</dd></div>
+      </dl>
+      <figcaption id="fig-law-cap"><span class="fig-num">Figure 4.</span>A body launched sideways
+      from distance 1 around a fixed centre, under a force that weakens as 1/rⁿ. The strength is set
+      so a circular orbit at distance 1 always has the same speed. The faint line is about 14 orbits
+      of path; the bright trail is the last few.</figcaption>
+    </figure>
+
+    <p>For any other power the orbit does not close. The closest point creeps round a little each
+    lap and the path draws a rosette. For <var>n</var> below 2 the closest point slips backwards; above
+    2 it runs ahead; near 3 the orbit becomes violently unstable and the body can spiral into the
+    centre. In 1873 Joseph Bertrand proved that only two force laws make every bound orbit close on
+    itself: the inverse square, and a spring-like force that grows in proportion to distance. The
+    spring gives ellipses too, but with the centre of force at the middle of the ellipse, not at a
+    focus.</p>
+
+    <p>Real orbits do creep slightly. Mercury’s closest point to the Sun advances by about 575
+    arcseconds (0.16°) a century. About 532″ of that comes from the pull of the other planets.
+    The last 43″ puzzled astronomers for half a century, until Einstein’s general relativity
+    explained it in 1915: near the Sun, gravity is very slightly not inverse-square.</p>
+
+    <h2>So why doesn’t the Moon fall down?</h2>
+
+    <p>It does. Every second it falls 1.36&nbsp;mm towards us, and every second it moves 1.02&nbsp;km
+    sideways, far enough that the Earth has curved away beneath it. The speed an orbit needs depends
+    only on the mass of the body being orbited and the distance from it, never on what is doing the
+    orbiting. And because gravity weakens as exactly the inverse square of distance, the fall closes
+    up into an ellipse with the planet at one focus, repeating for billions of years.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Air.</strong> Figure 1 has none. A real ball fired at 8&nbsp;km/s through the lower
+          atmosphere would be slowed and heated violently; even the Space Station feels a trace of air
+          and has to be boosted back up regularly.</li>
+          <li><strong>Only two bodies.</strong> Each figure has one body orbiting a fixed centre.
+          Really both move round their shared centre of mass, and other bodies tug too: the Sun
+          stretches the Moon’s orbit, and the other planets turn Mercury’s. (With Earth’s
+          <var>GM</var> alone, Kepler’s law gives the Moon a period of 27.45&nbsp;days; adding the
+          Moon’s own mass, 1.2% of Earth’s, gives 27.28; the Sun’s pull on the Moon accounts for
+          most of the rest of the way to the observed 27.32.)</li>
+          <li><strong>A perfect sphere.</strong> The Earth is slightly flattened, which slowly turns
+          the orbits of low satellites.</li>
+          <li><strong>Relativity.</strong> Newton’s law is used throughout; general relativity adds
+          the small extra precession described above.</li>
+          <li><strong>Flat.</strong> Every orbit here lies in one plane. That is true of any
+          two-body orbit, but real orbits are tilted against each other.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>D. R. Williams, <cite>Earth Fact Sheet</cite>, NASA Goddard Space Flight Center.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">nssdc.gsfc.nasa.gov</a>
+          <span class="note">Earth’s GM (0.39860&nbsp;×&nbsp;10⁶&nbsp;km³/s²), mean radius
+          6,371.0&nbsp;km, escape speed 11.186&nbsp;km/s; used in Figure 1.</span></li>
+          <li>D. R. Williams, <cite>Moon Fact Sheet</cite>, NASA Goddard Space Flight Center.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html">nssdc.gsfc.nasa.gov</a>
+          <span class="note">The Moon’s semi-major axis 384,400&nbsp;km, mean orbital speed
+          1.022&nbsp;km/s, sidereal period 27.32&nbsp;days, eccentricity 0.055; used in the Moon
+          test.</span></li>
+          <li>D. R. Williams, <cite>Planetary Fact Sheet</cite>, NASA Goddard Space Flight Center.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">nssdc.gsfc.nasa.gov</a>
+          <span class="note">The planets’ distances from the Sun and orbital periods in Figure 3.</span></li>
+          <li>W. Moebs, S. J. Ling and J. Sanny, <cite>University Physics, Volume 1</cite> (OpenStax,
+          2016), §13.4 “Satellite Orbits and Energy”.
+          <a href="https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy">openstax.org</a>
+          <span class="note">Circular speed √(GM/r), escape speed √2 times larger, and the ISS
+          example: 400&nbsp;km up, 7.67&nbsp;km/s, a period of 5,550&nbsp;s (92&nbsp;minutes).</span></li>
+          <li>C. M. Will, “The Confrontation between General Relativity and Experiment”,
+          <cite>Living Reviews in Relativity</cite> 17, 4 (2014).
+          <a href="https://arxiv.org/abs/1403.7377">arxiv.org</a>
+          <span class="note">The 43″ per century of Mercury’s perihelion advance explained by general
+          relativity.</span></li>
+          <li>“Bertrand’s theorem”, <cite>Wikipedia</cite> (consulted 1 October 2026), citing
+          J. Bertrand, <cite>Comptes Rendus</cite> 77, 849–853 (1873) and Goldstein’s
+          <cite>Classical Mechanics</cite>.
+          <a href="https://en.wikipedia.org/wiki/Bertrand%27s_theorem">en.wikipedia.org</a>
+          <span class="note">Only the inverse-square and the linear (spring) force make every bound
+          orbit close. The rosette angles in Figure 4 were also checked against the standard
+          near-circular result, 360°/√(3−n) from one closest approach to the next.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="orbits">Not yet reviewed</dd>
+        </dl>
+        <p>Figures 1 and 4 integrate Newton’s equations with velocity Verlet, using a step that is a
+        fixed small fraction of the local orbital time, so it shrinks near close approach. Figure 2
+        draws the exact ellipse and places the planet by solving Kepler’s equation. The numerical
+        checks (energy drift, periods against Kepler’s third law, the Moon test) were run on the
+        model.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

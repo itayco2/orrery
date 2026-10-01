@@ -1,0 +1,6 @@
+/* rainbow exhibit — local styles */
+.stage.split { aspect-ratio: 16 / 8; }
+@media (max-width: 600px) { .stage.split { aspect-ratio: 4 / 5; } }
+.stage.sky { aspect-ratio: 16 / 8.5; }
+@media (max-width: 600px) { .stage.sky { aspect-ratio: 4 / 3; } }
+.swatch { display: inline-block; width: .8em; height: .8em; border-radius: 2px; vertical-align: -.05em; margin-right: .3em; border: 1px solid var(--rule); }

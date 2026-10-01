@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How does a machine learn from examples? — Orrery</title>
+<meta name="description" content="An explorable explanation of neural networks: one neuron draws a line, gradient descent walks downhill on a loss, and a tiny network trained live in your browser bends its boundary to fit XOR, a circle or two moons.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/neural-net/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How does a machine learn from examples? — Orrery">
+<meta property="og:description" content="An explorable explanation of neural networks: one neuron draws a line, gradient descent walks downhill on a loss, and a tiny network trained live in your browser bends its boundary to fit XOR, a circle or two moons.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/neural-net/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/neural-net/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “How does a machine learn from examples?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How does a machine learn from examples? — Orrery">
+<meta name="twitter:description" content="An explorable explanation of neural networks: one neuron draws a line, gradient descent walks downhill on a loss, and a tiny network trained live in your browser bends its boundary to fit XOR, a circle or two moons.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/neural-net/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “How does a machine learn from examples?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Computing</p>
+      <h1>How does a machine learn from examples?</h1>
+      <p class="lede">Nobody writes the rules into a neural network. It starts as a pile of random
+      numbers, makes guesses, measures how wrong they are, and nudges every number a little in
+      whichever direction makes it less wrong. Here you can do each of those steps yourself.</p>
+      
+    </header>
+
+    <p>A common picture of artificial intelligence is a program full of rules that someone typed in:
+    <em>if the email mentions a prize, it is spam</em>. Neural networks work the other way round. Their
+    makers write down a formula with many adjustable numbers in it, show it thousands of
+    <em>examples</em> (inputs together with the right answer), and let a simple procedure tune the
+    numbers until the formula gives the right answers. Nobody chooses the final numbers, and nobody
+    writes a rule.</p>
+
+    <p>To see how that can work, start with the smallest possible piece.</p>
+
+    <h2>One neuron draws a line</h2>
+
+    <p>Each example below is a dot on a square. Its position gives two measurements, which we call
+    <var>x</var>₁ (across) and <var>x</var>₂ (up), each between −1 and 1. Its shape gives the right
+    answer, its <em>label</em>: a teal circle or a brass square.</p>
+
+    <p>An artificial <em>neuron</em> takes the two measurements, multiplies each by a number called a
+    <em>weight</em>, adds them up, and adds one more number called the <em>bias</em>:</p>
+
+    <p class="formula"><var>z</var> = <var>w</var>₁<var>x</var>₁ + <var>w</var>₂<var>x</var>₂ + <var>b</var></p>
+
+    <p>It then squashes <var>z</var> into a number between 0 and 1 with the <em>sigmoid</em> function,
+    σ(<var>z</var>) = 1 / (1 + e<sup>−<var>z</var></sup>), where e ≈ 2.718 is the base of
+    natural logarithms. Read the result as the neuron’s answer to “how
+    sure am I that this is a circle?” When <var>z</var> is large and positive the answer is close to 1;
+    large and negative, close to 0; and exactly 0.5 when <var>z</var> = 0. The points where
+    <var>z</var> = 0 form a straight line, so a single neuron can only ever split the plane with a
+    straight line. The weights tilt the line, the bias slides it, and bigger weights make the
+    neuron more confident: its soft edge gets sharper.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the line (or its round handles, to turn it), or move the three sliders, and get the
+      number of mistakes (dots ringed in red) as low as you can. Then make both weights larger without changing their ratio, and watch the shading go from a
+      gentle blur to a hard edge.</p>
+    </aside>
+
+    <figure class="fig" id="fig-neuron" aria-labelledby="fig-neuron-cap">
+      <div class="stage nn-square">
+        <canvas id="neuron-canvas" role="img" aria-label="Thirty dots of two kinds on a square, a straight line set by the neuron's weights and bias, and shading that shows how sure the neuron is on each side of the line. Mistakes are ringed in red. The mistake count and loss are given as text below."></canvas>
+      </div>
+      <p class="nn-legend" aria-hidden="true"><span class="sw circle"></span>label: circle (1)<span class="sw square"></span>label: square (0)<span class="sw ring"></span>mistake</p>
+      <div class="controls">
+        <div class="control">
+          <label for="neuron-w1">Weight <var>w</var>₁</label>
+          <input type="range" id="neuron-w1" min="-6" max="6" step="0.1" value="1.5">
+          <output id="neuron-w1-out" for="neuron-w1">1.5</output>
+        </div>
+        <div class="control">
+          <label for="neuron-w2">Weight <var>w</var>₂</label>
+          <input type="range" id="neuron-w2" min="-6" max="6" step="0.1" value="-0.5">
+          <output id="neuron-w2-out" for="neuron-w2">−0.5</output>
+        </div>
+        <div class="control">
+          <label for="neuron-b">Bias <var>b</var></label>
+          <input type="range" id="neuron-b" min="-3" max="3" step="0.1" value="0.4">
+          <output id="neuron-b-out" for="neuron-b">0.4</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="neuron-reset">Reset</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Mistakes</dt><dd id="neuron-wrong">8 of 30</dd></div>
+        <div><dt>Loss (average cross-entropy)</dt><dd id="neuron-loss">0.575</dd></div>
+        <div><dt>The line</dt><dd id="neuron-eq">1.5·x₁ − 0.5·x₂ + 0.4 = 0</dd></div>
+      </dl>
+      <figcaption id="fig-neuron-cap"><span class="fig-num">Figure 1.</span>One neuron. Drag the line to
+      slide it, drag a handle to turn it, or use the sliders. The line is where the neuron is exactly 50–50; teal shading means it leans towards “circle”, brass towards “square”,
+      and the stronger the colour, the surer it is.</figcaption>
+    </figure>
+
+    <p>Counting mistakes is the natural score, but it is a poor guide for tuning. Nudge a weight a
+    tiny bit and the count usually doesn’t change at all, so it can’t tell you which way to go.
+    Machine learning uses a smoother score called the <em>loss</em>: a single number that is near 0 for
+    confident right answers and grows the more wrong they are.</p>
+
+    <p>The loss used here is <em>cross-entropy</em>. For each example, take the probability the
+    neuron gave to the <em>right</em> answer and work out its negative natural logarithm. A confident
+    right answer (probability 0.9) costs 0.11. A shrug (0.5) costs 0.69. A confident wrong answer, giving
+    the right answer only 0.01, costs 4.6. The loss is the average over all the examples. Because
+    every slight turn of a slider changes every probability slightly, the loss changes smoothly too,
+    and that is what makes the next step possible.</p>
+
+    <h2>Walking downhill</h2>
+
+    <p>You tuned the neuron by eye. A computer does it by asking, for each weight: if I increase this
+    number a little, does the loss go up or down, and how steeply? That rate of change is the
+    <em>slope</em> of the loss (with many weights, the list of all the slopes is called the
+    <em>gradient</em>). Then it moves each weight a small step against its slope, downhill:</p>
+
+    <p class="formula">new <var>w</var> = <var>w</var> − <var>η</var> × slope</p>
+
+    <p>The number <var>η</var> (the Greek letter eta) is the <em>learning rate</em>, or step size. It
+    is chosen by people, not learned, and getting it right is one of the main practical chores of
+    training real networks. This method is called <em>gradient descent</em>.</p>
+
+    <p>To see the learning rate on its own, the next figure uses the simplest loss there is, a bowl
+    with one weight: <var>L</var>(<var>w</var>) = (<var>w</var> − 3)². Its lowest point is at
+    <var>w</var> = 3, and its slope at any <var>w</var> is 2(<var>w</var> − 3). The teal line shows
+    the slope where the ball sits.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press <em>Play</em> with a step size of 0.1: steady progress. Reset and try 0.01 (painfully
+      slow), 0.5 (one step), 0.8 (overshoots, then settles), 1 (bounces forever) and 1.05 (each jump
+      bigger than the last).</p>
+    </aside>
+
+    <figure class="fig" id="fig-down" aria-labelledby="fig-down-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 9">
+        <canvas id="down-canvas" role="img" aria-label="A U-shaped loss curve with its minimum at weight 3. A ball marks the current weight, with dots for its earlier positions and a line showing the slope. Current weight, loss and slope are given as text below."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="down-rate">Step size <var>η</var></label>
+          <input type="range" id="down-rate" min="0" max="15" step="1" value="3">
+          <output id="down-rate-out" for="down-rate">0.10</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="down-play">Play</button>
+          <button type="button" class="btn" id="down-step">One step</button>
+          <button type="button" class="btn" id="down-reset">Reset to w = −1</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Weight <var>w</var></dt><dd id="down-w">−1.000</dd></div>
+        <div><dt>Loss <var>L</var>(<var>w</var>)</dt><dd id="down-loss">16.000</dd></div>
+        <div><dt>Slope</dt><dd id="down-slope">−8.000</dd></div>
+        <div><dt>Steps taken</dt><dd id="down-steps">0</dd></div>
+      </dl>
+      <p class="readout" id="down-state" aria-live="polite">Creeping downhill from one side.</p>
+      <figcaption id="fig-down-cap"><span class="fig-num">Figure 2.</span>Gradient descent on a
+      bowl-shaped loss, starting from <var>w</var> = −1. Each step moves the weight by the step size
+      times the slope, in the downhill direction.</figcaption>
+    </figure>
+
+    <p>Why those particular numbers? On this bowl, each step multiplies the distance from the bottom
+    by (1 − 2<var>η</var>). With <var>η</var> = 0.1 that factor is 0.8, so every step removes a fifth
+    of the remaining distance. At 0.5 the factor is 0, so the first step lands exactly on the bottom.
+    Between 0.5 and 1 the factor is negative but smaller than 1 in size: the ball jumps across the
+    bowl each time, but by less and less. Above 1, each jump is larger than the one before, and the
+    weight runs off to infinity. Real losses are not perfect bowls, but the same three behaviours
+    (too slow, about right, unstable) show up in real training runs.</p>
+
+    <h2>More neurons bend the line</h2>
+
+    <p>Some patterns can’t be split by any straight line. The classic one is called XOR
+    (“exclusive or”): circles in the top-right and bottom-left corners, squares in the other two.
+    Any straight line you draw leaves at least one corner on the wrong side.</p>
+
+    <p>The fix is to put neurons in front of the neuron. In a <em>hidden layer</em>, several neurons
+    each look at the inputs and draw their own line. Each passes its <var>z</var> through
+    <em>tanh</em>, a squashing function shaped like the sigmoid but running from −1 to 1. A final
+    <em>output neuron</em> then treats their answers as its inputs, weighs them and adds a bias, just as
+    before. Combining several soft-edged lines lets the network carve out corners, stripes and
+    blobs. A network with <var>H</var> hidden units has 4<var>H</var> + 1 adjustable numbers, which
+    we call its <em>parameters</em>.</p>
+
+    <p>Finding the slope for every one of those parameters is done by <em>backpropagation</em>,
+    popularised by Rumelhart, Hinton and Williams in 1986. It applies the chain rule of calculus,
+    starting from the loss and working backwards through the layers, so all the slopes come out of
+    a single backward pass. The network below trains this way, live in your browser. At every step it
+    looks at all 120 examples, computes the gradient, and takes one step of gradient descent.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Watch the boundary bend as the loss falls. Then set the hidden layer to <strong>1 unit</strong>:
+      it is back to a single line, and stalls with about a quarter of the dots wrong. With <strong>2
+      units</strong>, XOR is just possible, but press <em>New starting weights</em> a few times: some
+      starting points get stuck. Finally, push the learning rate up to 8 or 16 and watch training turn
+      jumpy.</p>
+    </aside>
+
+    <figure class="fig" id="fig-net" aria-labelledby="fig-net-cap">
+      <div class="stage nn-square scrollable">
+        <canvas id="net-canvas" role="img" aria-label="A heat map of a small neural network's answers over the square, with the 120 training dots on top. The boundary between the two colours changes as the network trains. Training steps, loss and mistakes are given as text below."></canvas>
+      </div>
+      <p class="nn-legend" aria-hidden="true"><span class="sw circle"></span>circle (1)<span class="sw square"></span>square (0)<span class="sw ring"></span>mistake</p>
+      <div class="stage nn-loss scrollable">
+        <canvas id="net-loss-canvas" role="img" aria-label="The loss plotted against training steps, falling from about 0.7 towards 0 as the network learns. A dashed line marks 0.69, the loss of a coin-flip guess."></canvas>
+      </div>
+      <div class="controls">
+        <fieldset class="radio-row">
+          <legend>Examples</legend>
+          <label><input type="radio" name="net-data" value="xor" checked> XOR</label>
+          <label><input type="radio" name="net-data" value="circle"> Circle</label>
+          <label><input type="radio" name="net-data" value="moons"> Two moons</label>
+        </fieldset>
+        <div class="control">
+          <label for="net-hidden">Hidden layer</label>
+          <input type="range" id="net-hidden" min="1" max="8" step="1" value="4">
+          <output id="net-hidden-out" for="net-hidden">4 units</output>
+        </div>
+        <div class="control">
+          <label for="net-rate">Learning rate <var>η</var></label>
+          <input type="range" id="net-rate" min="0" max="9" step="1" value="4">
+          <output id="net-rate-out" for="net-rate">0.50</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="net-play">Pause</button>
+          <button type="button" class="btn" id="net-step">+100 steps</button>
+          <button type="button" class="btn" id="net-reset">Reset to starting weights</button>
+          <button type="button" class="btn" id="net-new">New starting weights</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Training steps</dt><dd id="net-epoch">0</dd></div>
+        <div><dt>Loss (average cross-entropy)</dt><dd id="net-loss">—</dd></div>
+        <div><dt>Mistakes</dt><dd id="net-wrong">—</dd></div>
+        <div><dt>Parameters</dt><dd id="net-params">17</dd></div>
+        <div><dt>Random seed</dt><dd id="net-seed">1</dd></div>
+      </dl>
+      <figcaption id="fig-net-cap"><span class="fig-num">Figure 3.</span>A network with two inputs,
+      one hidden layer of tanh units and a sigmoid output, trained by full-batch gradient descent on
+      cross-entropy. The starting weights come from a random-number generator with a fixed seed, so
+      “Reset” replays the same run. Training pauses when the figure is off screen, and if you prefer
+      reduced motion it waits for you to press Train.</figcaption>
+    </figure>
+
+    <p>Nothing in the code mentions corners, circles or moons. The network is told only the 120
+    examples and the rule “go downhill on the loss”, and the shape appears. That is all “learning”
+    means here: adjusting numbers so that a formula fits a set of examples.</p>
+
+    <h2>Memorising is not learning</h2>
+
+    <p>Getting every training example right sounds like success, but it isn’t the goal. What we want
+    is a network that gets <em>new</em> examples right, ones it has never seen. Real data is also
+    messy: some examples are simply mislabelled.</p>
+
+    <p>The next figure trains a network on only 30 examples drawn from the circle pattern, with
+    one label in ten flipped at random to stand for that mess. Alongside, it tests the same network
+    on 400 <em>fresh</em> examples from the same source, which it never trains on. Because a tenth
+    of the fresh labels are flipped too, even a perfect circle would get about 10% of them wrong.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Watch the two lines in the chart. Early on, both fall together. Then the dashed brass line
+      (training mistakes) keeps falling towards zero while the solid teal one (fresh mistakes)
+      turns and climbs: the boundary twists to grab individual noisy dots. Tick <em>Show fresh
+      examples</em> to see what it gets wrong. Then try 2 hidden units: too few to memorise, so it
+      can never reach zero on the training set.</p>
+    </aside>
+
+    <figure class="fig" id="fig-fit" aria-labelledby="fig-fit-cap">
+      <div class="stage nn-square scrollable">
+        <canvas id="fit-canvas" role="img" aria-label="A heat map of a network's answers, trained on 30 noisy examples of a circle pattern. With many hidden units the boundary becomes twisted around individual dots. Mistakes on training and fresh examples are given as text below."></canvas>
+      </div>
+      <p class="nn-legend" aria-hidden="true"><span class="sw circle"></span>circle (1)<span class="sw square"></span>square (0)<span class="sw ring"></span>training mistake</p>
+      <div class="stage nn-loss scrollable">
+        <canvas id="fit-chart" role="img" aria-label="Mistakes on the training examples (dashed) and on fresh examples (solid) plotted against training steps. Training mistakes fall towards zero while fresh mistakes first fall and then rise."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="fit-hidden">Hidden layer</label>
+          <input type="range" id="fit-hidden" min="0" max="4" step="1" value="3">
+          <output id="fit-hidden-out" for="fit-hidden">16 units</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="fit-play">Pause</button>
+          <button type="button" class="btn" id="fit-reset">Reset to starting weights</button>
+          <label class="toggle"><input type="checkbox" id="fit-fresh-toggle"> Show fresh examples</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Training steps</dt><dd id="fit-steps">0</dd></div>
+        <div><dt><span class="key" style="--key: var(--brass)" aria-hidden="true"></span>Training mistakes (dashed)</dt><dd id="fit-train">—</dd></div>
+        <div><dt><span class="key" style="--key: var(--verdigris)" aria-hidden="true"></span>Fresh mistakes (solid)</dt><dd id="fit-fresh">—</dd></div>
+        <div><dt>Fewest fresh mistakes so far</dt><dd id="fit-best">—</dd></div>
+      </dl>
+      <figcaption id="fig-fit-cap"><span class="fig-num">Figure 4.</span>The same kind of network as
+      Figure 3 (learning rate 1), trained on 30 examples with 10% of labels flipped, and scored on 400
+      fresh examples it never trains on. Training stops after 40,000 steps.</figcaption>
+    </figure>
+
+    <p>This is called <em>overfitting</em>: the network has stopped learning the pattern and started
+    memorising the examples, noise included. With 16 hidden units it has 65 adjustable numbers to fit
+    30 examples, so it can. In this run, fresh mistakes bottom out at 15% after about 150 steps,
+    then climb to about 37% while training mistakes reach zero. The simplest cure is visible in the last readout: stop
+    training when fresh mistakes are lowest, a trick called <em>early stopping</em>. More data
+    helps most of all.</p>
+
+    <h2>From 17 numbers to billions</h2>
+
+    <p>Large
+    language models are trained on the same principle as the small network here: a loss that measures how wrong the guesses are, gradients computed by backpropagation,
+    and many small downhill steps. The differences are of scale and design. For a published
+    example, GPT-3, a language model from 2020, has 175 billion parameters and was trained on 300
+    billion <em>tokens</em> (pieces of words) of text. Its loss measures how well it predicts the next
+    token. Such models use an architecture called the <em>transformer</em>, which is not shown here.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Mini-batches.</strong> Figure 3 computes the gradient from all 120 examples at
+          every step. Real training uses <em>stochastic</em> gradient descent: each step uses a small
+          random batch, which is noisier but far cheaper when there are billions of examples. Real
+          training also usually uses refinements of plain gradient descent (momentum, Adam).</li>
+          <li><strong>Other activations.</strong> We use sigmoid and tanh. Most modern networks use
+          others, such as the ReLU (max(0, <var>z</var>)) and its relatives, which train faster in deep
+          networks.</li>
+          <li><strong>Overfitting, properly.</strong> Figure 4 shows overfitting on a toy problem, but
+          not the usual remedies: regularisation (penalising large weights), dropout, data
+          augmentation, and the practice of keeping a separate validation set for choosing when to
+          stop and a test set that is looked at only once. Very large modern networks can also behave
+          in more surprising ways than this small one.</li>
+          <li><strong>Architecture.</strong> Real large models have many layers and specialised
+          structures (convolutions for images, transformers with attention for text), not one small
+          hidden layer.</li>
+          <li><strong>The bowl.</strong> Figure 2’s loss is a perfect parabola with one weight. Real
+          losses have millions or billions of dimensions, flat regions and many low points. The
+          step size that works best changes during training, and in practice it is often reduced on a
+          schedule.</li>
+          <li><strong>What “learning” means.</strong> Here it means fitting a function to examples by
+          adjusting numbers. It says nothing about understanding, and the brain’s neurons work very
+          differently from these.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>Michael A. Nielsen, <cite>Neural Networks and Deep Learning</cite> (Determination Press,
+          2015), chapters 1–3. <a href="http://neuralnetworksanddeeplearning.com/">neuralnetworksanddeeplearning.com</a>
+          <span class="note">Sigmoid neurons, gradient descent and the learning rate (ch. 1),
+          backpropagation (ch. 2), and the cross-entropy cost −[<var>y</var> ln <var>a</var> + (1 − <var>y</var>) ln(1 − <var>a</var>)]
+          averaged over examples (ch. 3).</span></li>
+          <li>Ian Goodfellow, Yoshua Bengio and Aaron Courville, <cite>Deep Learning</cite> (MIT Press,
+          2016), §4.3 and §6.5. <a href="https://www.deeplearningbook.org/">deeplearningbook.org</a>
+          <span class="note">Gradient descent and the effect of the learning rate (§4.3); XOR as the
+          example a linear model cannot learn and a hidden layer can (§6.1); back-propagation (§6.5);
+          stochastic gradient descent (§8.3).</span></li>
+          <li>David E. Rumelhart, Geoffrey E. Hinton and Ronald J. Williams, “Learning representations
+          by back-propagating errors”, <cite>Nature</cite> 323, 533–536 (1986).
+          <a href="https://doi.org/10.1038/323533a0">doi:10.1038/323533a0</a>
+          <span class="note">The paper that made backpropagation through hidden layers widely known.</span></li>
+          <li>Tom B. Brown and others, “Language Models are Few-Shot Learners” (2020).
+          <a href="https://arxiv.org/abs/2005.14165">arXiv:2005.14165</a>
+          <span class="note">GPT-3: 175 billion parameters (abstract); trained on 300 billion tokens
+          (Table 2.1).</span></li>
+          <li>Daniel Smilkov, Shan Carter, D. Sculley, Fernanda B. Viégas and Martin Wattenberg,
+          “Direct-Manipulation Visualization of Deep Networks” (2017), describing the TensorFlow
+          Playground. <a href="https://arxiv.org/abs/1708.03788">arXiv:1708.03788</a>
+          <span class="note">Prior art for training a small network live in the browser on
+          two-dimensional toy datasets. Figure 3 is our own design and code.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          <dt>Review</dt><dd data-orrery-review="neural-net">Not yet reviewed</dd>
+        </dl>
+        <p>The gradients in Figure 3 were checked against finite differences (largest relative
+        error 6 × 10⁻⁹). The model code is in <code>nn.js</code>.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+<script src="../../assets/orrery.js"></script>
+<script src="nn.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

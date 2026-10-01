@@ -1,0 +1,8 @@
+/* chaos exhibit — local styles */
+.hz-table { margin: 0.6rem 0 0; font-size: 0.85rem; }
+.hz-table th, .hz-table td { padding: 0.2rem 0.45rem; text-align: right; white-space: nowrap; }
+.hz-table th[scope=row] { text-align: left; font-weight: 600; color: var(--ink-2); }
+.hz-table td.sel { background: var(--paper-3); color: var(--ink); font-weight: 650; }
+@media (max-width: 520px) {
+  #fig-horizon .stage { --aspect: 1 / 1 !important; }
+}

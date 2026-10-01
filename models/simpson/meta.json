@@ -1,0 +1,14 @@
+{
+  "slug": "simpson",
+  "title": "Better in every group, worse overall?",
+  "question": "How can a treatment win for small kidney stones and for large ones, yet lose overall?",
+  "field": "Reasoning",
+  "summary": "Simpson's paradox: make it happen with your own numbers, see it in real kidney-stone data, and understand it as unequal weights — then decide which number to trust.",
+  "built": "2026-10-01",
+  "status": "published",
+  "review": {
+    "date": "2026-10-01",
+    "verdict": "pass-with-fixes"
+  },
+  "thumbnail": "thumb.png"
+}
