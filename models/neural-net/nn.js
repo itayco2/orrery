@@ -1,6 +1,6 @@
 /* Model maths for "How does a machine learn from examples?"
    Plain functions on a global NN, so the page and a Node gradient check
-   (company/work/neural-net/gradcheck.js) run exactly the same code. */
+   run exactly the same code. */
 (function (root) {
   "use strict";
 

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Orrery — shared helpers for exhibits and site pages.       window.Orrery
    Classic script (no modules), no dependencies, no network.
-   Full API with examples: /workspace/company/tools/README.md ("The kit").
+   API: the comments below, and models/_template/ for a working example.
 
    Orrery.canvas(canvas, draw)        HiDPI canvas that redraws on resize
    Orrery.loop(el, step, opts)        animation loop; pauses off-screen, when
@@ -336,24 +336,7 @@
   }
   window.addEventListener("hashchange", openFromHash);
 
-  /* Exhibit colophons: <dd data-orrery-review="<slug>">Not yet reviewed</dd>
-     is filled in from window.ORRERY_MODELS (../manifest.js), so a review
-     verdict recorded in meta.json shows up after the next publish. The line
-     names no reviewer: "Passed, with fixes — reviewed 2026-10-01". */
-  function fillReviews() {
-    var models = window.ORRERY_MODELS || [];
-    var els = document.querySelectorAll("[data-orrery-review]");
-    for (var i = 0; i < els.length; i++) {
-      var slug = els[i].getAttribute("data-orrery-review"), m = null;
-      for (var j = 0; j < models.length; j++) if (models[j].slug === slug) m = models[j];
-      if (!m) continue;                     // not published: keep the page's own text
-      var r = m.review;
-      els[i].textContent = !r ? "Not yet reviewed" :
-        (r.verdict === "needs-work" ? "Needs work" : r.verdict === "pass-with-fixes" ? "Passed, with fixes" : "Passed") +
-        " — reviewed " + r.date;
-    }
-  }
-  function ready() { openFromHash(); fillReviews(); }
+  function ready() { openFromHash(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready);
   else ready();
 

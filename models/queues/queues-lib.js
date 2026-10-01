@@ -1,6 +1,6 @@
 /* queues-lib.js — random numbers, queueing formulas and small simulators for
    the "queues" exhibit. Classic script: defines window.QLib (and module.exports
-   under node, so the checks in company/work/queues/ can run the same code). */
+   under node, so the model's check scripts can run the same code). */
 (function (root) {
   "use strict";
 

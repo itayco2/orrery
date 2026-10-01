@@ -6,9 +6,5 @@
   "summary": "Diffie–Hellman key exchange, first with paint and then with arithmetic on a clock: perform the exchange with small numbers, watch an eavesdropper search, and see why each extra bit doubles her work.",
   "built": "2026-10-01",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }

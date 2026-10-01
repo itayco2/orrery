@@ -1,6 +1,6 @@
 /* Seasons model: Earth's orbit (a Kepler ellipse) and sunlight at the top of
    the atmosphere. Classic script; sets window.SeasonsModel (or module.exports
-   under node, for the checks in company/work/seasons/check-model.js).
+   under node, for the model's check scripts).
 
    Time t is in days since 2026-01-01 00:00 UTC.
    Angles in radians unless a name ends in Deg. */
@@ -19,7 +19,7 @@
     T_PERI: 2.380             // perihelion of the smooth (Earth–Moon barycentre) orbit,
                               // 2026-01-03 09:07 UTC, fitted so the model's equinoxes and solstices
                               // match USNO 2026 to < 0.5 h. Earth's own centre, tugged by the Moon,
-                              // was closest at 17:15 UTC (USNO). See company/work/seasons/notes.md
+                              // was closest at 17:15 UTC (USNO).
   };
 
   // Mean anomaly → eccentric anomaly by Newton's method (converges in a few steps for e ≈ 0.017).

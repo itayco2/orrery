@@ -6,9 +6,5 @@
   "summary": "Arrows spinning on arrows: Ptolemy's epicycles reproduce Mars's backward loops, and with enough of them — a Fourier series — they redraw any closed shape, including one you draw.",
   "built": "2026-09-30",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }

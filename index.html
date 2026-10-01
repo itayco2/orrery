@@ -52,8 +52,8 @@
           <p>An orrery is a clockwork model of the solar system. It doesn’t tell you that the planets
           move; it lets you turn the crank and see. Each exhibit here tries to do the same for one
           idea: a short essay with pictures you can drag, dials you can turn, and plain words around them.</p>
-          <p class="muted">Orrery is a small studio that makes these models. Every exhibit is reviewed,
-          names its sources, and says plainly what its model leaves out.</p>
+          <p class="muted">Orrery is a small studio that makes these models. Every exhibit names its
+          sources, says plainly what its model leaves out, and works offline, on a phone and with a keyboard.</p>
           
           
         </div>
@@ -73,10 +73,30 @@
         <span class="aside" id="exhibit-count"></span>
       </div>
       <div id="gallery">
-        <div class="empty-state">
-          <p><strong>The first models are being built.</strong></p>
-          <p>Nothing is on show yet. Exhibits appear here only when they are finished.</p>
-        </div>
+        <!-- exhibit-list -->
+        <ul class="exhibit-list">
+          <li><a href="models/neural-net/index.html">How does a machine learn from examples?</a> — Nobody writes the rules into a neural network. So where do they come from?</li>
+          <li><a href="models/birthday/index.html">Why do two people in 23 probably share a birthday?</a> — In a room of 23 people, a shared birthday is more likely than not. Why do so many people guess far lower?</li>
+          <li><a href="models/simpson/index.html">Better in every group, worse overall?</a> — How can a treatment win for small kidney stones and for large ones, yet lose overall?</li>
+          <li><a href="models/selection/index.html">Does a better gene always win?</a> — A new mutation that helps its carriers should spread. Why do most of them vanish?</li>
+          <li><a href="models/error-correction/index.html">How does a scratched CD still play?</a> — A scratch wipes out thousands of bits at once. Why doesn&#x27;t the music stop?</li>
+          <li><a href="models/tides/index.html">Why are there two tides a day?</a> — The Moon pulls the sea towards it — so why is there a high tide on the far side too?</li>
+          <li><a href="models/orbits/index.html">Why doesn’t the Moon fall down?</a> — It does fall, all the time. It just keeps missing the Earth.</li>
+          <li><a href="models/sky-colour/index.html">Why is the sky blue and the sunset red?</a> — Air is transparent and sunlight is white. So where do the blue sky and the red sunset come from?</li>
+          <li><a href="models/key-exchange/index.html">How can two strangers agree on a secret in public?</a> — Two machines that have never met agree on a secret while anyone can listen. How?</li>
+          <li><a href="models/traffic/index.html">Where do traffic jams come from when nothing’s wrong?</a> — No crash, no roadworks, no merge — and still you crawl. How do drivers make a jam out of nothing, and why does it travel backwards?</li>
+          <li><a href="models/galton/index.html">Why do bell curves show up everywhere?</a> — Heights, errors and test scores all make the same hump. Why — and when don&#x27;t they?</li>
+          <li><a href="models/moon-phases/index.html">Why does the Moon have phases?</a> — It isn&#x27;t Earth&#x27;s shadow. Drag the Moon round its orbit and see what is really going on.</li>
+          <li><a href="models/rainbow/index.html">Why is a rainbow round?</a> — You can never walk to a rainbow, and the person beside you sees a different one. What is it, and why is it always part of a circle?</li>
+          <li><a href="models/epicycles/index.html">Can circles draw anything?</a> — Why does Mars sometimes go backwards — and can circles on circles trace any shape?</li>
+          <li><a href="models/herd-immunity/index.html">How many people need to be immune?</a> — Why does measles need about 95% vaccinated, when other infections need far less?</li>
+          <li><a href="models/orrery/index.html">Where are the planets tonight?</a> — The planets are somewhere specific right now. Where, and why do they sometimes seem to run backwards?</li>
+          <li><a href="models/chaos/index.html">Why can’t we forecast the weather a month ahead?</a> — Two pendulums started a millionth of a radian apart soon do completely different things. Why doesn’t exact physics mean exact forecasts?</li>
+          <li><a href="models/seasons/index.html">Why is summer warm?</a> — Earth is closest to the Sun in January. So why is July the warm month in the north?</li>
+          <li><a href="models/queues/index.html">Why is the other line always faster?</a> — A checkout busy 80% of the time already has a queue. Why do waits explode near full capacity — and why is your line so rarely the fast one?</li>
+          <li><a href="models/positive-test/index.html">You tested positive. Now what?</a> — A 99%-accurate test says you have a rare disease. Why is the chance you&#x27;re sick only about 9%?</li>
+        </ul>
+        <!-- /exhibit-list -->
       </div>
     </section>
 
@@ -94,7 +114,9 @@
 
 <script src="models/manifest.js"></script>
 
+
 <script src="assets/orrery.js"></script>
 <script src="assets/home.js"></script>
+
 </body>
 </html>

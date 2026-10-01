@@ -6,9 +6,5 @@
   "summary": "A double pendulum obeys Newton’s laws with no randomness, yet tiny differences in its start grow exponentially, so each tenfold gain in precision buys only a fixed extra stretch of forecast. The atmosphere behaves the same way, which is why day-to-day forecasts are useful for about ten days today and can never reach much beyond two weeks.",
   "built": "2026-09-30",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }

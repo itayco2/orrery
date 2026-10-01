@@ -1,5 +1,5 @@
 /* Tides exhibit: "Why are there two tides a day?"
-   One IIFE per figure. Numbers and checks: company/work/tides/notes.md.
+   One IIFE per figure.
    Physical constants (SI). */
 var TIDES = (function () {
   "use strict";

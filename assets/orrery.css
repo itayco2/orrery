@@ -1,7 +1,7 @@
 /* ==========================================================================
    Orrery — shared stylesheet
    One file for every page: site shell, gallery, prose pages and exhibits.
-   Documented in /workspace/company/tools/README.md ("The kit").
+   Class reference: the comments below, and models/_template/ for a working example.
    No web fonts, no remote anything. Light and dark themes via tokens.
    ========================================================================== */
 
@@ -430,19 +430,6 @@ img { height: auto; }
   .card .meta { margin-bottom: 0; }
 }
 
-.mark {
-  display: inline-flex; align-items: center; gap: 0.35em;
-  font-family: var(--sans); font-size: 0.75rem; font-weight: 600;
-  padding: 0.12em 0.55em; border-radius: 999px;
-  border: 1px solid currentColor;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-.mark::before { content: ""; width: 0.5em; height: 0.5em; border-radius: 50%; background: currentColor; }
-.mark.reviewed   { color: var(--verdigris); }
-.mark.unreviewed { color: var(--ink-3); }
-.mark.unreviewed::before { background: transparent; border: 1px solid currentColor; }
-.mark.needs-work { color: var(--alarm); }
 
 .empty-state {
   border: 1px dashed var(--rule);
@@ -738,83 +725,8 @@ select, input[type="number"], input[type="text"] {
 .md h4, .md h5, .md h6 { font-size: 1rem; margin-top: 1.2rem; }
 .md > :first-child { margin-top: 0; }
 
-.note-entry { margin: 0 0 2.5rem; }
-.note-entry > h2, .note-entry > h3 { margin-top: 0; }
-
-.cycle { margin: 0 0 2.5rem; }
-.cycle > h3 { font-size: 1.15rem; margin: 0 0 0.8rem; }
-.tasks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-.tasks > li { margin: 0; border-bottom: 1px solid var(--rule); }
-.task > summary {
-  display: grid;
-  grid-template-columns: 4.2rem minmax(0, 1fr) auto;
-  gap: 0.2rem 0.9rem;
-  align-items: baseline;
-  padding: 0.75rem 0.25rem;
-  cursor: pointer;
-  list-style: none;
-}
-.task > summary::-webkit-details-marker { display: none; }
-.task > summary:hover { background: var(--paper-2); }
-.task .task-id { font-family: var(--mono); font-size: 0.82rem; color: var(--ink-3); }
-.task .task-title { font-weight: 600; }
-.task .task-role { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-3); font-weight: 400; margin-left: 0.4em; }
-.task .task-line { grid-column: 2 / -1; font-size: 0.92rem; color: var(--ink-2); }
-.task > summary::after {
-  content: "+"; grid-column: 3; grid-row: 1;
-  font-family: var(--mono); color: var(--ink-3);
-}
-.task[open] > summary::after { content: "−"; }
-.task .task-body { padding: 0.25rem 0.25rem 1.5rem 0.25rem; }
-@media (min-width: 640px) { .task .task-body { padding-left: 5.1rem; } }
-.task .task-body h4 {
-  font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink-3); margin: 1.2rem 0 0.5rem;
-}
-.task .task-body .md { font-size: 0.95rem; }
-.task .files { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-3); }
-
-.status {
-  display: inline-block;
-  font-family: var(--sans); font-size: 0.72rem; font-weight: 650;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 0.1em 0.55em; border-radius: 3px;
-  border: 1px solid currentColor;
-  white-space: nowrap;
-}
-.status.done    { color: var(--verdigris); }
-.status.partial { color: var(--brass); }
-.status.blocked { color: var(--alarm); }
-.status.started { color: var(--brass); border-style: dashed; }
-.status.queued, .status.notrun, .status.unknown { color: var(--ink-3); border-style: dotted; }
-
-.role-card { border-top: 1px solid var(--rule); padding-top: 1rem; margin-bottom: 1.5rem; }
-.role-card summary { cursor: pointer; }
-.role-card .role-meta { display: block; font-family: var(--sans); font-size: 0.85rem; color: var(--ink-3); margin: 0.3rem 0 0 1.4rem; }
-
 details > summary { cursor: pointer; }
 details.plain > summary { font-family: var(--sans); font-size: 0.9rem; color: var(--brass); margin-bottom: 0.6rem; }
-
-.generated-note { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-3); }
-
-/* Record pages: contents list, entries, pager */
-.start-list li + li { margin-top: 0.35rem; }
-.cycle-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-.cycle-entry { margin: 0; padding: 1.25rem 0 1.35rem; border-bottom: 1px solid var(--rule); }
-.cycle-entry h3 { margin: 0 0 0.45rem; font-size: 1.2rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.8rem; }
-.cycle-entry h3 a { text-decoration: none; }
-.cycle-entry h3 a:hover { text-decoration: underline; }
-.cycle-entry .when { font-family: var(--sans); font-size: 0.85rem; font-weight: 400; color: var(--ink-3); }
-.cycle-entry .excerpt { margin: 0 0 0.5rem; color: var(--ink-2); font-size: 0.98rem; }
-.cycle-entry .counts { margin: 0; font-family: var(--sans); font-size: 0.82rem; color: var(--ink-2); line-height: 1.6; }
-.cycle-pager {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-  font-family: var(--sans); font-size: 0.85rem; margin: 1.5rem 0 0;
-}
-.cycle-pager a { text-decoration: none; }
-.cycle-pager a:hover { text-decoration: underline; }
-.cycle-pager + .page-header { padding-top: 1.5rem; }
-.cycle-pager.end { margin: 2.5rem 0 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
 
 /* ---------- 9. Motion and print ------------------------------------------ */
 

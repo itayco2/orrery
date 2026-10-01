@@ -1,8 +1,5 @@
-/* Orrery front door: gallery, latest note (when present), and the emblem.
-   Reads globals written by company/tools/publish:
-     window.ORRERY_MODELS       (models/manifest.js)
-     window.ORRERY_LATEST_NOTE,
-     window.ORRERY_WORKSHOP     (an optional script; absent in the public copy)
+/* Orrery front door: the gallery and the emblem.
+   Reads window.ORRERY_MODELS (models/manifest.js, generated; do not edit).
    Classic script; needs orrery.js loaded first. */
 (function () {
   "use strict";
@@ -28,12 +25,11 @@
     var count = document.getElementById("exhibit-count");
     if (!host || !models.length) return;          // keep the static empty state
     models = sortModels(models);
-    var reviewed = models.filter(function (m) { return reviewState(m) === "reviewed"; }).length;
-    count.textContent = (models.length === 1 ? "1 exhibit" : models.length + " exhibits") + " · " +
-      reviewed + " reviewed";
+    count.textContent = models.length === 1 ? "1 exhibit" : models.length + " exhibits";
+    count.setAttribute("data-total", count.textContent);
     var list = el("ul", { "class": "gallery" });
     models.forEach(function (m, i) {
-      var li = el("li");
+      var li = el("li", { "data-slug": m.slug, "data-field": m.field });
       var card = el("article", { "class": "card" });
       var thumb = el("div", { "class": "thumb" });
       if (m.thumbnail) {
@@ -50,14 +46,6 @@
       body.appendChild(h);
       body.appendChild(el("p", { "class": "question" }, m.question));
       var meta = el("p", { "class": "meta" });
-      var r = m.review;
-      if (reviewState(m) === "reviewed") {
-        meta.appendChild(el("span", { "class": "mark reviewed", title: "Reviewed on " + r.date }, "Reviewed"));
-      } else if (r && r.verdict === "needs-work") {
-        meta.appendChild(el("span", { "class": "mark needs-work", title: "Reviewed on " + r.date + ": needs work" }, "Needs work"));
-      } else {
-        meta.appendChild(el("span", { "class": "mark unreviewed" }, "Not yet reviewed"));
-      }
       meta.appendChild(el("time", { datetime: m.built, title: formatDate(m.built) }, shortDate(m.built)));
       body.appendChild(meta);
       card.appendChild(body);
@@ -76,17 +64,16 @@
     models.forEach(function (m) { if (fields.indexOf(m.field) < 0) fields.push(m.field); });
     fields = fields.filter(function (f) { return models.some(function (m) { return m.field === f; }); });
     if (models.length < 6 || fields.length < 3) return null;
-    var total = count.textContent;
     var row = el("div", { "class": "field-filter btn-row", role: "group", "aria-label": "Show exhibits by field" });
     var buttons = [];
     function show(field) {
       var shown = 0;
-      Array.prototype.forEach.call(list.children, function (li, i) {
-        li.hidden = !!field && models[i].field !== field;
+      Array.prototype.forEach.call(list.children, function (li) {
+        li.hidden = !!field && li.getAttribute("data-field") !== field;
         if (!li.hidden) shown++;
       });
       buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b._field === field)); });
-      count.textContent = field ? "Showing " + shown + " of " + models.length + " exhibits" : total;
+      count.textContent = field ? "Showing " + shown + " of " + models.length + " exhibits" : count.getAttribute("data-total");
     }
     [null].concat(fields).forEach(function (f) {
       var n = f ? models.filter(function (m) { return m.field === f; }).length : models.length;
@@ -101,24 +88,13 @@
     return row;
   }
 
-  function reviewState(m) {
-    var v = m.review && m.review.verdict;
-    return v === "pass" || v === "pass-with-fixes" ? "reviewed" : v === "needs-work" ? "needs-work" : "unreviewed";
-  }
-
-  /* Newest first (by the day built); within a day, reviewed exhibits before
-     unreviewed ones, then by field and title so the order is stable. Exhibits
-     an inspector marked "needs work" go to the end. */
+  /* Newest first (by the day built); within a day, by field and title so the
+     order is stable. */
   var FIELDS = ["Astronomy", "Mathematics", "Physics", "Reasoning", "Computing", "Life", "Society"];
   function sortModels(models) {
-    var rank = { reviewed: 0, unreviewed: 1, "needs-work": 2 };
     return models.slice().sort(function (a, b) {
-      var na = reviewState(a) === "needs-work", nb = reviewState(b) === "needs-work";
-      if (na !== nb) return na ? 1 : -1;
       var da = String(a.built || ""), db = String(b.built || "");
       if (da !== db) return da < db ? 1 : -1;
-      var ra = rank[reviewState(a)], rb = rank[reviewState(b)];
-      if (ra !== rb) return ra - rb;
       var fa = FIELDS.indexOf(a.field), fb = FIELDS.indexOf(b.field);
       if (fa < 0) fa = FIELDS.length; if (fb < 0) fb = FIELDS.length;
       if (fa !== fb) return fa - fb;
@@ -127,7 +103,7 @@
   }
 
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  function shortDate(iso) {          // "30 Sep 2026": fits beside the review mark on a card
+  function shortDate(iso) {          // "30 Sep 2026": short enough for a phone card
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
     return p ? (+p[3]) + "\u00a0" + MONTHS[+p[2] - 1] + "\u00a0" + p[1] : "";
   }
@@ -136,35 +112,6 @@
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
     if (!p) return "";
     return Orrery.fmt.date(new Date(Date.UTC(+p[1], +p[2] - 1, +p[3])));
-  }
-
-  /* ---- latest note and workshop status ------------------------------- */
-  function renderLatest() {
-    var n = window.ORRERY_LATEST_NOTE, w = window.ORRERY_WORKSHOP;
-    var sec = document.getElementById("latest"), box = document.getElementById("latest-note");
-    if (!sec || !n) return;
-    box.appendChild(el("h3", null, n.title));
-    var ex = el("div", { "class": "excerpt" });
-    ex.innerHTML = n.html;       // generated by publish: every source character is HTML-escaped
-    box.appendChild(ex);
-    var p = el("p", { "class": "sans", style: "font-size:.9rem;margin:0" });
-    p.appendChild(el("a", { href: n.url }, n.more ? "Read the whole note →" : "Read the note →"));
-    box.appendChild(p);
-    if (w && w.tasks) {
-      var parts = w.status.map(function (s) { return s.count + " " + s.label.toLowerCase(); });
-      var st = el("p", { "class": "muted sans", style: "font-size:.85rem;margin-top:1rem" });
-      st.appendChild(document.createTextNode("Cycle " + w.cycle + ": " + w.tasks + " tasks — " + parts.join(", ") + ". "));
-      st.appendChild(el("a", { href: w.url }, "See them"));
-      box.appendChild(st);
-    }
-    sec.hidden = false;
-    var t = document.getElementById("latest-teaser");   // a pointer from the top: on a phone the note is far below
-    if (t) {
-      t.appendChild(document.createTextNode("Latest from the workshop: "));
-      t.appendChild(el("a", { href: "#latest" }, n.cycle ? "the note for cycle\u00a0" + n.cycle : "the latest note"));
-      t.appendChild(document.createTextNode(", below the exhibits."));
-      t.hidden = false;
-    }
   }
 
   /* ---- emblem: the planets at their real heliocentric longitudes ------
@@ -326,6 +273,5 @@
   }
 
   renderGallery();
-  renderLatest();
   renderEmblem();
 })();

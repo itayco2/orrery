@@ -6,9 +6,5 @@
   "summary": "Fire Newton’s cannon faster and faster until the ball orbits or escapes, launch a planet onto a Kepler ellipse, check Kepler’s third law against the real planets, and change the law of gravity to see why only the inverse square closes the orbit.",
   "built": "2026-10-01",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }

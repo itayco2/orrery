@@ -15,7 +15,7 @@
     • callouts (.callout.try / .callout.note), .formula
     • end matter: "What this model leaves out", "Sources", colophon
   Keep: the <script> order at the bottom, lang="en", the skip link, one <h1>.
-  Checklist and API: /workspace/company/tools/README.md.
+  Checklist and API: the kit's README.
   Register the exhibit LAST by writing meta.json (see meta.json.example).
 -->
 <html lang="en">
@@ -179,10 +179,9 @@
         <dl>
           
           <dt>Date</dt><dd>30 September 2026</dd>
-          <dt>Review</dt><dd data-orrery-review="_template">Not yet reviewed</dd>
+          
         </dl>
-        <p>The review line fills itself in from the gallery manifest once the exhibit is published
-        and a review verdict is recorded in its meta.json.</p>
+        
       </section>
     </div>
   </article>
@@ -196,9 +195,11 @@
   </div>
 </footer>
 
-<!-- Order matters: manifest (for the review line), the kit, then this exhibit's own script. -->
+<!-- Order matters: the exhibit list, the kit, then this exhibit's own script. -->
 <script src="../manifest.js"></script>
+
 <script src="../../assets/orrery.js"></script>
+
 <script src="exhibit.js"></script>
 </body>
 </html>

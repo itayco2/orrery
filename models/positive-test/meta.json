@@ -6,9 +6,5 @@
   "summary": "Count the people in a town of 10,000 to see why most positive results for a rare disease are false alarms, how who gets tested changes the answer, and what a second test does — Bayes' rule in odds form.",
   "built": "2026-09-30",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }

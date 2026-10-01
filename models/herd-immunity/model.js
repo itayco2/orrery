@@ -1,5 +1,5 @@
 /* Herd immunity: the numerical model, kept free of any drawing so it can be
-   checked on its own (see company/work/herd-immunity/notes.md).
+   checked on its own.
    Sets window.HerdModel (or module.exports under node, for the checks). */
 (function (root) {
   "use strict";

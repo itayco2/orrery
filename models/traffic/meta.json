@@ -6,9 +6,5 @@
   "summary": "A ring road of simulated drivers (the Nagel–Schreckenberg model) grows phantom jams from tiny hesitations. Watch them drift upstream at motorway-like speeds, and find the density above which more cars carry less traffic.",
   "built": "2026-10-01",
   "status": "published",
-  "review": {
-    "date": "2026-10-01",
-    "verdict": "pass-with-fixes"
-  },
   "thumbnail": "thumb.png"
 }
