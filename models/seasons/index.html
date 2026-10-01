@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is summer warm? — Orrery</title>
+<meta name="description" content="Earth is closest to the Sun in January. So why is July warm in the north? An explorable model of the seasons: the orbit to scale, spreading sunlight, hours of daylight, and the whole year of sunshine.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/seasons/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why is summer warm? — Orrery">
+<meta property="og:description" content="Earth is closest to the Sun in January. So why is July warm in the north? An explorable model of the seasons: the orbit to scale, spreading sunlight, hours of daylight, and the whole year of sunshine.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/seasons/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/seasons/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why is summer warm?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why is summer warm? — Orrery">
+<meta name="twitter:description" content="Earth is closest to the Sun in January. So why is July warm in the north? An explorable model of the seasons: the orbit to scale, spreading sunlight, hours of daylight, and the whole year of sunshine.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/seasons/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why is summer warm?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Astronomy</p>
+      <h1>Why is summer warm?</h1>
+      <p class="lede">Ask around and most people will tell you: in summer, Earth is closer to the
+      Sun. It is a sensible guess, and it is wrong. Earth is closest to the Sun in the first week of
+      January — in the middle of the northern winter.</p>
+    </header>
+
+    <p>There is a second clue that the distance story can’t be right. When it is summer in London
+    or New York, it is winter in Buenos Aires and Sydney. Both hemispheres are on the same planet,
+    at the same distance from the Sun, yet they have opposite seasons. Whatever causes summer must
+    treat the north and the south differently.</p>
+
+    <p>This page builds the real answer one piece at a time. First, let’s look at how much Earth’s
+    distance from the Sun actually changes.</p>
+
+    <h2>The orbit, drawn to scale</h2>
+
+    <p>Earth goes round the Sun on an <em>ellipse</em>, a slightly squashed circle, with the Sun not
+    at the centre but a little to one side (at a point called a <em>focus</em>). The closest point
+    of the orbit is called <em>perihelion</em>; in 2026 it came on 3 January, at
+    147.1 million km. The farthest, <em>aphelion</em>, came on 6 July, at 152.1 million km.</p>
+
+    <p>Five million kilometres sounds like a lot, but it is only about 3% of the distance. In the
+    figure the orbit is drawn to scale beside a perfect circle (dashed). Drag Earth round its orbit,
+    or press Play, and watch the distance and the strength of the sunlight arriving at the top of
+    the atmosphere. Can you see which is the ellipse?</p>
+
+    <figure class="fig wide" id="fig-orbit" aria-labelledby="fig-orbit-cap">
+      <div class="stage orbit-stage">
+        <canvas id="orbit-canvas" role="img" aria-label="Top view of Earth's orbit drawn to scale with a dashed circle for comparison; the two are almost indistinguishable. Earth's position and a chart of sunlight through the year, which is nearly flat."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="orbit-day">Date</label>
+          <input type="range" id="orbit-day" min="0" max="364" step="1" value="2">
+          <output id="orbit-day-out" for="orbit-day">3 January</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="orbit-play">Play</button>
+          <button type="button" class="btn" id="orbit-peri">Perihelion (3 Jan)</button>
+          <button type="button" class="btn" id="orbit-aph">Aphelion (6 Jul)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Distance to the Sun</dt><dd id="orbit-dist">147.1 million km</dd></div>
+        <div><dt>Sunlight (top of atmosphere)</dt><dd id="orbit-sun">1,408 W/m²</dd></div>
+        <div><dt>Compared with 1,361 W/m²</dt><dd id="orbit-pct">+3.4%</dd></div>
+        <div><dt>Season in the north / south</dt><dd id="orbit-season">winter / summer</dd></div>
+      </dl>
+      <figcaption id="fig-orbit-cap"><span class="fig-num">Figure 1.</span>Earth’s orbit seen from
+      above the north pole, to scale (the Sun and Earth are drawn much bigger than they are). The
+      dashed line is a true circle centred on the orbit’s centre. The small arrow on Earth shows
+      which way its north pole leans. Beside it (below, on a narrow screen): sunlight arriving at the top of the atmosphere through
+      the year, on an axis that starts at zero. Drag Earth, or focus the figure and use the arrow
+      keys.</figcaption>
+    </figure>
+
+    <p>The orbit is so nearly round that you cannot tell it from the circle by eye. The Sun sits
+    just 2.5 million km off-centre — 1.7% of the orbit’s radius, a shift of two or three pixels here.</p>
+
+    <p>Sunlight does get stronger when we are closer. Light from the Sun spreads out over the
+    surface of an ever-bigger sphere, so its strength falls with the <em>square</em> of the
+    distance. At the average distance, each square metre facing the Sun above the atmosphere
+    receives about 1,361 watts — a number called the <em>solar constant</em>. (A watt is a joule of
+    energy per second; one square metre facing the Sun gets roughly the power of a small electric
+    kettle.) In January that rises to about 1,408 W/m²; in July it falls to about 1,317 W/m². That
+    is a real difference of about 7% — and it runs the wrong way for the northern summer.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">A detail worth noticing</span>
+      <p>Earth moves fastest when it is closest to the Sun (Kepler’s second law). So the half of the
+      orbit from the March equinox to the September equinox, which contains aphelion, takes longer:
+      about 186.4 days, against 178.8 days for the other half. The northern spring and summer are
+      7½ days longer than its autumn and winter.</p>
+    </aside>
+
+    <p>Now look at the little arrow on Earth. It is Earth’s axis — the line through the North and
+    South Poles — seen from above. The axis is tilted by 23.44° from upright, and as Earth goes
+    round the Sun, it keeps pointing the same way in space (towards the star Polaris). In June the
+    north end leans towards the Sun; in December, six months round the orbit, the same fixed tilt
+    means the north end leans away. That is easier to see from the side.</p>
+
+    <p>The figure below shows the orbit from a little above, with June on the left and December on
+    the right (the four pale Earths mark the solstices and equinoxes). Press Play, or drag Earth
+    round, and watch the axis. It never turns: it leans the same way — to the right in this
+    picture — all year. What changes is where the Sun is. Notice which hemisphere is turned towards
+    the Sun in June, and which in December.</p>
+
+    <figure class="fig wide" id="fig-tilt" aria-labelledby="fig-tilt-cap">
+      <div class="stage tilt-stage">
+        <canvas id="tilt-canvas" role="img" aria-label="Earth's orbit seen at a slant, with the Sun in the middle and Earth at the chosen date. Earth's tilted axis points the same way in space all year, so the north pole leans towards the Sun in June and away from it in December."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="tilt-day">Date</label>
+          <input type="range" id="tilt-day" min="0" max="364" step="1" value="171">
+          <output id="tilt-day-out" for="tilt-day">21 June</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="tilt-play">Play</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Leaning towards the Sun</dt><dd id="tilt-lean">the northern hemisphere</dd></div>
+        <div><dt>Sun overhead at noon at</dt><dd id="tilt-dec">23.4° N</dd></div>
+      </dl>
+      <figcaption id="fig-tilt-cap"><span class="fig-num">Figure 2.</span>Earth’s orbit seen from
+      24° above its plane (Earth and Sun hugely enlarged). The straight line through Earth is its axis (marked N at the north pole),
+      tilted 23.44° and always parallel to itself. The lit half of Earth faces the Sun. The latitude
+      where the Sun is straight overhead at noon swings between 23.44° N (June solstice) and
+      23.44° S (December solstice). Drag Earth, or focus the figure and use the arrow keys.</figcaption>
+    </figure>
+
+    <p>In June the northern hemisphere is tipped towards the Sun and the Sun passes overhead at noon
+    as far north as 23.44° N (the Tropic of Cancer). In December the southern hemisphere gets its
+    turn, and the Sun is overhead at 23.44° S (the Tropic of Capricorn). At the equinoxes in March
+    and September, the axis leans sideways relative to the Sun, neither towards nor away, and the
+    Sun is overhead at the equator.</p>
+
+    <p>That tilt is the whole story. The next two figures show the two ways it matters.</p>
+
+    <h2>Steep sunlight is strong sunlight</h2>
+
+    <p>Shine a torch straight down at a table, and you get a small, bright circle. Tilt the torch and
+    the same light spreads into a long, dim oval. Sunlight works the same way. The same beam of
+    sunlight covers more ground when the Sun is low in the sky, so each square metre gets less of
+    it.</p>
+
+    <p>The figure shows a beam of sunlight 1 metre wide. Drag the Sun, or use the slider, to change
+    its <em>elevation</em> — its angle above the horizon. Watch how long the lit patch of ground
+    becomes, and what happens to the power landing on each square metre.</p>
+
+    <figure class="fig wide" id="fig-beam" aria-labelledby="fig-beam-cap">
+      <div class="stage beam-stage">
+        <svg id="beam-svg" role="img" aria-label="A beam of sunlight one metre wide striking flat ground; the lower the Sun, the longer the lit patch on the ground."></svg>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="beam-elev">Sun’s elevation</label>
+          <input type="range" id="beam-elev" min="2" max="90" step="1" value="62">
+          <output id="beam-elev-out" for="beam-elev">62°</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="beam-june">London, June noon (62°)</button>
+          <button type="button" class="btn" id="beam-dec">London, December noon (15°)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Length of lit patch</dt><dd id="beam-len">1.13 m</dd></div>
+        <div><dt>Power per square metre of ground</dt><dd id="beam-pow">883 W/m²</dd></div>
+        <div><dt>Share of the overhead-Sun value</dt><dd id="beam-pct">88%</dd></div>
+      </dl>
+      <figcaption id="fig-beam-cap"><span class="fig-num">Figure 3.</span>A 1-metre-wide beam
+      carrying 1,000 W (roughly clear-day sunlight at the ground with the Sun overhead) meets flat
+      ground. The lit patch is 1 ÷ sin(elevation) metres long, so the power per square metre is
+      1,000 × sin(elevation) W/m². Drag the Sun, or use the slider or buttons.</figcaption>
+    </figure>
+
+    <p>At noon in London (latitude 51.5° north) the Sun stands about 62° high in late June, but only
+    about 15° high in late December. The same beam then covers a patch 3.4 times as long, so each
+    square metre of ground gets less than a third as much power. The rule is simple:</p>
+
+    <p class="formula">power per m² of ground = power per m² of beam × sin(<var>elevation</var>)</p>
+
+    <p>The sine of an angle here is just the ratio “beam width ÷ patch length”: 1 when the Sun is
+    overhead, about 0.26 at 15°, and 0 at the horizon. Compare that factor of 3.4 with the 7% from
+    the changing distance.</p>
+
+    <h2>Long days and short days</h2>
+
+    <p>The tilt has a second effect, just as big. Earth spins once a day, and at any moment half of
+    it is lit. The line between day and night is called the <em>terminator</em>. Because the axis is
+    tilted, the terminator does not run from pole to pole. In June it slices the globe so that most
+    of each northern circle of latitude lies on the day side: a place there spends more than half of
+    each turn in sunlight.</p>
+
+    <p>In the figure, the Sun is to the left. Pick a latitude and a date, and the highlighted circle
+    shows the path your place travels during one day. The thick brass part is daylight; the rest, on the shaded side, is
+    night. Try the Arctic Circle (66.6° north) in June and in December, and try the equator.</p>
+
+    <figure class="fig wide" id="fig-day" aria-labelledby="fig-day-cap">
+      <div class="stage day-stage">
+        <canvas id="day-canvas" role="img" aria-label="A globe lit from the left, with its axis tilted according to the date. One circle of latitude is highlighted, split into a daylight part and a night part. Beside it, a chart of day length through the year for that latitude."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="day-lat">Latitude</label>
+          <input type="range" id="day-lat" min="-90" max="90" step="0.5" value="51.5">
+          <output id="day-lat-out" for="day-lat">51.5° N</output>
+        </div>
+        <div class="control">
+          <label for="day-date">Date</label>
+          <input type="range" id="day-date" min="0" max="364" step="1" value="171">
+          <output id="day-date-out" for="day-date">21 June</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Hours of daylight</dt><dd id="day-len">16 h 24 min</dd></div>
+        <div><dt>Sun’s height at noon</dt><dd id="day-noon">62°</dd></div>
+        <div><dt>Sun overhead at noon at</dt><dd id="day-dec">23.4° N</dd></div>
+      </dl>
+      <figcaption id="fig-day-cap"><span class="fig-num">Figure 4.</span>Earth seen from the side,
+      with the Sun far off to the left, on the chosen date. The axis leans towards the Sun in June
+      and away from it in December. The highlighted circle is the chosen latitude; its lit fraction
+      is the fraction of the day the Sun is up. Beside it (below, on a narrow screen): day length through the year at that
+      latitude. Day lengths are geometric (the centre of the Sun on a flat horizon).</figcaption>
+    </figure>
+
+    <p>At London’s latitude, the longest day has about 16 h 24 min of sunlight and the shortest about
+    7 h 36 min. North of the Arctic Circle the Sun does not set at all around the June solstice
+    (the <em>midnight sun</em>, or polar day), and does not rise around the December solstice
+    (polar night). At the equator, every day is close to 12 hours long all year. And look at the
+    southern latitudes: everything is flipped, which is why the seasons are opposite in the two
+    hemispheres.</p>
+
+    <p>The two effects work together. In summer the Sun climbs higher, so each hour of sunshine
+    delivers more power to each square metre, <em>and</em> it shines for more hours.</p>
+
+    <h2>Putting it together</h2>
+
+    <p>We can now add everything up. For any latitude and day, the model works out where the Sun is
+    overhead (from the tilt and the date), how long the Sun is up, how high it climbs through the
+    day, and how far away the Sun is. From that it computes the <em>daily insolation</em>: the
+    sunlight arriving at the top of the atmosphere on one square metre of level ground, averaged over
+    24 hours. (Insolation is short for “incoming solar radiation”.)</p>
+
+    <p>The solid line is the real Earth. The two switches let you remove one cause at a time. “No
+    tilt” stands Earth’s axis upright, leaving only the changing distance. “Circular orbit” removes
+    the changing distance, leaving only the tilt. Compare how much each one moves the line. Then
+    try the tilt slider, and the southern hemisphere.</p>
+
+    <figure class="fig wide" id="fig-year" aria-labelledby="fig-year-cap">
+      <div class="stage year-stage">
+        <canvas id="year-canvas" role="img" aria-label="A chart of daily sunlight at the top of the atmosphere through the year for the chosen latitude, with optional comparison lines for an untilted Earth and a circular orbit."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="year-lat">Latitude</label>
+          <input type="range" id="year-lat" min="-90" max="90" step="0.5" value="40">
+          <output id="year-lat-out" for="year-lat">40° N</output>
+        </div>
+        <div class="control">
+          <label for="year-tilt">Axis tilt</label>
+          <input type="range" id="year-tilt" min="0" max="60" step="0.02" value="23.44">
+          <output id="year-tilt-out" for="year-tilt">23.44°</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="year-notilt" checked> No tilt (distance only)</label>
+          <label class="toggle"><input type="checkbox" id="year-circ"> Circular orbit (tilt only)</label>
+          <button type="button" class="btn" id="year-flip">Other hemisphere</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Highest</dt><dd id="year-max">483 W/m²</dd></div>
+        <div><dt>Lowest</dt><dd id="year-min">156 W/m²</dd></div>
+        <div><dt>Yearly swing</dt><dd id="year-swing">327 W/m²</dd></div>
+        <div><dt>Swing with no tilt</dt><dd id="year-swing-nt">22 W/m²</dd></div>
+      </dl>
+      <figcaption id="fig-year-cap"><span class="fig-num">Figure 5.</span>Daily-average sunlight at
+      the top of the atmosphere on level ground, through 2026, at the chosen latitude. Solid: the
+      model Earth with the chosen tilt. Dashed lines: the same with no tilt, or with a circular
+      orbit. The vertical rules mark the solstices.</figcaption>
+    </figure>
+
+    <p>At 40° north — the latitude of Madrid, Beijing and Philadelphia — the daily sunlight rises
+    from about 156 W/m² in late December to about 483 W/m² in late June: three times as much. With
+    the tilt removed, the swing shrinks to about 22 W/m², and it peaks in January. With the tilt
+    kept but the orbit made circular, the curve barely moves: the June peak rises from 483 to
+    499 W/m², and the December low drops from 156 to 151. The tilt is the cause; the distance
+    is a small correction.</p>
+
+    <p>That correction is not zero, though. It adds to the tilt’s effect in the south, where summer
+    falls near perihelion, and subtracts in the north. Switch to 40° south and you will see a
+    slightly higher peak — about 516 W/m² in late December — and a slightly lower trough. (In the real
+    world, the southern hemisphere is mostly ocean, which smooths its seasons out anyway.)</p>
+
+    <p>Two more things to try. Set the latitude to 90°: in late June the North Pole receives more
+    sunlight per day than the equator ever does (about 524 W/m² against at most about 440), because
+    its Sun never sets. And drag the tilt to zero: every day of the year becomes the same, apart from
+    the gentle wobble of the distance. With no tilt, there would be no seasons worth the name.</p>
+
+    <h2>So, why is summer warm?</h2>
+
+    <p>Because Earth’s axis is tilted. For half the year your hemisphere leans towards the Sun, so the
+    Sun climbs higher in the sky, its light falls more steeply and less spread out, and it stays up
+    for more hours each day. Six months later your hemisphere leans away, and the opposite happens.
+    Our distance from the Sun does change by about 3%, and our sunlight by about 7%, but in the north
+    that change runs against the seasons, and it is far too small to cause them.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>The atmosphere.</strong> Figures 1 and 5 give sunlight at the top of the
+          atmosphere. Air, clouds, dust and haze absorb and reflect part of it, and low sunlight
+          passes through much more air, so the real difference between high and low Sun at the
+          ground is larger than the sine rule alone suggests.</li>
+          <li><strong>The seasonal lag.</strong> Sunlight peaks at the June solstice, but the land and
+          especially the oceans take weeks to warm up and cool down. Across most of the United
+          States temperatures keep rising into July, weeks after the solstice; in places the
+          average warmest day comes much later still (in San Francisco, early October).</li>
+          <li><strong>What the ground does with the light.</strong> Snow reflects most sunlight,
+          dark forest and ocean absorb most of it. Oceans store heat and ocean currents and winds
+          carry it around, which is why coastal climates have milder seasons than continental ones
+          at the same latitude.</li>
+          <li><strong>Sunrise and sunset.</strong> Day lengths here count from the moment the
+          centre of the Sun crosses a flat horizon. Published tables use the moment the Sun’s top
+          edge appears, and include the bending of light by the air; that adds a few minutes, so an
+          equinox day is really slightly more than 12 hours, and London’s longest day is about
+          16 h 38 min.</li>
+          <li><strong>The Moon.</strong> The model uses a smooth elliptical orbit. The Moon tugs
+          Earth to and fro by a few thousand kilometres, which moves the exact dates of perihelion
+          and aphelion by a day or two from year to year. The model’s equinoxes and solstices land
+          within half an hour of the US Naval Observatory’s 2026 times.</li>
+          <li><strong>Slow changes.</strong> Over tens of thousands of years the tilt varies between
+          about 22.1° and 24.5°, the orbit becomes more and less elliptical, and the date of
+          perihelion drifts through the calendar (the Milankovitch cycles). These slowly reshape the
+          seasons and help pace the ice ages. The model uses 2026 values.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>US Naval Observatory, <cite>Earth’s Seasons and Apsides</cite>, 2026 table.
+          <a href="https://aa.usno.navy.mil/data/Earth_Seasons">aa.usno.navy.mil</a>
+          <span class="note">Dates and times of perihelion, aphelion, equinoxes and solstices in
+          2026; the model’s orbit is fitted to them, and the half-year lengths follow from them.</span></li>
+          <li>NASA Goddard, <cite>Earth Fact Sheet</cite>.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">nssdc.gsfc.nasa.gov</a>
+          <span class="note">Semi-major axis, eccentricity (0.0167), perihelion and aphelion
+          distances, and obliquity (23.44°).</span></li>
+          <li>G. Kopp and J. L. Lean, “A new, lower value of total solar irradiance: Evidence and
+          climate significance”, <cite>Geophysical Research Letters</cite> 38, L01706 (2011).
+          <a href="https://doi.org/10.1029/2010GL045777">doi.org</a>
+          <span class="note">The solar constant, 1360.8 ± 0.5 W/m², used here as 1,361 W/m².</span></li>
+          <li>Wikipedia, <cite>Solar irradiance</cite>, section “Irradiance on Earth’s surface”
+          (daily-average insolation at the top of the atmosphere).
+          <a href="https://en.wikipedia.org/wiki/Solar_irradiance">en.wikipedia.org</a>
+          <span class="note">The daily insolation formula used in Figure 5 (declination, sunrise
+          hour angle, inverse-square distance factor). The model’s outputs were checked against
+          published values: about 524 W/m² at the North Pole at the June solstice.</span></li>
+          <li>NOAA National Centers for Environmental Information, <cite>When to expect the warmest
+          day of the year</cite>.
+          <a href="https://www.ncei.noaa.gov/news/when-expect-warmest-day-year">ncei.noaa.gov</a>
+          <span class="note">The seasonal lag: temperatures in most of the US keep rising into July,
+          after the solstice, and the average warmest day varies from June to October by place.</span></li>
+          <li>NASA Science, <cite>Milankovitch (Orbital) Cycles and Their Role in Earth’s
+          Climate</cite>.
+          <a href="https://science.nasa.gov/science-research/earth-science/milankovitch-orbital-cycles-and-their-role-in-earths-climate/">science.nasa.gov</a>
+          <span class="note">The slow cycles of tilt (22.1°–24.5°, about 41,000 years), eccentricity
+          and precession.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          
+        </dl>
+        <p>The model (model.js) solves Kepler’s equation for Earth’s position and uses the standard
+        daily-insolation formula. </p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

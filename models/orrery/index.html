@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where are the planets tonight? — Orrery</title>
+<meta name="description" content="A working model of the solar system at today's date: where each planet is, why planets sometimes seem to run backwards, and why the outer ones are slow.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/orrery/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Where are the planets tonight? — Orrery">
+<meta property="og:description" content="A working model of the solar system at today&#x27;s date: where each planet is, why planets sometimes seem to run backwards, and why the outer ones are slow.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/orrery/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/orrery/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Where are the planets tonight?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where are the planets tonight? — Orrery">
+<meta name="twitter:description" content="A working model of the solar system at today&#x27;s date: where each planet is, why planets sometimes seem to run backwards, and why the outer ones are slow.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/orrery/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Where are the planets tonight?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Astronomy</p>
+      <h1>Where are the planets tonight?</h1>
+      <p class="lede">Right now each planet is at one particular place on its orbit, and you can
+      work out where. Turn the crank of this model to see where they are tonight, why they seem
+      to wander back and forth among the stars, and why the outer ones hardly move at all.</p>
+      <p class="byline">An explorable model · positions computed in your browser from NASA JPL’s
+      orbital elements</p>
+    </header>
+
+    <p>Watch the night sky for a few weeks and most of the stars keep their places: the patterns
+    of the constellations never change. A handful of bright points do not. They drift slowly
+    through the constellations, usually eastward, but every so often one stops, backs up for a
+    few weeks and then carries on again. The Greeks called them <em>planētai</em>,
+    “wanderers”, which is where the word <em>planet</em> comes from.</p>
+
+    <p>The backwards bit is called <em>retrograde motion</em>. For well over a thousand years
+    astronomers explained it with circles riding on circles. It is tempting to think the planet
+    really does turn round. It doesn’t. Every planet goes steadily round the Sun in the same
+    direction, all the time. The loops come from where we watch: we are riding on a planet
+    that is moving too.</p>
+
+    <h2>From above: the solar system today</h2>
+
+    <p>Each planet moves on an <em>ellipse</em>, a slightly squashed circle, with the Sun at one
+    focus. Six numbers, the <em>orbital elements</em>, pin down that ellipse and where the planet
+    is on it at a given moment. They say how big the orbit is, how squashed, how it is tilted and
+    turned, and where the planet was at a reference date. NASA’s Jet Propulsion Laboratory
+    publishes a set of these numbers for each planet, with small yearly drifts, fitted so they
+    stay accurate from the year 1800 to 2050. From them, a page of arithmetic gives each planet’s
+    position on any date. This page does that arithmetic every time you move the slider.</p>
+
+    <p>Distances in the solar system are measured in <em>astronomical units</em> (au). One au is
+    the average distance from Earth to the Sun, about 149.6 million km. Directions are measured
+    as an angle around the Sun called <em>ecliptic longitude</em>, counted anticlockwise
+    (seen from above the North Pole) from the direction of the Sun at the March equinox.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The figure opens at today’s date, from your computer’s clock. Press <strong>Play</strong>
+      and watch Mercury race round while Neptune barely creeps. Drag round the Sun to turn time
+      yourself: one full turn is one year. Then switch the scale to <strong>true distances</strong>
+      and see how empty the outer solar system is.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-top" aria-labelledby="fig-top-cap">
+      <div class="stage top-stage" style="--aspect: 1 / 1">
+        <canvas id="top-canvas" role="img" aria-label="Top view of the solar system at the chosen date, with the Sun in the centre and the eight planets on their orbits at their true directions from the Sun."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="top-date">Date</label>
+          <input type="range" id="top-date" min="0" max="91675" step="1" value="0">
+          <output id="top-date-out" for="top-date">—</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="top-play">Play</button>
+          <button type="button" class="btn" id="top-today">Today</button>
+          <label class="sel"><span>Speed</span>
+            <select id="top-speed">
+              <option value="1">1 day per second</option>
+              <option value="7">1 week per second</option>
+              <option value="30.44" selected>1 month per second</option>
+              <option value="365.25">1 year per second</option>
+            </select></label>
+          <label class="sel"><span>Distances</span>
+            <select id="top-scale">
+              <option value="sqrt" selected>compressed (square root)</option>
+              <option value="true">true scale, whole system</option>
+              <option value="inner">true scale, inner planets</option>
+            </select></label>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="planet-table" aria-describedby="fig-top-cap">
+          <caption class="visually-hidden">Planet distances and visibility at the chosen date</caption>
+          <thead><tr><th scope="col">Planet</th><th scope="col" class="num">From the Sun</th><th scope="col" class="num">From Earth</th><th scope="col">In the sky that night</th></tr></thead>
+          <tbody id="top-table"></tbody>
+        </table>
+      </div>
+      <figcaption id="fig-top-cap"><span class="fig-num">Figure 1.</span>The planets on the
+      date shown, seen from above the Sun. Directions from the Sun are true; in the compressed
+      view each distance is replaced by its square root so that all eight orbits fit. Planet
+      sizes are not to scale. The table is real text; “in the sky” is worked out from each
+      planet’s angle from the Sun as seen from Earth.</figcaption>
+    </figure>
+
+    <p>The last column of the table answers the question in the title. A planet that sits
+    east of the Sun in our sky follows the Sun down in the west after sunset: it is an
+    <em>evening</em> object. One west of the Sun rises before it: a <em>morning</em> object. The
+    angle between a planet and the Sun, seen from Earth, is called its <em>elongation</em>.
+    When it is less than about 15°, the planet is lost in the Sun’s glare. When it is near
+    180°, the planet is opposite the Sun: it rises at sunset, is highest at midnight and is up
+    all night. That position is called <em>opposition</em>, and it is when an outer planet is
+    closest and brightest.</p>
+
+    <p>At the end of September 2026, when this page was written, Saturn was a few days from
+    opposition (4 October 2026), Neptune had just passed its own (26 September), and Venus was
+    low in the evening twilight, catching up on Earth before passing between us and the Sun on
+    24 October. Mars and Jupiter were morning objects. The figure recomputes all of this for
+    whatever date it shows.</p>
+
+    <h2>The view from Earth</h2>
+
+    <p>What we see from Earth is only a direction: the line from Earth to the planet, projected
+    onto the far-off stars. Both ends of that line move. Earth goes round the Sun once a year;
+    Mars takes 687 days. Most of the time both motions carry the line of sight eastward, and
+    Mars drifts east among the stars. But roughly every 26 months Earth, on its faster inside
+    track, overtakes Mars. For a few weeks around that moment the line of sight swings
+    backwards, just as a slower car you are passing on a motorway seems to slide backwards
+    against the distant hills.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press <strong>Play</strong> and watch the dashed line from Earth to Mars. On the right,
+      the planet’s direction is plotted against time; the stretch where it runs backwards is
+      drawn thick. Press <strong>Next opposition</strong> and notice that the backward stretch is
+      always centred on the moment Earth passes between the Sun and the planet. Then try
+      Jupiter and Saturn: their loops are smaller and come about once a year.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-sky" aria-labelledby="fig-sky-cap">
+      <div class="stage sky-stage">
+        <canvas id="sky-canvas" role="img" aria-label="Earth and the chosen planet on their orbits, with the line of sight from Earth to the planet; and the planet's direction in the sky plotted against time, with retrograde stretches highlighted."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="sky-date">Date</label>
+          <input type="range" id="sky-date" min="0" max="91675" step="1" value="0">
+          <output id="sky-date-out" for="sky-date">—</output>
+        </div>
+        <div class="btn-row">
+          <label class="sel"><span>Planet</span>
+            <select id="sky-planet">
+              <option value="0">Mercury</option><option value="1">Venus</option>
+              <option value="3" selected>Mars</option><option value="4">Jupiter</option>
+              <option value="5">Saturn</option><option value="6">Uranus</option>
+              <option value="7">Neptune</option>
+            </select></label>
+          <button type="button" class="btn primary" id="sky-play">Play</button>
+          <button type="button" class="btn" id="sky-today">Today</button>
+          <button type="button" class="btn" id="sky-next">Next opposition</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Direction (ecliptic longitude)</dt><dd id="sky-lon">—</dd></div>
+        <div><dt>Moving</dt><dd id="sky-rate">—</dd></div>
+        <div><dt>Distance from Earth</dt><dd id="sky-dist">—</dd></div>
+        <div><dt>Angle from the Sun</dt><dd id="sky-elong">—</dd></div>
+      </dl>
+      <figcaption id="fig-sky-cap"><span class="fig-num">Figure 2.</span>Left (on a phone, top): Earth and the
+      chosen planet at true scale, with the line of sight from Earth carried out to the distant
+      stars. Right (below): the planet’s direction over time, centred on the date shown; up is
+      eastward, the usual direction. Thick stretches are retrograde. Drag the figure sideways to
+      move through time, or use the date slider.</figcaption>
+    </figure>
+
+    <p>The next time this happens for Mars is early 2027. The model has Mars stop and turn
+    backwards on 10 January 2027, reach opposition on 19 February, come closest to Earth the
+    next day at 0.678 au (101 million km), and turn forward again on 1 April. Published
+    predictions give the same dates, and the same distance to within about
+    ten thousand kilometres (JPL Horizons: 0.6779 au). It is a distant opposition: Mars will be near the far point of its orbit. In
+    August 2003, when Earth overtook Mars near its near point, the gap was only 55.8 million km.</p>
+
+    <p>Mercury and Venus loop too, but for them the roles are swapped: they are on the inside
+    track and overtake us. Their backward stretches happen around <em>inferior
+    conjunction</em>, when they pass between Earth and the Sun and are lost in its glare.</p>
+
+    <h2>Why the outer planets are slow</h2>
+
+    <p>Saturn’s oppositions come round only about 13 days later each year. They fell on
+    8 September 2024, 21 September 2025 and 4 October 2026. That is because Saturn itself hardly
+    moves; Earth is doing nearly all of the work. Saturn takes 29.4 years to go round once.</p>
+
+    <p>Two things make a distant planet’s year long. Its path is longer, in proportion to its
+    distance. And it moves more slowly, because the Sun’s pull is weaker out there: Earth
+    travels at 29.8 km/s, Neptune at only 5.4 km/s. Johannes Kepler found the combined rule in
+    1619. Measure the orbit’s size <var>a</var> (half its longest width) in au and the
+    period <var>T</var> in years, and</p>
+
+    <p class="formula"><var>T</var><sup>2</sup> = <var>a</var><sup>3</sup></p>
+
+    <p>In words: square the year and you get the cube of the distance. A planet four times
+    farther out than Earth takes eight years, not four. On logarithmic axes, where each step
+    along an axis multiplies the value by ten, this rule becomes a straight line.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the hollow diamond along the line, or click the figure and use the arrow keys
+      (Shift for bigger steps), to place an imaginary planet anywhere from 0.2 to 60 au. It
+      starts in the asteroid belt. Watch the last readout: how often Earth laps it, which is
+      how often it would loop in our sky.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-kepler" aria-labelledby="fig-kepler-cap">
+      <div class="stage kepler-stage">
+        <canvas id="kepler-canvas" role="slider" aria-label="Distance of an imaginary planet from the Sun" aria-valuemin="0.2" aria-valuemax="60" aria-valuenow="2.8" aria-describedby="fig-kepler-cap"></canvas>
+      </div>
+      <dl class="readouts">
+        <div><dt>Distance from the Sun, <var>a</var></dt><dd id="kep-a">—</dd></div>
+        <div><dt>Its year, <var>T</var></dt><dd id="kep-t">—</dd></div>
+        <div><dt>Orbital speed</dt><dd id="kep-v">—</dd></div>
+        <div><dt>Earth laps it every</dt><dd id="kep-syn">—</dd></div>
+      </dl>
+      <figcaption id="fig-kepler-cap"><span class="fig-num">Figure 3.</span>Orbital period
+      against distance from the Sun for the eight planets, both on logarithmic scales. The line
+      is <var>T</var> = <var>a</var><sup>1.5</sup>. Planet values are the semi-major axes and
+      mean motions in JPL’s elements; the speed is the average for a circular orbit.</figcaption>
+    </figure>
+
+    <div class="table-scroll">
+      <table class="kepler-table">
+        <caption>Kepler’s third law checked against the eight planets (JPL elements).</caption>
+        <thead><tr><th scope="col">Planet</th><th scope="col" class="num"><var>a</var> (au)</th><th scope="col" class="num"><var>T</var> (years)</th><th scope="col" class="num"><var>T</var><sup>2</sup> ÷ <var>a</var><sup>3</sup></th></tr></thead>
+        <tbody id="kepler-table"></tbody>
+      </table>
+    </div>
+
+    <p>The last readout ties the figures together. Earth laps a planet whose year is <var>T</var>
+    every 1 ÷ (1 − 1/<var>T</var>) years. For Mars (<var>T</var> = 1.88) that is 2.1 years, or
+    780 days, so Mars loops only every other year or so. For Saturn it is 1.035 years (378 days):
+    a slow planet is lapped almost exactly once a year, which is why its opposition moves only
+    about two weeks later each year. And the farther out a planet is, the smaller its loop,
+    because Earth’s orbit looks smaller from there.</p>
+
+    <p>So, to find a planet tonight: find its direction from the Sun in Figure 1, and
+    remember that the Sun sets in the west. Evening planets are in the western sky after
+    sunset, a planet near opposition rises in the east as the Sun sets, and morning planets
+    wait for the hours before dawn.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Flat drawing.</strong> The orbits are tilted up to 7° (Mercury) from Earth’s,
+          but the figures draw everything in one plane. Distances and the angle from the Sun are
+          computed in three dimensions; directions in Figure 2 are ecliptic longitudes only, so
+          the up-and-down part of a real loop, which makes it a loop or a zigzag rather than a
+          back-and-forth, is not shown.</li>
+          <li><strong>Approximate positions.</strong> JPL’s simple elements are fitted to its full
+          ephemeris for 1800–2050 only, so the time slider stops there. JPL gives their errors as
+          up to about 40″ (arcseconds) for Mars and up to 10′ for Saturn; the dates in the text
+          agree with published predictions to within a few hours. “Earth” is really the
+          centre of mass of Earth and Moon.</li>
+          <li><strong>No light-time, aberration or precession.</strong> We see each planet where
+          it was when its light left it (4 hours ago for Neptune), and longitudes here are
+          measured from the equinox of the year 2000, which has since slid by about a third of
+          a degree.</li>
+          <li><strong>Sizes are not to scale.</strong> At true scale even Jupiter would be far
+          smaller than a pixel.</li>
+          <li><strong>Visibility is rough.</strong> The 15° glare limit is a rule of thumb. Whether
+          you can actually see a planet also depends on its brightness, your latitude, the time
+          of year, the horizon and the weather. The table uses the date at noon UTC, not your
+          local evening.</li>
+          <li>Dwarf planets, moons and the planets’ own gravity on each other are left out,
+          except as they are built into JPL’s fitted drift rates.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>E. M. Standish, <cite>Keplerian Elements for Approximate Positions of the Major
+          Planets</cite>, JPL Solar System Dynamics, Table 1 (1800–2050).
+          <a href="https://ssd.jpl.nasa.gov/planets/approx_pos.html">ssd.jpl.nasa.gov</a>
+          <span class="note">The orbital elements and rates used for every position on this page,
+          the method (Kepler’s equation), the validity range and the error estimates.</span></li>
+          <li>J. Beish, <cite>The 2026–2027 aphelic apparition of Mars</cite>, Association of
+          Lunar and Planetary Observers.
+          <a href="https://www.alpo-astronomy.org/jbeish/2027_MARS.htm">alpo-astronomy.org</a>
+          <span class="note">Mars opposition 19 February 2027 (15:45 UT), closest approach
+          20 February at 0.6779 au, retrograde 10 January – 1 April 2027; used to check the
+          model.</span></li>
+          <li>EarthSky, <cite>Saturn at opposition</cite>.
+          <a href="https://earthsky.org/astronomy-essentials/saturn-at-opposition-closest-brightest-best/">earthsky.org</a>
+          <span class="note">Saturn’s oppositions on 8 September 2024, 21 September 2025 and
+          4 October 2026; Neptune’s opposition on 26 September 2026.</span></li>
+          <li>In-The-Sky.org, <cite>Jupiter at opposition</cite> (10 January 2026).
+          <a href="https://in-the-sky.org/news.php?id=20260110_12_100">in-the-sky.org</a>
+          <span class="note">A further check: the model puts Jupiter’s 2026 opposition on
+          10 January and its retrograde from 12 November 2025 to 11 March 2026.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          
+          <dt>Revised</dt><dd>1 October 2026: layout only — labels in all three figures no longer overlap each other, tick labels or the line of sight; Figure 1 sets the table beside the view on wide screens.</dd>
+        </dl>
+        <p>The positions are computed in your browser each time you move a control; nothing is
+        downloaded. </p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="ephemeris.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

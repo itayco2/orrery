@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How can two strangers agree on a secret in public? — Orrery</title>
+<meta name="description" content="Diffie–Hellman key exchange, by mixing paint and by doing arithmetic on a clock: how two machines agree on a secret key while anyone can listen.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/key-exchange/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How can two strangers agree on a secret in public? — Orrery">
+<meta property="og:description" content="Diffie–Hellman key exchange, by mixing paint and by doing arithmetic on a clock: how two machines agree on a secret key while anyone can listen.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/key-exchange/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/key-exchange/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “How can two strangers agree on a secret in public?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How can two strangers agree on a secret in public? — Orrery">
+<meta name="twitter:description" content="Diffie–Hellman key exchange, by mixing paint and by doing arithmetic on a clock: how two machines agree on a secret key while anyone can listen.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/key-exchange/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “How can two strangers agree on a secret in public?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Computing</p>
+      <h1>How can two strangers agree on a secret in public?</h1>
+      <p class="lede">Your browser and a web server that have never met settle on a secret key
+      while anyone on the network may be copying every message they send. That sounds impossible.
+      It works because some things are easy to do and very hard to undo.</p>
+    </header>
+
+    <p>To keep a conversation private, two machines scramble it with a <em>key</em>: a long
+    secret number that both of them know and nobody else does. With a shared key, encryption is a
+    solved problem. The hard part is getting the key there in the first place.</p>
+
+    <p>The obvious answer is to send it. But on the internet every message passes through
+    routers, Wi-Fi access points and cables owned by other people. Assume someone, traditionally
+    called <strong>Eve</strong> (the eavesdropper), sees every word that <strong>Alice</strong>
+    and <strong>Bob</strong> exchange. If Alice sends the key, Eve has it too. If Alice encrypts
+    the key first, she needs another key to do it, and we are back where we started.</p>
+
+    <p>It seems that a secret can never be created out of public messages alone. That intuition
+    is wrong, and the way it fails is one of the great ideas of the twentieth century.</p>
+
+    <h2>Mixing paint</h2>
+
+    <p>Here is the trick with paint instead of numbers. Alice and Bob agree, in public, on a
+    starting colour: yellow. Each then picks a <em>secret</em> colour and tells no one. Alice
+    stirs her secret into a pot of yellow and posts the pot to Bob; Bob does the same and posts his
+    to Alice. Eve sees both pots go by.</p>
+
+    <p>Now each adds their own secret colour again, to the pot they received. Alice's pot now
+    holds yellow + Bob's secret + Alice's secret. Bob's holds yellow + Alice's secret + Bob's
+    secret. Same ingredients, same amounts, so the same colour, and that colour is their shared
+    secret.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Change either secret colour. The two pots at the bottom always match. Then look at Eve's
+      best effort, on the right: she can pour the two pots she saw together, but that gives her
+      too much yellow, and she has no way to take any out.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-paint" aria-labelledby="fig-paint-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 8">
+        <svg id="paint-svg" viewBox="0 0 800 400" role="img" aria-describedby="paint-desc"></svg>
+      </div>
+      <p id="paint-desc" class="visually-hidden" aria-live="polite"></p>
+      <div class="controls">
+        <div class="control">
+          <label for="paint-a">Alice’s secret colour</label>
+          <input type="range" id="paint-a" min="0" max="359" step="1" value="350">
+          <output id="paint-a-out" for="paint-a"></output>
+        </div>
+        <div class="control">
+          <label for="paint-b">Bob’s secret colour</label>
+          <input type="range" id="paint-b" min="0" max="359" step="1" value="200">
+          <output id="paint-b-out" for="paint-b"></output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Alice ends with</dt><dd id="paint-alice">—</dd></div>
+        <div><dt>Bob ends with</dt><dd id="paint-bob">—</dd></div>
+        <div><dt>Eve’s mixture</dt><dd id="paint-eve">—</dd></div>
+      </dl>
+      <figcaption id="fig-paint-cap"><span class="fig-num">Figure 1.</span>Key exchange with
+      paint. Top row: what each person does in private. Middle: the two pots that cross the public
+      channel, which Eve sees. Bottom: the shared colour each ends with, and Eve's guess. Colours are
+      mixed in equal parts with a simple model of how pigments absorb light; the hex codes are the
+      on-screen colours.</figcaption>
+    </figure>
+
+    <p>The analogy captures the one property that matters: mixing is easy, and <em>unmixing</em>
+    is, for practical purposes, impossible. Eve holds a pot containing yellow and Alice's secret,
+    but she cannot pull the secret back out.</p>
+
+    <p>It also breaks, in two places. First, a determined Eve with a colour meter could try to
+    work out what was added to the yellow; real paint is not as one-way as we need. Second, paint
+    cannot be copied exactly or sent down a wire. For the real thing we need an operation on
+    numbers that is just as easy to do and just as hard to undo.</p>
+
+    <h2>Arithmetic on a clock</h2>
+
+    <p>That operation lives on a clock. On an ordinary clock, 9 o'clock plus 5 hours is
+    2 o'clock: you wrap around after 12. Mathematicians call this arithmetic
+    <em>modulo</em> 12, and they do it on clocks of any size. We will use a clock with a
+    <em>prime</em> number of hours, <var>p</var> (a prime has no divisors except 1 and itself),
+    labelled 0 to <var>p</var>&nbsp;−&nbsp;1.</p>
+
+    <p>Pick a starting number <var>g</var>, the <em>base</em>. Multiply it by itself again and
+    again, and after each multiplication wrap around the clock. After <var>x</var> multiplications
+    you have</p>
+
+    <p class="formula"><var>g</var><sup><var>x</var></sup> mod <var>p</var></p>
+
+    <p>read “<var>g</var> to the power <var>x</var>, modulo <var>p</var>”: the remainder when
+    <var>g</var><sup><var>x</var></sup> is divided by <var>p</var>. For example, with
+    <var>g</var>&nbsp;=&nbsp;5 and <var>p</var>&nbsp;=&nbsp;23: 5, then 25 → 2, then 2 × 5 = 10,
+    then 50 → 4, and so on.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Step the exponent <var>x</var> up one at a time and watch where the hand lands. The hops
+      look random. Then pick an hour on the clock and ask yourself: which <var>x</var> lands there?
+      There is no shortcut on display; you have to keep stepping until you hit it.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-clock" aria-labelledby="fig-clock-cap">
+      <div class="clock-wrap">
+        <div class="stage scrollable" style="--aspect: 1 / 1">
+          <svg id="clock-svg" viewBox="-120 -120 240 240" role="img" aria-describedby="clock-desc"></svg>
+        </div>
+        <div class="clock-side">
+          <div class="controls">
+            <div class="control">
+              <label for="clock-p">Hours on the clock, <var>p</var></label>
+              <input type="range" id="clock-p" min="0" max="13" step="1" value="6">
+              <output id="clock-p-out" for="clock-p"></output>
+            </div>
+            <div class="control">
+              <label for="clock-g">Base <var>g</var></label>
+              <input type="range" id="clock-g" min="2" max="22" step="1" value="5">
+              <output id="clock-g-out" for="clock-g"></output>
+            </div>
+            <div class="control">
+              <label for="clock-x">Exponent <var>x</var></label>
+              <input type="range" id="clock-x" min="1" max="22" step="1" value="6">
+              <output id="clock-x-out" for="clock-x"></output>
+            </div>
+          </div>
+          <dl class="readouts">
+            <div><dt><var>g</var><sup><var>x</var></sup> mod <var>p</var></dt><dd id="clock-val">—</dd></div>
+            <div><dt>Hours <var>g</var> reaches</dt><dd id="clock-order">—</dd></div>
+          </dl>
+          <p class="sans seq-label">Hours visited so far, for <var>x</var> = 1, 2, 3, …</p>
+          <p class="seq num" id="clock-seq" aria-live="polite"></p>
+          <p class="gen-mark sans" id="clock-gen"></p>
+        </div>
+      </div>
+      <p id="clock-desc" class="visually-hidden"></p>
+      <figcaption id="fig-clock-cap"><span class="fig-num">Figure 2.</span>Powers of
+      <var>g</var> on a clock of <var>p</var> hours. Each hop multiplies by <var>g</var> and wraps
+      around. The brass hand marks <var>g</var><sup><var>x</var></sup> mod <var>p</var>; faint
+      lines show the earlier hops. Hour 0 is never reached, because <var>p</var> is prime.</figcaption>
+    </figure>
+
+    <p>Two things to notice. Going forwards is easy: each step is one multiplication and one
+    remainder. And some bases are better than others. On the 23-hour clock, <var>g</var>&nbsp;=&nbsp;5
+    visits every one of the 22 non-zero hours before repeating; such a base is called a
+    <em>generator</em>. Try <var>g</var>&nbsp;=&nbsp;2 instead: it visits only 11 hours, so there
+    are only half as many places to hide.</p>
+
+    <p>Going backwards — given the hour, find <var>x</var> — is called the <em>discrete
+    logarithm</em> problem. On a 23-hour clock you can solve it by trying all 22 exponents. On a
+    clock whose number of hours has 600 digits, nobody knows how to solve it in any reasonable
+    time. That gap is the one-way street we need.</p>
+
+    <h2>The exchange, and Eve</h2>
+
+    <p>Now replace the paint with numbers. Alice and Bob agree in public on a prime
+    <var>p</var> and a generator <var>g</var> (the “yellow”). Alice picks a secret exponent
+    <var>a</var>, and Bob a secret <var>b</var>. Then:</p>
+
+    <ul>
+      <li>Alice sends <var>A</var> = <var>g</var><sup><var>a</var></sup> mod <var>p</var>.
+      Bob sends <var>B</var> = <var>g</var><sup><var>b</var></sup> mod <var>p</var>.
+      These are the pots in the post.</li>
+      <li>Alice computes <var>B</var><sup><var>a</var></sup> mod <var>p</var>. Bob computes
+      <var>A</var><sup><var>b</var></sup> mod <var>p</var>.</li>
+    </ul>
+
+    <p>Both get <var>g</var><sup><var>ab</var></sup> mod <var>p</var>, because raising <var>g</var>
+    to the power <var>a</var> and then <var>b</var> is the same as doing it the other way round,
+    and wrapping around the clock along the way doesn't change that. This is
+    <strong>Diffie–Hellman key exchange</strong>.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Choose secrets for Alice and Bob and check that the two shared numbers agree. Then press
+      “Eve searches”: she knows <var>p</var>, <var>g</var>, <var>A</var> and <var>B</var>, and
+      tries exponents one by one until <var>g</var><sup><var>x</var></sup> mod <var>p</var>
+      equals <var>A</var>. Count her tries.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-dh" aria-labelledby="fig-dh-cap">
+      <div class="controls">
+        <div class="control">
+          <label for="dh-p">Public prime <var>p</var></label>
+          <input type="range" id="dh-p" min="0" max="13" step="1" value="4">
+          <output id="dh-p-out" for="dh-p"></output>
+        </div>
+        <div class="control">
+          <label for="dh-a">Alice’s secret <var>a</var></label>
+          <input type="range" id="dh-a" min="1" max="22" step="1" value="6">
+          <output id="dh-a-out" for="dh-a"></output>
+        </div>
+        <div class="control">
+          <label for="dh-b">Bob’s secret <var>b</var></label>
+          <input type="range" id="dh-b" min="1" max="22" step="1" value="15">
+          <output id="dh-b-out" for="dh-b"></output>
+        </div>
+      </div>
+      <div class="dh-grid" id="dh-grid">
+        <div class="dh-col dh-alice">
+          <h3 class="sans">Alice <span class="muted">(private)</span></h3>
+          <p>secret <var>a</var> = <span class="num" id="dh-a-v"></span></p>
+          <p>sends <var>A</var> = <var>g</var><sup><var>a</var></sup> mod <var>p</var> = <strong class="num" id="dh-A"></strong></p>
+          <p>key = <var>B</var><sup><var>a</var></sup> mod <var>p</var> = <strong class="num key" id="dh-sa"></strong></p>
+        </div>
+        <div class="dh-col dh-public">
+          <h3 class="sans">Public <span class="muted">(Eve sees)</span></h3>
+          <p><var>p</var> = <span class="num" id="dh-p-v"></span>, <var>g</var> = <span class="num" id="dh-g-v"></span></p>
+          <p><var>A</var> = <span class="num" id="dh-A2"></span>, <var>B</var> = <span class="num" id="dh-B2"></span></p>
+          <p class="sans" id="dh-match"></p>
+        </div>
+        <div class="dh-col dh-bob">
+          <h3 class="sans">Bob <span class="muted">(private)</span></h3>
+          <p>secret <var>b</var> = <span class="num" id="dh-b-v"></span></p>
+          <p>sends <var>B</var> = <var>g</var><sup><var>b</var></sup> mod <var>p</var> = <strong class="num" id="dh-B"></strong></p>
+          <p>key = <var>A</var><sup><var>b</var></sup> mod <var>p</var> = <strong class="num key" id="dh-sb"></strong></p>
+        </div>
+      </div>
+      <div class="stage scrollable" style="--aspect: 16 / 2.6">
+        <canvas id="dh-canvas" role="img" aria-label="Eve's search: one cell for each exponent she might try, filled in as she tries it; the cell holding Alice's secret is marked when found."></canvas>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn primary" id="dh-eve">Eve searches</button>
+        <button type="button" class="btn" id="dh-reset">Reset Eve</button>
+      </div>
+      <dl class="readouts">
+        <div><dt>Eve’s tries</dt><dd id="dh-tries">0</dd></div>
+        <div><dt>Eve’s status</dt><dd id="dh-status">waiting</dd></div>
+      </dl>
+      <figcaption id="fig-dh-cap"><span class="fig-num">Figure 3.</span>Diffie–Hellman with
+      small numbers. The base <var>g</var> is the smallest generator for the chosen prime. Below,
+      each cell is one exponent Eve might try; she tests them in order and stops when
+      <var>g</var><sup><var>x</var></sup> mod <var>p</var> = <var>A</var>, which gives her an
+      exponent that works as Alice's secret, and so the key.</figcaption>
+    </figure>
+
+    <p>With these tiny primes Eve always wins in a blink. The whole defence is in the size of
+    <var>p</var>. Each extra binary digit (<em>bit</em>) doubles the number of hours on the clock,
+    and so doubles the number of exponents Eve might have to try. Alice's work grows far more
+    slowly: by squaring repeatedly (<var>g</var>, <var>g</var><sup>2</sup>, <var>g</var><sup>4</sup>,
+    <var>g</var><sup>8</sup>, …) she can reach any power with about two multiplications per bit.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the size of the prime from 8 bits up to 2,048 bits, a commonly recommended minimum
+      for this kind of exchange. Watch Alice's column barely move while Eve's runs off the scale.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-bits" aria-labelledby="fig-bits-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 4">
+        <canvas id="bits-canvas" role="img" aria-label="Bar chart on a logarithmic scale comparing Alice's work, which grows in proportion to the number of bits, with Eve's brute-force work, which doubles with every bit."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="bits-n">Size of <var>p</var></label>
+          <input type="range" id="bits-n" min="8" max="2048" step="8" value="64">
+          <output id="bits-n-out" for="bits-n"></output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Alice: multiplications</dt><dd id="bits-alice">—</dd></div>
+        <div><dt>Eve: tries (worst case)</dt><dd id="bits-eve">—</dd></div>
+        <div><dt>Eve’s time at 10<sup>9</sup> tries/s</dt><dd id="bits-time">—</dd></div>
+      </dl>
+      <figcaption id="fig-bits-cap"><span class="fig-num">Figure 4.</span>Work done by Alice
+      (square-and-multiply: at most 2 multiplications per bit) and by Eve trying every exponent
+      (up to 2<sup><var>n</var></sup> tries for an <var>n</var>-bit prime), on a logarithmic scale
+      where each gridline is a factor of 10<sup>100</sup>. The age of the universe is about
+      4 × 10<sup>17</sup> seconds. Eve's bar is brute force only: real attacks on large primes are
+      much faster (see the text below the figure).</figcaption>
+    </figure>
+
+    <p>Real attackers are cleverer than Eve. The best known method for this problem, the
+    <em>number field sieve</em>, is enormously faster than trying every exponent, which is why
+    real primes have 2,048 bits or more rather than 128. Measured against that attack, a
+    2,048-bit prime gives roughly the security of a 112-bit key (NIST's figure), about 5 × 10<sup>33</sup>
+    tries, not the 10<sup>616</sup> that Figure 4 shows for brute force. In 2015 the “Logjam”
+    researchers estimated that special-purpose hardware costing hundreds of millions of dollars could
+    break a commonly shared 1,024-bit prime, a sum within reach of a national intelligence agency. But even the best known attack
+    still grows faster than any fixed power of the number of bits, while Alice's effort stays
+    modest. The gap widens as the primes grow.</p>
+
+    <h2>What it doesn't do: tell you who is on the line</h2>
+
+    <p>There is a hole in everything above. Alice assumed the number <var>B</var> came from Bob.
+    Suppose Eve does more than listen: she sits in the middle, intercepts <var>A</var>, sends
+    Bob her own number instead, and does the same in the other direction. Alice ends up sharing a
+    key with Eve, Bob shares a different key with Eve, and Eve decrypts, reads and re-encrypts
+    everything that passes. Neither notices. This is a <em>man-in-the-middle</em> attack.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Turn on “Eve sits in the middle” and compare the keys: Alice and Bob each still get a
+      key, and nothing looks wrong to them, but each key is shared with Eve. Then turn on
+      “Bob signs his number” and see what changes.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-mitm" aria-labelledby="fig-mitm-cap">
+      <div class="controls">
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="mitm-on"> Eve sits in the middle</label>
+          <label class="toggle"><input type="checkbox" id="mitm-sign"> Bob signs his number; Alice checks</label>
+        </div>
+        <div class="control">
+          <label for="mitm-e">Eve’s own secret <var>e</var></label>
+          <input type="range" id="mitm-e" min="1" max="21" step="1" value="9">
+          <output id="mitm-e-out" for="mitm-e"></output>
+        </div>
+      </div>
+      <div class="dh-grid mitm-grid">
+        <div class="dh-col">
+          <h3 class="sans">Alice</h3>
+          <p>sends <var>A</var> = 5<sup>6</sup> mod 23 = <span class="num">8</span></p>
+          <p>receives <span id="mitm-ra"></span></p>
+          <p>key = <strong class="num" id="mitm-ka"></strong></p>
+        </div>
+        <div class="dh-col dh-public">
+          <h3 class="sans">On the wire</h3>
+          <p id="mitm-wire"></p>
+          <p class="sans" id="mitm-verdict" aria-live="polite"></p>
+        </div>
+        <div class="dh-col">
+          <h3 class="sans">Bob</h3>
+          <p>sends <var>B</var> = 5<sup>15</sup> mod 23 = <span class="num">19</span></p>
+          <p>receives <span id="mitm-rb"></span></p>
+          <p>key = <strong class="num" id="mitm-kb"></strong></p>
+        </div>
+      </div>
+      <figcaption id="fig-mitm-cap"><span class="fig-num">Figure 5.</span>A man-in-the-middle
+      attack on the exchange from Figure 3 (<var>p</var> = 23, <var>g</var> = 5, <var>a</var> = 6,
+      <var>b</var> = 15). When Eve intercepts, she replaces each number with
+      <var>E</var> = 5<sup><var>e</var></sup> mod 23 and does a separate exchange with each side.
+      A signature, which Eve cannot forge, lets Alice spot the swap.</figcaption>
+    </figure>
+
+    <p>Key exchange on its own gives you a secret shared with <em>whoever answered</em>. To know
+    who that is, real protocols add <em>authentication</em>: in TLS, the protocol behind
+    <code>https</code>, the server signs its half of the exchange with a key vouched for by a
+    certificate, which your browser checks.</p>
+
+    <h2>Who thought of it, and what runs today</h2>
+
+    <p>Whitfield Diffie and Martin Hellman published the method in November 1976, in a paper
+    called “New Directions in Cryptography”. Ralph Merkle had independently found a way to agree
+    on a key in public (his “puzzles”, proposed as a student project in 1974 and published in 1978), and Hellman later suggested calling it
+    Diffie–Hellman–Merkle key exchange. Unknown to all of them, three mathematicians at GCHQ, the British signals intelligence
+    agency, had got there first: James Ellis showed in 1970 that such a thing was possible in
+    principle, Clifford Cocks found a practical method in 1973 (essentially what became RSA), and
+    Malcolm Williamson described the same exchange as Diffie and Hellman in a secret report in
+    January 1974. It all stayed classified until December 1997.</p>
+
+    <p>Your browser today usually does the exchange not on a clock of numbers but on an
+    <em>elliptic curve</em>, a different mathematical setting where the backwards problem is
+    harder still, so keys can be much shorter. A very common choice, X25519 (RFC 7748, 2016),
+    uses 32-byte keys. A large enough quantum computer, running Shor's algorithm, could solve
+    both kinds of discrete logarithm; no such machine exists yet, but recorded traffic could be
+    decrypted later. So since late 2024, Chrome and Firefox also run ML-KEM, a post-quantum method
+    standardised by NIST as FIPS 203 in August 2024, side by side with X25519, and combine the
+    two secrets.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Authentication.</strong> As above, plain Diffie–Hellman does not tell you who you
+          are talking to. Real handshakes sign the exchange and check certificates.</li>
+          <li><strong>Safe parameters.</strong> Our primes have at most 6 bits. Real ones have 2,048
+          bits or more and are chosen with care (for example “safe primes” <var>p</var> =
+          2<var>q</var> + 1, with <var>q</var> also prime), and each side checks the number it
+          receives is valid; badly chosen groups have been broken.</li>
+          <li><strong>Better attacks.</strong> Figure 4 counts only brute force. The number field sieve
+          and other methods are far faster, which is why real sizes are so large. Figure 4 also counts every
+          multiplication as one step, although multiplying 2,048-bit numbers takes longer than
+          multiplying small ones.</li>
+          <li><strong>Side channels.</strong> A real implementation can leak its secret through timing,
+          power use or cache behaviour, even when the mathematics is sound. X25519 was designed to be
+          easy to implement in constant time.</li>
+          <li><strong>Turning the number into keys.</strong> The shared number is not used directly. Real
+          systems feed it, with the handshake transcript, through a <em>key derivation function</em>
+          (TLS 1.3 uses HKDF) to produce the actual encryption keys.</li>
+          <li><strong>Paint.</strong> Our colours mix by a simple equal-parts rule on screen colours;
+          real pigments are messier, and a careful chemist could partly unmix them.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>W. Diffie and M. E. Hellman, “New Directions in Cryptography”, <cite>IEEE Transactions on
+          Information Theory</cite> 22(6), 644–654, November 1976; summarised in
+          <a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Wikipedia, “Diffie–Hellman key exchange”</a>.
+          <span class="note">The protocol, the paint analogy, the worked example
+          p = 23, g = 5, a = 4, b = 3 → key 18 (reproduced exactly by Figure 3), Merkle's role and Hellman's 2002 naming suggestion.</span></li>
+          <li>M. J. Williamson, “Non-Secret Encryption Using a Finite Field”, CESG report, 21 January
+          1974; see <a href="https://en.wikipedia.org/wiki/Malcolm_J._Williamson">Wikipedia, “Malcolm J. Williamson”</a>.
+          <span class="note">GCHQ's earlier, secret discovery (Williamson, January 1974) and its declassification in 1997.
+          Ellis's 1970 and Cocks's 1973 dates are from J. H. Ellis, <a href="https://cryptocellar.org/cesg/ellis.pdf">“The History of Non-Secret Encryption”</a> (CESG, 1987).</span></li>
+          <li>A. Langley, M. Hamburg and S. Turner, <a href="https://www.rfc-editor.org/rfc/rfc7748">RFC 7748,
+          “Elliptic Curves for Security”</a>, January 2016.
+          <span class="note">X25519, its prime 2<sup>255</sup> − 19 and 32-byte keys; design for
+          constant-time implementation.</span></li>
+          <li>NIST, <a href="https://csrc.nist.gov/pubs/fips/203/final">FIPS 203, “Module-Lattice-Based
+          Key-Encapsulation Mechanism Standard”</a>, 13 August 2024.
+          <span class="note">ML-KEM: what it is and that it is intended to resist quantum attacks.</span></li>
+          <li>The Hacker News, <a href="https://thehackernews.com/2024/09/google-chrome-switches-to-ml-kem-for.html">“Google
+          Chrome Switches to ML-KEM for Post-Quantum Cryptography Defense”</a>, September 2024.
+          <span class="note">Chrome combining ML-KEM-768 with X25519 in TLS by default (Chrome 131, November 2024).
+          Firefox 132 on desktop, October 2024, from <a href="https://developers.cloudflare.com/ssl/post-quantum-cryptography/pqc-support/">Cloudflare's post-quantum support table</a>.</span></li>
+          <li>E. Barker, <a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">NIST SP 800-57 Part 1 Rev. 5, “Recommendation for Key Management”</a>, 2020, Table 2;
+          D. Adrian et al., “Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice”, ACM CCS 2015 (<a href="https://weakdh.org/">weakdh.org</a>).
+          <span class="note">A 2,048-bit finite-field group is rated about 112 bits of security; Logjam's estimate of
+          hundreds of millions of dollars of hardware to break one 1,024-bit prime.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+        </dl>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="exhibit.js"></script>
+</body>
+</html>

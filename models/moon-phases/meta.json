@@ -1,0 +1,10 @@
+{
+  "slug": "moon-phases",
+  "title": "Why does the Moon have phases?",
+  "question": "It isn't Earth's shadow. Drag the Moon round its orbit and see what is really going on.",
+  "field": "Astronomy",
+  "summary": "Half the Moon is always lit; the phase is how much of that half faces us. Test the shadow explanation, see why eclipses come in seasons (with a real ephemeris that finds 2026's four eclipses), and why we always see the same face.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

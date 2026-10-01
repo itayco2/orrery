@@ -1,0 +1,9 @@
+/* Local styles for the neural-net exhibit */
+.nn-square { --aspect: 1 / 1; max-width: 26rem; margin: 0 auto; }
+.nn-loss { --aspect: 3 / 1; max-width: 32rem; margin: 0.75rem auto 0; }
+.nn-legend { font-family: var(--sans); font-size: 0.9rem; color: var(--ink-2); text-align: center; margin: 0.5rem 0 0; }
+.nn-legend .sw { display: inline-block; width: 0.8em; height: 0.8em; vertical-align: -0.05em; margin: 0 0.25em 0 0.6em; }
+.nn-legend .sw.circle { border-radius: 50%; background: var(--verdigris); }
+.nn-legend .sw.square { background: var(--brass); }
+.nn-legend .sw.ring { border-radius: 50%; border: 2px solid var(--alarm); }
+#down-state { font-family: var(--sans); }

@@ -1,0 +1,18 @@
+/* queues exhibit: local layout tweaks only */
+#fig-till .stage { --aspect: 16 / 8; }
+#fig-lines .stage { --aspect: 16 / 8; }
+#fig-var .stage { --aspect: 16 / 9; }
+#fig-curve .stage { --aspect: 16 / 9; }
+@media (max-width: 600px) {
+  #fig-till .stage { --aspect: 4 / 5; }
+  #fig-lines .stage { --aspect: 4 / 5; }
+  #fig-var .stage { --aspect: 4 / 5; }
+  #fig-curve .stage { --aspect: 5 / 4; }
+}
+.fig .stage canvas, .fig .stage svg { display: block; width: 100%; height: 100%; }
+#curve-svg:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.readouts .theory { color: var(--ink-3); }
+table.compare { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: .95rem; margin: .5rem 0; }
+table.compare th, table.compare td { padding: .3rem .5rem; text-align: right; border-bottom: 1px solid var(--rule); }
+table.compare th:first-child, table.compare td:first-child { text-align: left; }
+table.compare td { font-family: var(--mono); font-variant-numeric: tabular-nums; }

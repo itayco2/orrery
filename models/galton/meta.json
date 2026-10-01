@@ -1,0 +1,10 @@
+{
+  "slug": "galton",
+  "title": "Why do bell curves show up everywhere?",
+  "question": "Heights, errors and test scores all make the same hump. Why — and when don't they?",
+  "field": "Mathematics",
+  "summary": "A Galton board, sums of dice of any shape, and growth that multiplies: the central limit theorem, and the two ways the bell curve fails.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

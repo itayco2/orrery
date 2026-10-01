@@ -1,0 +1,10 @@
+{
+  "slug": "tides",
+  "title": "Why are there two tides a day?",
+  "question": "The Moon pulls the sea towards it — so why is there a high tide on the far side too?",
+  "field": "Astronomy",
+  "summary": "The tide is the difference in the Moon’s pull across the Earth: a stretch both ways along the Earth–Moon line that fades as 1/d³. Turn the Earth under its two bulges, and add the Sun to get spring and neap tides.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

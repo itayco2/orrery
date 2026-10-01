@@ -1,0 +1,10 @@
+{
+  "slug": "key-exchange",
+  "title": "How can two strangers agree on a secret in public?",
+  "question": "Two machines that have never met agree on a secret while anyone can listen. How?",
+  "field": "Computing",
+  "summary": "Diffie–Hellman key exchange, first with paint and then with arithmetic on a clock: perform the exchange with small numbers, watch an eavesdropper search, and see why each extra bit doubles her work.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

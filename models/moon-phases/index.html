@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why does the Moon have phases? — Orrery</title>
+<meta name="description" content="Half the Moon is always lit. Drag the Moon round its orbit to see why it waxes and wanes, why Earth's shadow isn't the cause, why eclipses are rare, and why we always see the same face.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/moon-phases/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why does the Moon have phases? — Orrery">
+<meta property="og:description" content="Half the Moon is always lit. Drag the Moon round its orbit to see why it waxes and wanes, why Earth&#x27;s shadow isn&#x27;t the cause, why eclipses are rare, and why we always see the same face.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/moon-phases/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/moon-phases/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why does the Moon have phases?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why does the Moon have phases? — Orrery">
+<meta name="twitter:description" content="Half the Moon is always lit. Drag the Moon round its orbit to see why it waxes and wanes, why Earth&#x27;s shadow isn&#x27;t the cause, why eclipses are rare, and why we always see the same face.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/moon-phases/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why does the Moon have phases?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Astronomy</p>
+      <h1>Why does the Moon have phases?</h1>
+      <p class="lede">Over a month the Moon thins to a sliver, vanishes, and grows back to a full
+      disc. A common explanation is that Earth’s shadow covers part of it. That explanation is
+      wrong, and you can test it yourself.</p>
+    </header>
+
+    <h2>Half lit, always</h2>
+
+    <p>The Moon makes no light of its own. It shines because sunlight falls on it, and sunlight
+    can only reach the half that faces the Sun. So at every moment, <strong>exactly half of the
+    Moon is lit</strong> and half is in night. The line between the two, where the Sun is rising
+    or setting on the Moon’s surface, is called the <em>terminator</em>.</p>
+
+    <p>The Moon goes round Earth once a month. From Earth we always see the half of the Moon that
+    faces us. The phase is simply how much of the lit half falls inside the half facing us. When
+    the Moon is roughly between us and the Sun, the lit half faces away and we see almost nothing:
+    a <em>new moon</em>. When the Moon is on the far side of Earth from the Sun, the lit half faces
+    us squarely: a <em>full moon</em>. Everything else is in between.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the Moon round its orbit in the view from above, with the sunlight arrows (or click the figure and use the arrow
+      keys). The gold half is lit; the green arc marks the half facing Earth. Notice that the lit
+      half always faces the Sun, wherever the Moon is. Only the overlap changes.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-phases" aria-labelledby="fig-phases-cap">
+      <div class="stage">
+        <canvas id="phase-canvas" role="slider" aria-label="Position of the Moon in its orbit (elongation, degrees)"
+                aria-valuemin="0" aria-valuemax="359" aria-valuenow="50" aria-describedby="fig-phases-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn" id="phase-play">Play</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Phase</dt><dd id="phase-name">Waxing crescent</dd></div>
+        <div><dt>Days since new moon</dt><dd id="phase-days">4.1 days</dd></div>
+        <div><dt>Elongation</dt><dd id="phase-elong">50°</dd></div>
+        <div><dt>Illuminated fraction</dt><dd id="phase-frac">18%</dd></div>
+      </dl>
+      <figcaption id="fig-phases-cap"><span class="fig-num">Figure 1.</span>Top view: the Sun, far
+      off to the left, Earth and the Moon’s orbit seen from above Earth’s north pole (not to scale).
+      Sky view: the Moon as seen from Earth’s northern hemisphere. Drag the Moon, or focus the figure
+      and press the arrow keys (Shift for bigger steps). Play runs one month in 12 seconds.</figcaption>
+    </figure>
+
+    <p>A few names make this precise. The <em>elongation</em> is the angle between the Sun and
+    the Moon as seen from Earth: 0° at new moon, 90° at the quarters, 180° at full. The
+    <em>illuminated fraction</em> is the share of the Moon’s visible disc that is lit. For sunlight
+    arriving in parallel lines (the Sun is about 390 times farther away than the Moon, so that is a
+    good approximation), it is</p>
+
+    <p class="formula">illuminated fraction = (1 − cos <var>E</var>) / 2</p>
+
+    <p>where <var>E</var> is the elongation. At 90° the cosine is zero and half the disc is lit.
+    Astronomers also use the <em>phase angle</em>, the angle Sun–Moon–Earth measured at the Moon;
+    it is close to 180° minus the elongation.</p>
+
+    <p>While the lit part is growing (from new to full) the Moon is <em>waxing</em>; while it
+    shrinks it is <em>waning</em>. Less than half lit is a <em>crescent</em>; more than half is
+    <em>gibbous</em>, from the Latin for “humped”. The “quarters” are named for the Moon being a
+    quarter and three quarters of the way round its orbit, not for how much of it is lit: a quarter
+    moon is half lit. One full cycle of phases takes 29.53 days on average: the
+    <em>synodic month</em>.</p>
+
+    <h2>The shadow test</h2>
+
+    <p>If Earth’s shadow made the phases, where would that shadow have to be? A shadow always points
+    directly away from the light. Earth’s shadow is a long, slowly narrowing cone stretching about
+    1.4 million km behind Earth, on the side opposite the Sun. By the Moon’s distance, 384,400 km
+    away, its dark core (the <em>umbra</em>) is still about 9,400 km across (that is 1.4° of sky, counting the 2% the atmosphere adds; the
+    plain geometry gives 9,200 km), a little over two and a half times the Moon’s width of 3,475 km. Around it is a fainter fringe, the <em>penumbra</em>,
+    where only part of the Sun is hidden.</p>
+
+    <p>So the shadow can only reach the Moon when the Moon is on the far side of Earth from the Sun,
+    which is exactly when it is full. A crescent moon is on the <em>same</em> side as the Sun, where
+    there is no shadow of Earth at all.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The figure starts at a waxing gibbous moon, 30° before full. Use the arrow keys, which move
+      the Moon half a degree (about an hour) at a time, or the buttons, and bring it slowly to full.
+      The sky panel shows the Moon and the outline of Earth’s shadow at their true angular
+      sizes. Then press New moon or First quarter, or drag the Moon to a crescent, and see where the shadow is.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-shadow" aria-labelledby="fig-shadow-cap">
+      <div class="stage">
+        <canvas id="shadow-canvas" role="slider" aria-label="Position of the Moon in its orbit, with Earth's shadow shown"
+                aria-valuemin="0" aria-valuemax="359.5" aria-valuenow="150" aria-describedby="fig-shadow-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn" id="shadow-go-new">New moon</button>
+          <button type="button" class="btn" id="shadow-go-q1">First quarter</button>
+          <button type="button" class="btn" id="shadow-go-before">2 hours before full</button>
+          <button type="button" class="btn" id="shadow-go-full">Full moon</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Phase</dt><dd id="shadow-name">Waxing gibbous</dd></div>
+        <div><dt>Moon to shadow’s centre</dt><dd id="shadow-gap">30°</dd></div>
+        <div><dt>Shadow</dt><dd id="shadow-state">Not touched by Earth’s shadow</dd></div>
+      </dl>
+      <figcaption id="fig-shadow-cap"><span class="fig-num">Figure 2.</span>The same view with Earth’s
+      shadow added. In the sky view, the Moon (0.52° across) and the shadow at the Moon’s distance
+      (umbra 1.4° across, penumbra 2.5°) are drawn to the same angular scale. The shadow is invisible
+      against the sky; its outline is dashed. East is to the left, as when you face south. In this
+      figure the Moon’s orbit lies flat in the plane of Earth’s orbit.</figcaption>
+    </figure>
+
+    <p>Two things give the shadow away. First, it only ever arrives near full moon. Second, its edge
+    has the wrong shape. The inner edge of a crescent or gibbous moon is the terminator seen at a slant, so it
+    is half an ellipse that always runs from the Moon’s north point to its south point. The edge of Earth’s
+    shadow is part of a circle more than twice the Moon’s size, and it can cut across the disc
+    at any angle. When the shadow does reach the Moon, the result is not a phase but a <em>lunar
+    eclipse</em>: in the umbra, the Moon turns a dim copper colour, lit only by sunlight bent through
+    Earth’s atmosphere.</p>
+
+    <p>The Moon moves across the sky relative to the Sun by about 0.5° an hour, its own width, so
+    crossing the shadow takes a few hours. In Figure 2 the shadow swallows the Moon at every full
+    moon. In reality most full moons pass it by.</p>
+
+    <h2>Why not an eclipse every month?</h2>
+
+    <p>Because the Moon’s orbit is tilted. It is inclined 5.1° to the <em>ecliptic</em>, the plane
+    of Earth’s orbit round the Sun (and so the path the Sun seems to follow across the sky). Five
+    degrees sounds small, but at the Moon’s distance it lets the Moon pass up to 34,000 km north or
+    south of the line from the Sun through Earth. The umbra is only about 9,400 km wide, so at most full
+    moons the Moon slips above or below it. Solar eclipses have the same problem in reverse: at most
+    new moons the Moon’s shadow passes above or below Earth.</p>
+
+    <p>The Moon’s tilted orbit crosses the ecliptic at two points called <em>nodes</em>. An eclipse
+    needs a new or full moon to happen close to a node. The line through the two nodes keeps pointing
+    in almost the same direction in space as Earth carries it round the Sun. Twice a year, about 173
+    days apart, that line points at the Sun. For a few weeks around each of those times, called an
+    <em>eclipse season</em>, every new moon and full moon falls near a node, and eclipses happen.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Press Play, or drag across the chart, to run through 2026. In the top view, watch the line of
+      nodes (green) turn red when it points at the Sun. On the chart, each gold dot is a full moon
+      and each open dot a new moon, placed at how far north or south of the ecliptic the Moon is at
+      that moment. Eclipses (ringed in red) happen only where the dots fall inside the grey band,
+      and that happens only in the shaded seasons.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-seasons" aria-labelledby="fig-seasons-cap">
+      <div class="season-grid">
+        <div class="stage orbit scrollable">
+          <canvas id="season-orbit" role="img" aria-label="Earth going round the Sun, seen from above, with the Moon's orbit (enlarged) and its line of nodes, for the chosen date."></canvas>
+        </div>
+        <div class="stage chart">
+          <canvas id="season-chart" role="slider" aria-label="Date in the year; the chart shows the Moon's latitude at each new and full moon"
+                  aria-valuemin="0" aria-valuemax="364" aria-valuenow="45" aria-describedby="fig-seasons-cap"></canvas>
+        </div>
+      </div>
+      <p class="key" aria-hidden="true"><span><i class="sw full"></i>full moon</span><span><i class="sw new"></i>new moon</span><span><i class="sw ring"></i>eclipse</span><span>grey band: within 1.5° of the ecliptic</span><span>shaded columns: eclipse seasons</span></p>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="season-day">Date</label>
+          <input type="range" id="season-day" min="0" max="364" step="1" value="45">
+          <output id="season-day-out" for="season-day">15 Feb 2026</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="season-play">Play</button>
+          <label for="season-year" class="sans">Year</label>
+          <select id="season-year">
+            <option>2024</option><option>2025</option><option selected>2026</option><option>2027</option>
+            <option>2028</option><option>2029</option><option>2030</option>
+          </select>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Date</dt><dd id="season-date">15 Feb 2026</dd></div>
+        <div><dt>Phase</dt><dd id="season-phase">Waning crescent</dd></div>
+        <div><dt>Moon from ecliptic</dt><dd id="season-lat">0°</dd></div>
+        <div><dt>Sun from nearer node</dt><dd id="season-node">0°</dd></div>
+      </dl>
+      <div class="season-list" aria-live="polite">
+        Eclipses this model finds in <span id="season-list-year">2026</span>:
+        <ul id="season-list"></ul>
+      </div>
+      <figcaption id="fig-seasons-cap"><span class="fig-num">Figure 3.</span>Top view: Earth’s orbit seen
+      from above, with the Moon’s orbit drawn much too big. The solid half of the Moon’s orbit is north
+      of the ecliptic, the dashed half south; the dots where they meet are the nodes. Chart: the Moon’s
+      distance north (+) or south (−) of the ecliptic through the year. Positions come from a
+      simplified version of the standard lunar theory, computed in your browser. Use the slider, drag
+      the chart, or focus it and press the arrow keys.</figcaption>
+    </figure>
+
+    <p>For 2026 this simple model finds the same four eclipses that NASA lists: an annular solar
+    eclipse on 17 February (the Moon too far from Earth to cover the Sun completely, leaving a ring),
+    a total lunar eclipse on 3 March, a total solar eclipse on 12 August across Greenland, Iceland and
+    Spain, and a partial lunar eclipse on 28 August. They come in pairs, a fortnight apart, one pair
+    per eclipse season.</p>
+
+    <p>The nodes are not quite fixed. The Sun’s pull swings them slowly backwards round the orbit,
+    once every 18.6 years. So the Sun comes back to the same node every 346.6 days, the
+    <em>eclipse year</em>, which is about 19 days shorter than a calendar year. Each year’s eclipse
+    seasons come about 19 days earlier than the last. Change the year in Figure 3 to watch them drift.</p>
+
+    <h2>The same face</h2>
+
+    <p>One more thing about the Moon never seems to change: its face. The dark patches that make the
+    “man in the Moon” are always in the same places. That is not because the Moon doesn’t spin. It
+    spins exactly once for every trip round Earth, so the same side keeps facing us. This is called
+    <em>synchronous rotation</em>, or tidal locking. Earth’s gravity stretches the Moon slightly
+    along the Earth–Moon line, and over billions of years the friction of that stretching slowed the
+    Moon’s spin until it matched its orbit.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Set the spin to 0, so the Moon keeps pointing the same way in space as it orbits. Watch the
+      view from Earth: the familiar dark patches roll away and the far side comes round. Then try
+      values just off 1, such as 0.95, and see the face slowly drift.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-face" aria-labelledby="fig-face-cap">
+      <div class="stage">
+        <canvas id="face-canvas" role="slider" aria-label="Position of the Moon in its orbit (degrees)"
+                aria-valuemin="0" aria-valuemax="359" aria-valuenow="0" aria-describedby="fig-face-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="face-spin">Spin (turns per orbit)</label>
+          <input type="range" id="face-spin" min="0" max="2" step="0.05" value="1">
+          <output id="face-spin-out" for="face-spin">1.00 (tidally locked)</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="face-play">Pause</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Time into the orbit</dt><dd id="face-days">0.0 days</dd></div>
+        <div><dt>Longitude facing Earth</dt><dd id="face-lon">0°</dd></div>
+        <div><dt>Share of the starting near side still facing Earth</dt><dd id="face-near">100%</dd></div>
+      </dl>
+      <figcaption id="fig-face-cap"><span class="fig-num">Figure 4.</span>Top view: the Moon orbiting
+      Earth, seen from above (not to scale). The green half is the side that faced Earth at the start;
+      the red line marks one point on it. Second panel: the Moon as Earth would see it, drawn fully lit so you
+      can follow its markings: the large dark plains (maria) of the real near side and a few far-side
+      features. Drag the Moon or use the arrow keys.</figcaption>
+    </figure>
+
+    <p>Figure 4 counts time in the <em>sidereal month</em>, 27.32 days: one orbit measured against
+    the distant stars, which is also one spin of the Moon. The phases repeat every 29.53 days instead.
+    The difference comes from Earth’s own motion. During one sidereal month Earth travels about 27°
+    round the Sun, so the Moon must go a little more than one full orbit to get back to the same
+    angle from the Sun. In numbers: 1/29.53 = 1/27.32 − 1/365.26, per day. The same 29.53 days is
+    the length of a day on the Moon, from one sunrise to the next.</p>
+
+    <p>That also settles the “dark side of the Moon”. The far side gets just as much sunlight as the
+    near side. At new moon, when we see nothing, the far side is fully lit.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Scale.</strong> The figures squeeze the Moon close to Earth. In truth the Moon is
+          about 30 Earth diameters away, and a quarter of Earth’s width:
+          <svg class="scale-strip" viewBox="-0.2 -1.1 31.8 2.2" role="img" aria-label="To scale: Earth, and the Moon 30 Earth diameters away, drawn about a quarter of Earth's width.">
+            <line x1="0.5" y1="0" x2="30.67" y2="0" stroke="var(--rule)" stroke-width="0.04" stroke-dasharray="0.2 0.2"/>
+            <circle cx="0.5" cy="0" r="0.5" fill="var(--verdigris-lit)" stroke="var(--verdigris)" stroke-width="0.04"/>
+            <circle cx="30.67" cy="0" r="0.136" fill="var(--brass-lit)" stroke="var(--brass)" stroke-width="0.03"/>
+            <text x="15.5" y="-0.35" font-size="0.7" text-anchor="middle" fill="var(--ink-3)" font-family="sans-serif">384,400 km ≈ 30 Earth diameters</text>
+          </svg>
+          At this scale the Sun, 109 Earths wide, would be about 390 times the length of this strip away.</li>
+          <li><strong>A circular, flat orbit</strong> in Figures 1, 2 and 4. The real orbit is an
+          ellipse: the Moon’s distance swings between about 363,000 and 406,000 km, so it looks up to
+          about 12% wider at its closest than at its farthest. That is what makes some solar eclipses annular. The months
+          are not all the same length either: the 29.53 days is an average. Figure 3 does include the
+          ellipse and the tilt.</li>
+          <li><strong>Regression of the nodes.</strong> Figure 3 includes the 18.6-year turning of the
+          nodes, but only the largest wobbles of the Moon’s motion. Its eclipse times are good to about
+          twenty minutes and its magnitudes to a few hundredths. It does not work out where on Earth
+          a solar eclipse is seen, and it decides “total” or “annular” by comparing the Sun’s and Moon’s sizes
+          as seen from Earth’s centre, so it would call a <em>hybrid</em> eclipse (annular in some places,
+          total in others) one or the other. NASA lists none in 2024–2030. Its 1.5° band is only a rough guide to the true eclipse limits,
+          which change with the Moon’s distance.</li>
+          <li><strong>Libration.</strong> Because the orbit is elliptical and tilted, the Moon seems to
+          rock a little during the month, and over time we see about 59% of its surface, not 50%.</li>
+          <li><strong>Earthshine.</strong> Near new moon, the “dark” part of the Moon glows faintly with
+          sunlight reflected from Earth. The figures draw it plain dark.</li>
+          <li><strong>Where you stand.</strong> The Moon views here are for the northern hemisphere. From
+          the southern hemisphere the Moon appears upside down, so a waxing crescent is lit on the
+          left. Near the equator a crescent can lie on its back.</li>
+          <li><strong>The shadow’s edges.</strong> The Sun is not a point, so the umbra fades into the
+          penumbra gradually. Earth’s atmosphere also enlarges the shadow by about 2% (the figures and the 9,400 km umbra
+          include this) and bends red light into it; the figures draw both zones with sharp edges.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>D. R. Williams, “Moon Fact Sheet”, NASA Goddard Space Flight Center.
+          <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html">nssdc.gsfc.nasa.gov</a>
+          <span class="note">Orbit inclination 5.145°, mean distance 384,400 km, perigee and apogee,
+          synodic period 29.53 days, sidereal rotation 27.3 days, radius 1,737.4 km.</span></li>
+          <li>F. Espenak, “Eclipses During 2026”, NASA Eclipse Web Site.
+          <a href="https://eclipse.gsfc.nasa.gov/OH/OH2026.html">eclipse.gsfc.nasa.gov</a>
+          <span class="note">The four eclipses of 2026, their types and times; umbral magnitudes
+          1.151 (3 March) and 0.932 (28 August). Used to check Figure 3, together with the same site’s
+          decade lists of solar and lunar eclipses, 2021–2030, for the other years in its menu.</span></li>
+          <li>J. M. Pasachoff and F. Espenak, “Eclipse”, <cite>AccessScience</cite> (McGraw Hill,
+          reviewed 2024). <a href="https://www.accessscience.com/content/article/a211800">accessscience.com</a>
+          <span class="note">Eclipses need the Sun and Moon near a node; eclipse seasons; the eclipse
+          year of 346.6 days; the 18.6-year cycle of the nodes.</span></li>
+          <li>NASA Scientific Visualization Studio, “Moon Wobble”.
+          <a href="https://svs.gsfc.nasa.gov/10836">svs.gsfc.nasa.gov</a>
+          <span class="note">Synchronous rotation; libration lets us see about 59% of the surface.</span></li>
+          <li>J. Meeus, <cite>Astronomical Algorithms</cite>, 2nd ed. (Willmann-Bell, 1998), chapters 25
+          and 47. <span class="note">The truncated series for the Sun’s and Moon’s positions used in
+          Figure 3 (the largest terms only). Checked by reproducing every eclipse of 2024–2030 in NASA’s
+          lists, on the right dates and with the right types.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+          <dt>Revised</dt><dd>1 October 2026: in light mode the Moon’s night side is now dark, the
+          umbra is given as 9,400 km to match Figure 2, near new and full the “lit” percentage keeps two
+          decimals, and two labels were made plainer.</dd>
+        </dl>
+        <p>Figures are drawn on canvas with Orrery’s shared kit; the Sun and Moon positions in Figure 3
+        are computed in sky.js.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="sky.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

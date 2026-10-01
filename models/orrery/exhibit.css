@@ -1,0 +1,29 @@
+/* Orrery exhibit: local styles only. */
+.top-stage { max-width: 36rem; margin: 0 auto; }
+.sky-stage { --aspect: 2 / 1; }
+.kepler-stage { --aspect: 16 / 9; }
+@media (max-width: 40rem) {
+  .sky-stage { --aspect: 3 / 4; }
+  .kepler-stage { --aspect: 4 / 3; }
+}
+label.sel { display: inline-flex; align-items: center; gap: 0.4em; font-family: var(--sans); font-size: 0.9rem; color: var(--ink-2); }
+.planet-table td, .planet-table th, .kepler-table td, .kepler-table th { padding: 0.3em 0.6em 0.3em 0; }
+.planet-table td.num, .planet-table th.num, .kepler-table td.num, .kepler-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.planet-table, .kepler-table { font-family: var(--sans); font-size: 0.86rem; }
+.planet-table .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.45em; vertical-align: -0.05em; }
+.planet-table .glare { color: var(--ink-3); }
+.kepler-table caption { caption-side: bottom; text-align: left; font-family: var(--sans); font-size: 0.82rem; color: var(--ink-3); padding-top: 0.4em; }
+.planet-table td.num { white-space: nowrap; }
+@media (max-width: 40rem) {
+  .planet-table .km { display: none; }
+  .planet-table { font-size: 0.8rem; }
+}
+/* Figure 1 on a wide screen: the top view on the left, controls and table beside it. */
+@media (min-width: 60rem) {
+  #fig-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 24rem); column-gap: 1.5rem; align-items: start; }
+  #fig-top .top-stage { grid-column: 1; grid-row: 1 / span 2; max-width: none; margin: 0; }
+  #fig-top .controls { grid-column: 2; grid-row: 1; margin-top: 0; }
+  #fig-top .table-scroll { grid-column: 2; grid-row: 2; }
+  #fig-top figcaption { grid-column: 1 / -1; }
+  #fig-top .planet-table .km { display: none; }
+}

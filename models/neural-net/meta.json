@@ -1,0 +1,10 @@
+{
+  "slug": "neural-net",
+  "title": "How does a machine learn from examples?",
+  "question": "Nobody writes the rules into a neural network. So where do they come from?",
+  "field": "Computing",
+  "summary": "Set one artificial neuron by hand, walk gradient descent downhill (and break it with too big a step), then watch a tiny network trained live in your browser bend its boundary around XOR, a circle or two moons.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

@@ -1,0 +1,13 @@
+/* Orbits exhibit: local layout for the figures. */
+.cannon-stage { --aspect: 16 / 10; }
+.planet-stage { --aspect: 16 / 9; }
+.law-stage    { --aspect: 16 / 9; }
+@media (max-width: 40rem) {
+  .cannon-stage { --aspect: 1 / 1.15; }
+  .planet-stage { --aspect: 1 / 1; }
+  .law-stage    { --aspect: 1 / 1; }
+}
+.fig .btn-row { flex-wrap: wrap; }
+#planet-canvas { touch-action: none; cursor: grab; }
+.kepler-stage { --aspect: 16 / 9; }
+@media (max-width: 40rem) { .kepler-stage { --aspect: 1 / 1; } }

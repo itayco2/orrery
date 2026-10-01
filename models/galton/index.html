@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why do bell curves show up everywhere? — Orrery</title>
+<meta name="description" content="A Galton board and the central limit theorem: why many small effects that add up make a bell curve, and when they don't.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/galton/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why do bell curves show up everywhere? — Orrery">
+<meta property="og:description" content="A Galton board and the central limit theorem: why many small effects that add up make a bell curve, and when they don&#x27;t.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/galton/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/galton/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why do bell curves show up everywhere?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why do bell curves show up everywhere? — Orrery">
+<meta name="twitter:description" content="A Galton board and the central limit theorem: why many small effects that add up make a bell curve, and when they don&#x27;t.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/galton/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why do bell curves show up everywhere?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Mathematics</p>
+      <h1>Why do bell curves show up everywhere?</h1>
+      <p class="lede">Adult heights, the errors in a careful measurement, the scores on a long test:
+      plot any of them and you tend to see the same smooth hump. It isn’t a law about people or
+      rulers. It is what happens whenever many small, independent effects add up — and knowing that
+      tells you when <em>not</em> to expect a bell.</p>
+    </header>
+
+    <p>It is tempting to think the bell curve is how nature likes things to be: that most people are
+    “average” because averageness is somehow built in. That gets the cause backwards. The bell is
+    not a property of heights or of test-takers. It is a property of <em>addition</em>. Take almost
+    anything that is the total of many small pushes, each a bit random and none of them in charge,
+    and the totals will pile up in a bell. Change how the pushes combine and the bell goes away.</p>
+
+    <p>The cleanest way to see this is a machine built for the purpose.</p>
+
+    <h2>A board full of coin flips</h2>
+
+    <p>In the 1870s the English scientist Francis Galton built a board he called a
+    <em>quincunx</em>, after the five-dot pattern of its pegs. Lead shot poured in at the top and
+    fell through rows of pegs. At each peg a ball goes left or right, and at the bottom the balls
+    collect in bins. A ball’s bin is simply the number of times it went right. Galton described the
+    device in detail in his 1889 book <cite>Natural Inheritance</cite>, where he called the falling balls “shot”.</p>
+
+    <p>Below is a model of that board in which every bounce really is an independent coin flip.
+    Press <strong>Release balls</strong> to watch them fall, or <strong>Drop 1,000</strong> to add a
+    thousand at once. Then change the number of rows, or tilt the odds with the bias slider, and
+    watch where the pile ends up.</p>
+
+    <figure class="fig wide" id="fig-board" aria-labelledby="fig-board-cap">
+      <div class="stage" style="--aspect: 16 / 10">
+        <canvas id="board-canvas" role="img" aria-label="A Galton board: balls fall through a triangle of pegs into bins below. The heights of the piles are compared with the exact binomial prediction and a normal curve."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="board-rows">Rows of pegs</label>
+          <input type="range" id="board-rows" min="1" max="20" step="1" value="12">
+          <output id="board-rows-out" for="board-rows">12 rows</output>
+        </div>
+        <div class="control stacked">
+          <label for="board-p">Chance of going right</label>
+          <input type="range" id="board-p" min="0.05" max="0.95" step="0.05" value="0.5">
+          <output id="board-p-out" for="board-p">50% right</output>
+        </div>
+        <div class="control stacked">
+          <label for="board-rate">Release rate</label>
+          <input type="range" id="board-rate" min="1" max="60" step="1" value="12">
+          <output id="board-rate-out" for="board-rate">12 balls/s</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="board-play">Pause</button>
+          <button type="button" class="btn" id="board-drop">Drop 1,000</button>
+          <button type="button" class="btn" id="board-reset">Empty the bins</button>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="board-binom" checked> Exact binomial</label>
+          <label class="toggle"><input type="checkbox" id="board-normal" checked> Normal curve</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Balls landed</dt><dd id="board-count">150</dd></div>
+        <div><dt>Average bin</dt><dd id="board-mean">—</dd></div>
+        <div><dt>Spread (standard deviation)</dt><dd id="board-sd">—</dd></div>
+        <div><dt>Likeliest bin</dt><dd id="board-mid">—</dd></div>
+      </dl>
+      <figcaption id="fig-board-cap"><span class="fig-num">Figure 1.</span>A Galton board in which
+      each bounce is an independent coin flip. Bars: balls landed in each bin. Short level lines: the exact
+      binomial prediction for that many balls. Green: the normal curve with the same mean and
+      spread. Changing rows or bias empties the board and drops 150 fresh balls. With reduced
+      motion, nothing falls until you press Release balls.</figcaption>
+    </figure>
+
+    <p>With 12 rows there are 2<sup>12</sup> = 4,096 equally likely left–right paths. Only one of
+    them ends in the far-left bin (left every time), so that bin catches about 1 ball in 4,096, or
+    0.02%. But 924 different paths end in the middle bin (six lefts and six rights, in any order),
+    so it catches 924 in 4,096, about 22.6%. The middle is crowded not because balls are drawn to
+    it but because there are vastly more ways to get there.</p>
+
+    <p>Counting paths like this gives the <em>binomial distribution</em>. With <var>n</var> rows and
+    a chance <var>p</var> of going right at each peg, the chance of landing in bin <var>k</var>
+    is</p>
+
+    <p class="formula">P(<var>k</var>) = C(<var>n</var>, <var>k</var>) · <var>p</var><sup><var>k</var></sup> · (1 − <var>p</var>)<sup><var>n</var> − <var>k</var></sup></p>
+
+    <p>where C(<var>n</var>, <var>k</var>), “<var>n</var> choose <var>k</var>”, is the number of
+    paths with exactly <var>k</var> rights. The average bin is <var>n</var><var>p</var>, and the
+    typical distance from it — the <em>standard deviation</em>, a measure of spread — is
+    √(<var>n</var><var>p</var>(1 − <var>p</var>)). The short level lines in the figure are this formula;
+    the bars are what actually happened, and they wobble around the ticks less and less as more
+    balls land.</p>
+
+    <p>The green curve is something else: the <em>normal distribution</em>, the smooth bell defined by
+    nothing but a centre and a spread. In 1733 the mathematician Abraham de Moivre showed that for a
+    fair coin and many rows, the binomial counts hug this curve ever more closely. Try 3 rows, where
+    the fit is rough, then 20, where it is hard to tell apart. Then push the bias to 10% with only
+    a few rows: the pile leans against the left wall and the bell fits badly. Add rows and, even
+    with the bias, the pile pulls away from the wall and becomes a bell again — it just takes
+    longer.</p>
+
+    <h2>It doesn’t matter what you add</h2>
+
+    <p>A coin flip is a very simple effect: 0 or 1. The surprise is that the bell does not depend on
+    that. Around 1810 Pierre-Simon Laplace showed that sums of many independent errors of almost
+    any shape come out bell-shaped. This is the <em>central limit theorem</em>: add up many
+    independent random effects, none of which dominates and each of which has a finite spread, and
+    the total is close to a normal distribution — whatever the shape of the individual effects.</p>
+
+    <p>In the next figure, pick the shape of a single effect: a fair die, a lopsided die that lands
+    on 1 half the time, a two-humped die that mostly lands on 1 or 6, or a coin that pays 1 only
+    one time in ten. Then slide <var>n</var>, the number of them you add. The bars are the exact
+    probabilities of each total, worked out by combining every possible outcome, not by
+    simulation.</p>
+
+    <figure class="fig wide" id="fig-sum" aria-labelledby="fig-sum-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 9">
+        <canvas id="sum-canvas" role="img" aria-label="Histogram of the exact probabilities for the sum of several random effects, with a normal curve of the same mean and spread."></canvas>
+      </div>
+      <div class="controls">
+        <div class="shape-row" role="group" aria-label="Shape of one effect">
+          <span class="lbl" aria-hidden="true">One effect:</span>
+          <span id="sum-shapes" class="shape-row">
+            <button type="button" class="btn" data-shape="fair" aria-pressed="false">Fair die</button>
+            <button type="button" class="btn" data-shape="lop" aria-pressed="true">Lopsided die</button>
+            <button type="button" class="btn" data-shape="humps" aria-pressed="false">Two-humped die</button>
+            <button type="button" class="btn" data-shape="jack" aria-pressed="false">1-in-10 coin</button>
+          </span>
+        </div>
+        <div class="control stacked">
+          <label for="sum-n">How many to add, <var>n</var></label>
+          <input type="range" id="sum-n" min="1" max="60" step="1" value="1">
+          <output id="sum-n-out" for="sum-n">1 effect</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Mean of the sum</dt><dd id="sum-mean">—</dd></div>
+        <div><dt>Standard deviation</dt><dd id="sum-sd">—</dd></div>
+        <div><dt>Skewness</dt><dd id="sum-skew">—</dd></div>
+        <div><dt>Largest gap from the bell</dt><dd id="sum-gap">—</dd></div>
+      </dl>
+      <figcaption id="fig-sum-cap"><span class="fig-num">Figure 2.</span>The exact distribution of
+      the sum of <var>n</var> independent copies of one random effect (shown in the box at the top
+      right). Green: the normal curve with the same mean and standard deviation. “Largest gap” is the
+      biggest difference, over all totals, between the chance of getting at most that total and the
+      normal curve’s answer — the same measure as Figure 3, where the gap is traced for every <var>n</var>.</figcaption>
+    </figure>
+
+    <p>Start with the lopsided die at <var>n</var> = 1: the bars are just the die itself, a tall
+    spike at 1 and a flat tail. Its <em>skewness</em> — a number that is 0 for a symmetric shape
+    and grows as one tail gets longer — is 1.00. At <var>n</var> = 4 the sum already looks
+    like a lopsided hill; by <var>n</var> = 30 it is a bell with skewness 0.18. The skewness of a
+    sum of <var>n</var> identical effects falls like 1/√<var>n</var>: four times as many effects,
+    half the lopsidedness.</p>
+
+    <p>The two-humped die, which looks least like a bell, turns into one surprisingly quickly: it is symmetric, so it has no skew to lose, and by about 10 effects its sum is closer to the bell than the fair die’s. The 1-in-10 coin is slowest, because almost everything about it is
+    in its rare tail. With 60 of them the total still leans visibly — the count of rare events
+    behaves like this, which is why counts of rare things are skewed unless there are very many
+    chances.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">How fast?</span>
+      <p>The Berry–Esseen theorem puts a ceiling on that “largest gap”: it is at most
+      0.4748 × ρ / (σ³√<var>n</var>), where σ is one effect’s standard deviation and ρ its average
+      cubed distance from its mean. The gap always shrinks at least as fast as 1/√<var>n</var>,
+      and lopsided effects with heavy tails get a bigger constant in front.</p>
+    </aside>
+
+    <p>The next figure tracks that same largest gap for all four effects as <var>n</var> grows to 200. Both axes are
+    logarithmic, so a gap shrinking like 1/√<var>n</var> is a straight line sloping down. Drag
+    across the chart, or focus it and press the arrow keys, to read the gaps at any <var>n</var>;
+    pick a shape to see its Berry–Esseen ceiling as a dashed line.</p>
+
+    <figure class="fig wide" id="fig-speed" aria-labelledby="fig-speed-cap">
+      <div class="stage" style="--aspect: 16 / 8">
+        <canvas id="speed-canvas" role="slider" aria-label="Number of effects added, n"
+                aria-valuemin="1" aria-valuemax="200" aria-valuenow="10" aria-describedby="fig-speed-cap"></canvas>
+      </div>
+      <div class="controls">
+        <fieldset class="radio-row">
+          <legend>Show the ceiling for…</legend>
+          <label><input type="radio" name="speed-shape" value="fair"> Fair die</label>
+          <label><input type="radio" name="speed-shape" value="lop" checked> Lopsided die</label>
+          <label><input type="radio" name="speed-shape" value="humps"> Two-humped die</label>
+          <label><input type="radio" name="speed-shape" value="jack"> 1-in-10 coin</label>
+        </fieldset>
+      </div>
+      <dl class="readouts">
+        <div><dt><var>n</var></dt><dd id="speed-n">10</dd></div>
+        <div><dt><span class="key" style="background: var(--ink)" aria-hidden="true"></span>Fair die</dt><dd id="speed-fair">—</dd></div>
+        <div><dt><span class="key" style="background: var(--brass)" aria-hidden="true"></span>Lopsided die</dt><dd id="speed-lop">—</dd></div>
+        <div><dt><span class="key" style="background: var(--verdigris)" aria-hidden="true"></span>Two-humped die</dt><dd id="speed-humps">—</dd></div>
+        <div><dt><span class="key" style="background: var(--alarm)" aria-hidden="true"></span>1-in-10 coin</dt><dd id="speed-jack">—</dd></div>
+        <div><dt>Ceiling (selected)</dt><dd id="speed-bound">—</dd></div>
+      </dl>
+      <figcaption id="fig-speed-cap"><span class="fig-num">Figure 3.</span>The exact largest gap
+      between the distribution of the sum and the matching normal curve, for <var>n</var> = 1 to
+      200, on logarithmic axes. Dashed: the Berry–Esseen ceiling 0.4748 × ρ / (σ³√<var>n</var>) for
+      the selected shape (capped at 100%). Drag or use the arrow keys to move the cursor.</figcaption>
+    </figure>
+
+    <p>All four lines end up parallel, falling a factor of ten for every hundredfold increase in
+    <var>n</var>. That is the 1/√<var>n</var> rate. What differs is the height of the line. At
+    <var>n</var> = 200 the 1-in-10 coin is still 5.9% off; the fair die was that close after
+    only 4 throws, so the coin needs about 50 times as many terms. Even the symmetric two-humped
+    die keeps the 1/√<var>n</var> rate, because a sum of dice can only be a whole number: its
+    cumulative chance rises in small steps while the bell rises smoothly, and the steps shrink only
+    like 1/√<var>n</var>.</p>
+
+    <h2>When the bell fails</h2>
+
+    <p>The theorem has conditions, and the bell appears only when they hold. The two that fail most
+    often in real life are <em>adding</em> (the effects must combine by addition) and <em>no giant
+    effects</em> (none may be capable of swamping the rest).</p>
+
+    <p>Many things grow by multiplying. A colony of cells, a population, or money in an investment
+    grows by some percentage each period, and a good year multiplies whatever is already there.
+    The next figure starts at 100 and applies <var>n</var> random effects, each anywhere between
+    −40% and +40% of the current value, or (in <strong>Add</strong> mode) of the
+    starting 100. Each setting runs the experiment 20,000 times.</p>
+
+    <figure class="fig wide" id="fig-fail" aria-labelledby="fig-fail-cap">
+      <div class="stage scrollable" style="--aspect: 16 / 9">
+        <canvas id="fail-canvas" role="img" aria-label="Histogram of 20,000 simulated final values."></canvas>
+      </div>
+      <div class="controls">
+        <fieldset class="radio-row">
+          <legend>The effects…</legend>
+          <label><input type="radio" name="fail-mode" value="add"> Add</label>
+          <label><input type="radio" name="fail-mode" value="mul" checked> Multiply</label>
+          <label><input type="radio" name="fail-mode" value="cauchy"> Add, but heavy-tailed</label>
+        </fieldset>
+        <div class="control stacked">
+          <label for="fail-n">Number of effects</label>
+          <input type="range" id="fail-n" min="1" max="50" step="1" value="20">
+          <output id="fail-n-out" for="fail-n">20 effects</output>
+        </div>
+        <div class="control stacked">
+          <label for="fail-s">Size of each effect</label>
+          <input type="range" id="fail-s" min="0.05" max="0.6" step="0.05" value="0.4">
+          <output id="fail-s-out" for="fail-s">up to ±40%</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="fail-log"> Log scale (multiply only)</label>
+          <button type="button" class="btn" id="fail-again">Run again</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Mean</dt><dd id="fail-mean">—</dd></div>
+        <div><dt>Median</dt><dd id="fail-median">—</dd></div>
+        <div><dt>Skewness</dt><dd id="fail-skew">—</dd></div>
+        <div><dt>Beyond 4 standard deviations</dt><dd id="fail-far">—</dd></div>
+      </dl>
+      <figcaption id="fig-fail-cap"><span class="fig-num">Figure 4.</span>Start at 100 and apply
+      <var>n</var> random effects, 20,000 times. Add: each effect adds or subtracts up to the chosen
+      share of 100. Multiply: each multiplies the current value by up to that share more or less.
+      Heavy-tailed: added effects drawn from a Cauchy distribution with the same middle-50% spread.
+      Green: a normal curve for comparison. For a true bell, about 0.006% of runs land beyond four
+      standard deviations.</figcaption>
+    </figure>
+
+    <p>In <strong>Multiply</strong> mode the pile is crammed against zero with a long tail to the
+    right. The mean stays near 100, but the median — the middle run — ends near 57: most runs
+    lose money, while a few lucky ones gain enormously and drag the average up. Tick
+    <strong>Log scale</strong> and the bell comes back. Multiplying numbers is the same as adding
+    their logarithms, so the logarithm of the result is a sum of many small independent effects,
+    and the central limit theorem applies to it. A quantity whose logarithm is normal has a
+    <em>log-normal distribution</em>; incomes (apart from the very richest), the sizes of particles from grinding and the time a disease takes to show symptoms are often close to log-normal.</p>
+
+    <p>Switch to <strong>Add</strong> and the bell returns on an ordinary scale. Make the effects
+    small (±5%) in Multiply mode and the result is nearly a bell too: when every change is small,
+    multiplying is almost the same as adding.</p>
+
+    <p>Now try <strong>Add, but heavy-tailed</strong>. The effects are drawn from a <em>Cauchy
+    distribution</em>: most are about as small as before, but now and then one is enormous.
+    Its tails are so heavy that it has no finite standard deviation, so the theorem’s condition
+    fails. The sum never settles into a bell. Instead of growing like √<var>n</var>, the spread
+    grows in proportion to <var>n</var>, and a single huge effect often decides the total on its own. With 20 effects, about half of all runs land more than four standard deviations
+    (of the ordinary adding version) from 100; a true bell puts only 0.006% of runs there. Press <strong>Run again</strong> a few times and watch the sample mean in the Mean readout (and the skewness) leap about: a Cauchy
+    distribution has no average at all, so the average of a sample never settles down. Its median does, which is why the median is still a fair summary.</p>
+
+    <p>So the rule of thumb is this. Expect a bell when a quantity is the sum of many small,
+    independent nudges, none in charge. Expect a skewed, log-normal shape when the nudges
+    multiply. And expect fat tails, with occasional extreme outliers, when one effect can dwarf the
+    rest — as in earthquake sizes, insurance losses or the price swings of a market crash.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Real Galton boards bounce.</strong> A real ball keeps some sideways momentum
+          and can skip a row or hit the next peg off-centre, so its steps are not independent coin
+          flips. Real boards still make a bell-like pile, but its width depends on how the balls bounce, so it need not match the binomial prediction.</li>
+          <li><strong>How fast the bell arrives varies.</strong> The theorem is about the limit of
+          many effects. For a finite number, the Berry–Esseen bound says how far off you can be,
+          and as Figures 2 and 3 show, skewed effects need many more terms. The tails (rare, extreme
+          totals) converge slowest of all.</li>
+          <li><strong>Real data are only roughly normal.</strong> Adult height comes close, partly
+          because it is shaped by many genes and influences, but a population that mixes groups
+          with different averages (men and women, say) is a blend of bells, not one bell. Test
+          scores are often bunched at a ceiling. Measurement errors include occasional blunders
+          that sit far out in the tails.</li>
+          <li><strong>Independence matters.</strong> Our effects never influence each other. The
+          theorem has versions that allow weak dependence, but strongly linked effects (a market
+          where everyone sells at once) can break the bell even when each effect is small.</li>
+          <li><strong>The simulation is finite.</strong> Figure 4 uses 20,000 runs, so its bars
+          and readouts wobble by about a percent, and the heavy-tailed mean and skewness jump around
+          because for a Cauchy they do not exist at all.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>H. M. Walker, “De Moivre on the law of normal probability”, in D. E. Smith,
+          <cite>A Source Book in Mathematics</cite> (1929); online at the University of York’s
+          history of statistics pages.
+          <a href="https://www.york.ac.uk/depts/maths/histstat/demoivre.pdf">york.ac.uk</a>
+          <span class="note">De Moivre’s pamphlet <cite>Approximatio ad summam terminorum binomii
+          (a+b)<sup>n</sup> in seriem expansi</cite>, dated 12 November 1733, with its normal
+          approximation to the binomial; English version in <cite>The Doctrine of Chances</cite>,
+          2nd ed., 1738.</span></li>
+          <li>F. Galton, <cite>Natural Inheritance</cite> (Macmillan, 1889), chapter 5, from p. 62 (the quincunx is Fig. 7, p. 63); summarised
+          in “Galton board”, Wikipedia.
+          <a href="https://en.wikipedia.org/wiki/Galton_board">en.wikipedia.org</a>
+          <span class="note">Galton’s quincunx, its earlier mentions (1875, 1877) and its
+          description in <cite>Natural Inheritance</cite>; bin <var>k</var> is
+          reached by C(<var>n</var>, <var>k</var>) paths.</span></li>
+          <li>H. Fischer, <cite>A History of the Central Limit Theorem: From Classical to Modern
+          Probability Theory</cite> (Springer, 2011).
+          <a href="https://link.springer.com/book/10.1007/978-0-387-87857-7">link.springer.com</a>
+          <span class="note">Laplace’s generalisation (memoir read 9 April 1810; <cite>Théorie analytique des
+          probabilités</cite>, 1812) from coin flips to sums of many independent errors, and the
+          later conditions (finite variance, Lindeberg, Lyapunov).</span></li>
+          <li>I. Shevtsova, “On the absolute constants in the Berry–Esseen type inequalities for
+          identically distributed summands” (2011).
+          <a href="https://arxiv.org/abs/1111.6554">arxiv.org</a>
+          <span class="note">The Berry–Esseen bound with constant 0.4748, and the lower limit of
+          about 0.4097 for that constant.</span></li>
+          <li>E. Limpert, W. A. Stahel and M. Abbt, “Log-normal distributions across the sciences:
+          keys and clues”, <cite>BioScience</cite> 51 (2001): 341–352.
+          <span class="note">Multiplicative effects produce log-normal distributions; examples
+          including incubation periods, particle sizes and incomes.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+        </dl>
+        <p>Figure 1 samples each ball’s bounces with a seeded random generator; the binomial ticks
+        are computed exactly. Figure 2 is exact (repeated convolution, no sampling). Figure 4
+        simulates 20,000 runs per setting.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: the exhibit list, the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="exhibit.js"></script>
+</body>
+</html>

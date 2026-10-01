@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many people need to be immune? — Orrery</title>
+<meta name="description" content="Herd immunity, built from one idea: an outbreak grows only if each case causes more than one new case. Chains of infection, epidemic curves, overshoot and vaccine coverage.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/herd-immunity/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How many people need to be immune? — Orrery">
+<meta property="og:description" content="Herd immunity, built from one idea: an outbreak grows only if each case causes more than one new case. Chains of infection, epidemic curves, overshoot and vaccine coverage.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/herd-immunity/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/herd-immunity/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “How many people need to be immune?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How many people need to be immune? — Orrery">
+<meta name="twitter:description" content="Herd immunity, built from one idea: an outbreak grows only if each case causes more than one new case. Chains of infection, epidemic curves, overshoot and vaccine coverage.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/herd-immunity/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “How many people need to be immune?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Life</p>
+      <h1>How many people need to be immune?</h1>
+      <p class="lede">For measles, health agencies such as Europe’s ECDC aim for at least 95% of
+      people to have two doses of vaccine. For
+      some other infections far less would do. Where do these numbers come from, and what
+      actually happens once you reach one?</p>
+      <p class="byline">An explorable model of herd immunity. It explains an idea; it is not
+      medical advice.</p>
+    </header>
+
+    <p>A common picture of herd immunity is a finish line: once enough people are immune, the
+    disease stops, and until then vaccination doesn’t do much. Both halves of that picture are
+    wrong. There is a real threshold, and it comes from one simple idea. But an epidemic that is
+    left alone runs straight past it, and vaccination protects people long before the threshold is
+    reached.</p>
+
+    <h2>One case makes how many?</h2>
+
+    <p>Picture one person with an infection, walking into a town where nobody has ever had it.
+    While they are infectious they pass it to some number of people. The average of that number,
+    in a population where everyone can catch it, is called the <em>basic reproduction number</em>,
+    written <var>R</var><sub>0</sub> (“R-nought”). Seasonal flu has an <var>R</var><sub>0</sub> of
+    about 1.3. Measles, one of the most contagious diseases known, is usually quoted at 12 to 18.</p>
+
+    <p>Now suppose some people are already immune, through vaccination or an earlier infection.
+    The infectious person meets just as many people, but only the susceptible ones — those who can
+    still catch it — become new cases. The average number of new cases per case is now the
+    <em>effective reproduction number</em>:</p>
+
+    <p class="formula"><var>R</var><sub>eff</sub> = <var>R</var><sub>0</sub> × (share of people still susceptible)</p>
+
+    <p>If <var>R</var><sub>eff</sub> is above 1, each generation of cases is bigger than the last,
+    and the outbreak grows. If it is below 1, each generation is smaller, and the outbreak dies out.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>The figure starts with <var>R</var><sub>0</sub> = 3 and 30% of people immune. Red dots
+      are cases; grey dots are immune people who were exposed but didn’t catch it. Raise the immune
+      share past 67% and watch the chain collapse. Press <b>New outbreak</b> a few times at each
+      setting: chance matters, especially early on.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-chain" aria-labelledby="fig-chain-cap">
+      <div class="stage chain scrollable">
+        <canvas id="chain-canvas" role="img" aria-label="Branching tree of infection."></canvas>
+      </div>
+      <ul class="legend" aria-hidden="true">
+        <li><span class="dot case"></span>case</li>
+        <li><span class="dot imm"></span>exposed but immune</li>
+        <li>numbers below: cases in each generation</li>
+      </ul>
+      <div class="controls">
+        <div class="control">
+          <label for="chain-r0">R<sub>0</sub></label>
+          <input type="range" id="chain-r0" min="0.5" max="6" step="0.1" value="3">
+          <output id="chain-r0-out" for="chain-r0">3.0</output>
+        </div>
+        <div class="control">
+          <label for="chain-imm">Immune share</label>
+          <input type="range" id="chain-imm" min="0" max="95" step="1" value="30">
+          <output id="chain-imm-out" for="chain-imm">30%</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="chain-new">New outbreak</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Effective R</dt><dd id="chain-re">2.10</dd></div>
+        <div><dt>Threshold for this R<sub>0</sub></dt><dd id="chain-thr">67%</dd></div>
+        <div><dt>Cases in this chain</dt><dd id="chain-cases">–</dd></div>
+        <div><dt>Chance one case starts a large outbreak</dt><dd id="chain-big">82%</dd></div>
+      </dl>
+      <p class="verdict" id="chain-verdict" aria-live="polite"></p>
+      <figcaption id="fig-chain-cap"><span class="fig-num">Figure 1.</span>Six generations of
+      infection from one case. Each case meets a random number of people averaging
+      <var>R</var><sub>0</sub> (a Poisson distribution); each person met is immune with the chance
+      you set. The random numbers are seeded, so the same settings give the same tree until you
+      press New outbreak. The “chance of a large outbreak” is calculated exactly for this model,
+      not by simulation.</figcaption>
+    </figure>
+
+    <p>Two things stand out. First, even well above 1, many chains fizzle by luck: with
+    <var>R</var><sub>eff</sub> = 2, about one chain in five dies out by chance. That is why a single imported case sometimes leads nowhere. Second, below 1 no chain
+    survives for long, however lucky. A chain can still infect a handful of people before it ends,
+    so small outbreaks still happen, but they can’t take hold and grow.</p>
+
+    <h2>The threshold</h2>
+
+    <p>The tipping point is where <var>R</var><sub>eff</sub> = 1. Setting
+    <var>R</var><sub>0</sub> × (susceptible share) = 1 says the susceptible share must be at most
+    1/<var>R</var><sub>0</sub>. So the share that must be immune, the <em>herd immunity
+    threshold</em>, is:</p>
+
+    <p class="formula">threshold = 1 − 1/<var>R</var><sub>0</sub></p>
+
+    <p>For <var>R</var><sub>0</sub> = 2 that is 1 − ½ = 50%. For <var>R</var><sub>0</sub> = 4 it
+    is 75%. For measles at <var>R</var><sub>0</sub> = 15 it is 1 − 1/15 ≈ 93%.</p>
+
+    <p>Here is a way to feel why it climbs so steeply. Each case would meet enough people to
+    infect <var>R</var><sub>0</sub> of them. To stop growth, on average only one of those
+    <var>R</var><sub>0</sub> may be susceptible. With <var>R</var><sub>0</sub> = 2, one person in
+    two may be susceptible; with <var>R</var><sub>0</sub> = 15, only one in fifteen. Going from
+    <var>R</var><sub>0</sub> = 2 to 15 only moves the threshold from 50% to 93%, but it shrinks the
+    share allowed to remain susceptible from 50% to under 7% — more than seven times smaller.</p>
+
+    <h2>An epidemic, day by day</h2>
+
+    <p>The chains show single generations. To see a whole epidemic unfold we need a model of a
+    whole population. The classic one is the <em>SIR model</em>, which sorts everyone into three
+    groups: <b class="c-s">S</b>usceptible (can catch it), <b class="c-i">I</b>nfected (have it and
+    can pass it on) and <b class="c-r">R</b>ecovered (had it and are now immune). Infections happen
+    at a rate proportional to how many susceptible and infected people there are, as if everyone
+    mixed at random. Here each person is infectious for 7 days on average, and the epidemic starts
+    with 1 person in 10,000 infected. A share of people can be vaccinated beforehand; in this model
+    they are simply immune.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Look at where the red infection curve peaks: the green susceptible curve is crossing the
+      dashed line at 1/<var>R</var><sub>0</sub> at exactly that moment. Change
+      <var>R</var><sub>0</sub> and check that it always does. Then vaccinate 30%, then 50%, then
+      67% at <var>R</var><sub>0</sub> = 3.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-sir" aria-labelledby="fig-sir-cap">
+      <div class="stage plot scrollable">
+        <canvas id="sir-canvas" role="img" aria-label="Epidemic curves over time."></canvas>
+      </div>
+      <ul class="legend" aria-hidden="true">
+        <li class="c-s"><span class="sw s"></span>susceptible</li>
+        <li class="c-i"><span class="sw i"></span>infected now</li>
+        <li class="c-r"><span class="sw r"></span>recovered</li>
+        <li class="c-s"><span class="sw s dash"></span><span>1/R<sub>0</sub></span></li>
+      </ul>
+      <div class="controls">
+        <div class="control">
+          <label for="sir-r0">R<sub>0</sub></label>
+          <input type="range" id="sir-r0" min="0.8" max="8" step="0.1" value="3">
+          <output id="sir-r0-out" for="sir-r0">3.0</output>
+        </div>
+        <div class="control">
+          <label for="sir-vac">Vaccinated</label>
+          <input type="range" id="sir-vac" min="0" max="95" step="1" value="0">
+          <output id="sir-vac-out" for="sir-vac">0%</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Effective R at the start</dt><dd id="sir-re">3.00</dd></div>
+        <div><dt>Peak: infected at once</dt><dd id="sir-peak">30.0%</dd></div>
+        <div><dt>Peak on</dt><dd id="sir-day">day 35</dd></div>
+        <div><dt>Susceptible at the peak</dt><dd id="sir-speak">33.3%</dd></div>
+        <div><dt>1/R<sub>0</sub></dt><dd id="sir-inv">33.3%</dd></div>
+        <div><dt>Ever infected</dt><dd id="sir-ever">94.0%</dd></div>
+      </dl>
+      <figcaption id="fig-sir-cap"><span class="fig-num">Figure 2.</span>The SIR model, as shares
+      of the whole population. Shaded band at the top: people vaccinated before the outbreak. The
+      equations are solved step by step (fourth-order Runge–Kutta, 0.05-day steps).</figcaption>
+    </figure>
+
+    <p>The peak falls where it does for the reason in Figure 1. The number of people ill at once
+    grows as long as each case is replaced by more than one new case, that is, while the
+    susceptible share is above 1/<var>R</var><sub>0</sub>. The moment it drops below, each case is
+    replaced by fewer than one, and the number ill starts to fall. The top of the curve is the
+    herd immunity threshold being crossed.</p>
+
+    <p>Now look at the vaccination results. With <var>R</var><sub>0</sub> = 3 the threshold is
+    67%. Vaccinating 50% is below it, so an epidemic still happens — but it is slower and smaller.
+    The peak drops from 30% of people ill at once to about 3%, and it arrives around day 103
+    instead of day 35. Of the unvaccinated half, 58% catch it instead of 94%. People who never got
+    the vaccine are protected by the people who did. That indirect protection is what “herd
+    immunity” most usefully means, and it starts with the first vaccinated person, not at the
+    threshold.</p>
+
+    <h2>Why epidemics overshoot</h2>
+
+    <p>In Figure 2, with no vaccination and <var>R</var><sub>0</sub> = 3, the peak comes when 67% of
+    people are immune — but by the end, 94% have been infected. When the susceptible share drops
+    through 1/<var>R</var><sub>0</sub>, a large number of people are infected at that very moment.
+    Each of them still passes it on to nearly one more person, and those to nearly one more. The
+    epidemic declines, but it keeps infecting people all the way down.</p>
+
+    <p>How many people are infected in the end, if nothing is done? The SIR model has a neat answer.
+    The final share infected, <var>z</var>, satisfies the <em>final-size equation</em>:</p>
+
+    <p class="formula"><var>z</var> = 1 − e<sup>−<var>R</var><sub>0</sub>·<var>z</var></sup></p>
+
+    <p>In words: the share who escape, 1 − <var>z</var>, equals e<sup>−<var>R</var><sub>0</sub><var>z</var></sup>,
+    the chance of dodging every one of the infections that the whole epidemic sent your way. It
+    has no neat solution, but a computer can solve it in a moment. The difference between this
+    final share and the threshold is the <em>overshoot</em>: people infected after the epidemic
+    had already passed its peak.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag across the chart, or focus it and use the arrow keys, to choose
+      <var>R</var><sub>0</sub>. The brass bar is the overshoot. Find where it is longest.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-over" aria-labelledby="fig-over-cap">
+      <div class="stage plot" tabindex="0" role="slider" aria-label="Basic reproduction number R0"
+           aria-valuemin="1.01" aria-valuemax="6" aria-valuenow="2" aria-describedby="fig-over-cap">
+        <canvas id="over-canvas" aria-hidden="true"></canvas>
+      </div>
+      <dl class="readouts">
+        <div><dt>R<sub>0</sub></dt><dd id="over-r0">2.00</dd></div>
+        <div><dt>Threshold 1 − 1/R<sub>0</sub></dt><dd id="over-thr">50.0%</dd></div>
+        <div><dt>Ever infected, no vaccine</dt><dd id="over-fin">79.7%</dd></div>
+        <div><dt>Overshoot</dt><dd id="over-gap">29.7%</dd></div>
+      </dl>
+      <figcaption id="fig-over-cap"><span class="fig-num">Figure 3.</span>The share of people
+      ever infected in an unchecked SIR epidemic (red, from the final-size equation) and the herd
+      immunity threshold (green, dashed), for <var>R</var><sub>0</sub> from 1 to 6. The shaded gap
+      is the overshoot. Drag, or use the arrow keys (Shift for bigger steps).</figcaption>
+    </figure>
+
+    <p>For <var>R</var><sub>0</sub> = 2, the threshold is 50%, but an unchecked epidemic infects
+    about 80%. The overshoot is largest, 29.8% of the whole population, at
+    <var>R</var><sub>0</sub> ≈ 2.15; that maximum has been proved for this model. So “let it spread
+    until we reach herd immunity” doesn’t stop at the threshold: it infects enough people to reach
+    the threshold, and then up to 30% of the whole population on top. Vaccination gets to the threshold without the overshoot.</p>
+
+    <h2>Real vaccines, real diseases</h2>
+
+    <p>Two more facts turn the threshold into a vaccination target. Vaccines are not 100%
+    effective: two doses of the measles vaccine protect about 97% of people, one dose about 93%.
+    If a share <var>E</var> of those vaccinated become immune, vaccinating a share
+    <var>c</var> makes <var>c</var> × <var>E</var> immune. So the coverage needed is:</p>
+
+    <p class="formula">coverage needed = (1 − 1/<var>R</var><sub>0</sub>) ÷ <var>E</var></p>
+
+    <p>And <var>R</var><sub>0</sub> is not a constant of nature. It depends on how people live,
+    meet and gather, so studies in different places and years give different values. The bars
+    under the chart below show ranges, not single numbers.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>At measles-like <var>R</var><sub>0</sub> = 15, lower the vaccine’s effectiveness from 97%
+      to 93%. Then slide <var>R</var><sub>0</sub> down to flu-like values.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-cov" aria-labelledby="fig-cov-cap">
+      <div class="stage plot scrollable">
+        <canvas id="cov-canvas" role="img" aria-label="Herd immunity threshold and coverage needed against R0."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="cov-r0">R<sub>0</sub></label>
+          <input type="range" id="cov-r0" min="1" max="25" step="0.1" value="15">
+          <output id="cov-r0-out" for="cov-r0">15.0</output>
+        </div>
+        <div class="control">
+          <label for="cov-eff">Vaccine effectiveness</label>
+          <input type="range" id="cov-eff" min="50" max="100" step="1" value="97">
+          <output id="cov-eff-out" for="cov-eff">97%</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Threshold (immune)</dt><dd id="cov-thr">93.3%</dd></div>
+        <div><dt>Coverage needed (vaccinated)</dt><dd id="cov-need">96.2%</dd></div>
+        <div><dt>Highest R<sub>0</sub> this vaccine can stop</dt><dd id="cov-max">33.3</dd></div>
+      </dl>
+      <figcaption id="fig-cov-cap"><span class="fig-num">Figure 4.</span>The threshold (green,
+      dashed) and the vaccine coverage needed to reach it (brass), against <var>R</var><sub>0</sub>
+      on a logarithmic scale. Where the coverage needed passes 100% (shaded), vaccination alone
+      can’t reach the threshold. Bars: seasonal flu and 1918 pandemic flu (middle half of published
+      estimates, Biggerstaff et al. 2014); measles, the often-cited 12–18 (published estimates
+      spread wider, Guerra et al. 2017).</figcaption>
+    </figure>
+
+    <p>At <var>R</var><sub>0</sub> = 15 and 97% effectiveness, 96% of people need to be
+    vaccinated. With a 93% effective vaccine (one dose) the answer is just over 100%: impossible,
+    however hard you try. One dose falls short whenever <var>R</var><sub>0</sub> is above about 14.3,
+    because that is where 1 − 1/<var>R</var><sub>0</sub> passes 0.93. Below that it is possible, but only
+    just: at <var>R</var><sub>0</sub> = 12 one dose would need almost 99% of people vaccinated. That is one reason measles vaccination uses two doses and aims for about 95% coverage, and
+    why measles returns quickly when coverage slips by just a few percent. For an infection with
+    <var>R</var><sub>0</sub> near 1.3, the threshold is only about 23%, which is small in the
+    model — but flu viruses change from year to year and immunity to them fades, which the model
+    leaves out.</p>
+
+    <p>So the rule to take away: the share that must be immune is 1 − 1/<var>R</var><sub>0</sub>,
+    because the share left susceptible can be at most 1/<var>R</var><sub>0</sub>. Getting there by
+    infection overshoots it; getting there by vaccination doesn’t; and every step towards it,
+    even short of it, means fewer people ill.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><b>Random mixing.</b> The model assumes everyone is equally likely to meet everyone.
+          Real people live in households, schools and networks, and mix mostly with people like
+          themselves and of similar age. Pockets of low vaccination can sustain outbreaks even when
+          the national average is above the threshold, and very sociable people tend to be infected
+          first, which can lower the threshold reached by infection.</li>
+          <li><b>Equal spreaders.</b> Figure 1 gives every case the same average. For many
+          diseases a few “superspreaders” cause most infections, so more chains fizzle and a few
+          explode.</li>
+          <li><b>Lasting immunity.</b> Immunity here is permanent. In reality it can wane, and
+          viruses like flu change, so people become susceptible again.</li>
+          <li><b>Births and deaths.</b> A real population gains new susceptible babies all the time,
+          which is why diseases like measles return in waves.</li>
+          <li><b>Behaviour.</b> People change how they act when an outbreak is in the news; the
+          model’s <var>R</var><sub>0</sub> never changes during an epidemic.</li>
+          <li><b>Imperfect vaccines.</b> Figure 4 treats a vaccine as all-or-nothing: fully
+          protecting a share <var>E</var> of people and doing nothing for the rest. Real vaccines
+          can also partly protect, or reduce severity more than infection.</li>
+          <li>This page explains a model. It is not medical advice; for that, ask a doctor or your
+          public health service.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>P. Fine, K. Eames and D. L. Heymann, “‘Herd immunity’: a rough guide”,
+          <cite>Clinical Infectious Diseases</cite> 52(7):911–916 (2011).
+          <a href="https://doi.org/10.1093/cid/cir007">doi:10.1093/cid/cir007</a>
+          <span class="note">The threshold 1 − 1/R<sub>0</sub>, the different meanings of “herd
+          immunity”, and indirect protection of unvaccinated people.</span></li>
+          <li>T. Britton, F. Ball and P. Trapman, “A mathematical model reveals the influence of
+          population heterogeneity on herd immunity to SARS-CoV-2”, <cite>Science</cite>
+          369:846–849 (2020). <a href="https://doi.org/10.1126/science.abc6810">doi:10.1126/science.abc6810</a>
+          <span class="note">Critical coverage for an imperfect vaccine, (1 − 1/R<sub>0</sub>)/<var>E</var>;
+          and that in a mixed, uneven population the immunity level reached by infection can be
+          lower than 1 − 1/R<sub>0</sub>, because the most active people are infected first.</span></li>
+          <li>M. Nguyen, A. Freedman, S. Ozbay and S. Levin, “Fundamental bound on epidemic
+          overshoot in the SIR model”, <cite>Journal of the Royal Society Interface</cite> 20:20230322
+          (2023). <a href="https://arxiv.org/abs/2303.01650">arXiv:2303.01650</a>
+          <span class="note">Overshoot defined as 1/R<sub>0</sub> minus the final susceptible
+          share; the maximum overshoot of 0.2984 at R<sub>0</sub> = 2.151, which this page’s model
+          reproduces.</span></li>
+          <li>F. M. Guerra et al., “The basic reproduction number (R0) of measles: a systematic
+          review”, <cite>Lancet Infectious Diseases</cite> 17(12):e420–e428 (2017).
+          <a href="https://pubmed.ncbi.nlm.nih.gov/28757186/">PubMed 28757186</a>
+          <span class="note">58 estimates of measles R<sub>0</sub> from 18 studies; they vary much
+          more widely than the often-cited 12–18, and depend on setting.</span></li>
+          <li>M. Biggerstaff et al., “Estimates of the reproduction number for seasonal, pandemic,
+          and zoonotic influenza: a systematic review of the literature”, <cite>BMC Infectious
+          Diseases</cite> 14:480 (2014).
+          <a href="https://doi.org/10.1186/1471-2334-14-480">doi:10.1186/1471-2334-14-480</a>
+          <span class="note">Seasonal flu: median R 1.28 (interquartile range 1.19–1.37); 1918
+          pandemic: median 1.80 (1.47–2.27).</span></li>
+          <li>US Centers for Disease Control and Prevention, “About Measles”.
+          <a href="https://www.cdc.gov/measles/about/index.html">cdc.gov</a>
+          <span class="note">Two doses of MMR vaccine are about 97% effective against measles, one
+          dose about 93%.</span></li>
+          <li>European Centre for Disease Prevention and Control, “Disease information on measles”
+          and “Community spread drives ongoing measles transmission in Europe” (9 February 2026).
+          <a href="https://www.ecdc.europa.eu/en/measles/facts">ecdc.europa.eu</a>
+          <span class="note">The target: at least 95% of the eligible population vaccinated with two
+          doses, aiming at a “desired 95% immunity level”; one dose makes about 95% of children
+          immune.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          
+          <dt>Revised</dt><dd>1 October 2026: the 95% measles target is now
+          cited to ECDC, and the one-dose sentence says it holds only for R<sub>0</sub> above
+          about 14.3.</dd>
+        </dl>
+        <p>The model (model.js) was checked against the final-size equation, the peak condition
+        S = 1/R<sub>0</sub> and the published maximum overshoot.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is the sky blue and the sunset red? — Orrery</title>
+<meta name="description" content="Air scatters blue light about six times more strongly than red. Turn the Sun down to the horizon and watch what that does to the colour of the sky and the Sun.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/sky-colour/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why is the sky blue and the sunset red? — Orrery">
+<meta property="og:description" content="Air scatters blue light about six times more strongly than red. Turn the Sun down to the horizon and watch what that does to the colour of the sky and the Sun.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/sky-colour/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/sky-colour/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Why is the sky blue and the sunset red?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why is the sky blue and the sunset red? — Orrery">
+<meta name="twitter:description" content="Air scatters blue light about six times more strongly than red. Turn the Sun down to the horizon and watch what that does to the colour of the sky and the Sun.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/sky-colour/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Why is the sky blue and the sunset red?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Physics</p>
+      <h1>Why is the sky blue and the sunset red?</h1>
+      <p class="lede">Sunlight is white, and air is transparent. Yet the sky glows blue at noon and
+      the Sun sinks orange and red in the evening. Both come from one fact about how air treats
+      light of different colours.</p>
+    </header>
+
+    <p>A common answer is that the sky is blue because it reflects the ocean. It doesn’t: the sky
+    is just as blue over the Sahara, and the sea is blue partly because it reflects the sky. Another
+    is that air is “a blue gas”, the way a glass of cola is brown. That isn’t right either. Air
+    absorbs almost no visible light. What it does is <em>scatter</em> it: knock a little of the
+    light out of its straight path and send it off in a new direction.</p>
+
+    <h2>Small molecules prefer blue</h2>
+
+    <p>Light is an electromagnetic wave. When it passes a nitrogen or oxygen molecule, the wave’s
+    electric field shakes the molecule’s electrons back and forth, and the shaking electrons give off
+    light of their own, in all directions. That is scattering. Because a molecule (about 0.3
+    nanometres across) is more than a thousand times smaller than the wavelength of visible light (400 to 700
+    nanometres, nm), it is called <em>Rayleigh scattering</em>, after John William Strutt (later Lord
+    Rayleigh), who worked out its law in 1871.</p>
+
+    <p>The law is steep. A faster-shaking charge radiates much more strongly, and the strength goes
+    as one over the wavelength to the fourth power:</p>
+
+    <p class="formula">scattering ∝ 1 / <var>λ</var><sup>4</sup></p>
+
+    <p>Here <var>λ</var> (lambda) is the wavelength. Blue light at 450 nm has a wavelength 0.64 times
+    that of red light at 700 nm, and 0.64<sup>4</sup> is about 1/6. So blue is scattered roughly six
+    times as strongly as red. (The measured ratio, ×6.1 in Figure 1, is a little higher than 5.9 because
+    the air’s refractive index also changes slightly with colour.)</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>In Figure 1, white light (all colours mixed) crosses a box of air from the left. Watch which
+      grains of light get knocked sideways and which make it through. Then untick “White light” and
+      slide the wavelength from violet to red.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-scatter" aria-labelledby="fig-scatter-cap">
+      <div class="scatter-grid">
+        <div class="stage scatter-stage">
+          <canvas id="scatter-canvas" role="img" aria-label="Grains of light cross a box of air from left to right. Blue and violet grains are often deflected out of the beam; red ones mostly pass straight through."></canvas>
+        </div>
+        <div class="stage curve-stage scrollable">
+          <canvas id="curve-canvas" role="img" aria-label="Graph of scattering strength against wavelength, relative to red light at 700 nanometres. The curve falls steeply from about 12 at 380 nanometres to 1 at 700 nanometres."></canvas>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="sc-wl">Wavelength</label>
+          <input type="range" id="sc-wl" min="380" max="700" step="5" value="450">
+          <output id="sc-wl-out" for="sc-wl">450 nm</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="sc-play">Pause</button>
+          <label class="toggle"><input type="checkbox" id="sc-white" checked> White light</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Scattered, relative to red (700 nm)</dt><dd id="sc-rel">× 6.1</dd></div>
+        <div><dt>Scattered out of a vertical beam by the whole atmosphere</dt><dd id="sc-atm">20%</dd></div>
+        <div><dt>Scattered light looks</dt><dd><span class="swatch" id="sc-sw-scat"></span> <span id="sc-sw-scat-t">blue</span></dd></div>
+        <div><dt>Light that gets through looks</dt><dd><span class="swatch" id="sc-sw-thru"></span> <span id="sc-sw-thru-t">yellowish</span></dd></div>
+      </dl>
+      <figcaption id="fig-scatter-cap"><span class="fig-num">Figure 1.</span>Left: light crossing
+      a box of air, drawn as grains (the box holds enough air to scatter about half of the blue).
+      Right: how strongly air scatters each wavelength, relative to red light at 700 nm; the marker
+      follows the slider. The swatches show the colour of the scattered light and of the light that
+      gets through, for white light entering the box.</figcaption>
+    </figure>
+
+    <p>The readout under the figure uses real numbers for the whole atmosphere. Looking straight up,
+    there is enough air above you to scatter about 20% of violet-blue light at 450 nm out of a
+    sunbeam, 9% of green at 550 nm, and under 4% of red at 700 nm. (These come from the measured
+    <em>optical depth</em> of the atmosphere, a number that says how much a beam is dimmed: a beam
+    crossing an optical depth <var>τ</var> keeps a fraction e<sup>−<var>τ</var></sup> of its light.
+    At sea level, <var>τ</var> is about 0.22 at 450 nm and 0.097 at 550 nm.)</p>
+
+    <p>That is why the sky is blue. Look anywhere away from the Sun and the only light reaching
+    you is light that air has scattered toward you, and that light is rich in short wavelengths.
+    Without air, as on the Moon, the sky is black even at noon.</p>
+
+    <h2>The long way through the air</h2>
+
+    <p>When the Sun is overhead, its light crosses the least possible air: one atmosphere’s worth.
+    As the Sun sinks, the slanting path gets longer. Astronomers call the length of the path, in
+    units of the overhead path, the <em>air mass</em>. At 30° above the horizon it is 2. At 10° it is
+    5.6. At the horizon, where the path skims along the curved Earth, it is about 38.</p>
+
+    <p>Every extra length of air removes more blue from the direct beam. A beam crossing 38
+    atmospheres keeps e<sup>−0.22 × 38</sup> ≈ 0.02% of its 450 nm light but
+    e<sup>−0.037 × 38</sup> ≈ 25% of its 700 nm light. What reaches you is orange and red.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the Sun in Figure 2, or use the slider, and bring it down to the horizon. Watch the
+      air mass climb, the blue drain out of the direct beam, and the Sun’s colour go from white to
+      yellow, orange and red. Notice that the last few degrees do most of the work.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-sunset" aria-labelledby="fig-sunset-cap">
+      <div class="stage sunset-stage">
+        <canvas id="sunset-canvas" role="slider" aria-label="Sun elevation. Left: the sunbeam’s path through the atmosphere to an observer. Right: the sky and Sun as the observer sees them."
+                aria-valuemin="0" aria-valuemax="90" aria-valuenow="5" aria-describedby="fig-sunset-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="ss-elev">Sun’s height above the horizon</label>
+          <input type="range" id="ss-elev" min="0" max="90" step="0.5" value="5">
+          <output id="ss-elev-out" for="ss-elev">5°</output>
+        </div>
+        <div class="control">
+          <label for="ss-haze">Haze: aerosol optical depth at 550 nm</label>
+          <input type="range" id="ss-haze" min="0" max="0.6" step="0.05" value="0">
+          <output id="ss-haze-out" for="ss-haze">0.00</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Air mass</dt><dd id="ss-am">10.3</dd></div>
+        <div><dt>Blue (450 nm) left in the beam</dt><dd id="ss-t450">10%</dd></div>
+        <div><dt>Red (700 nm) left in the beam</dt><dd id="ss-t700">69%</dd></div>
+        <div><dt>Sun’s brightness, vs. above the air</dt><dd id="ss-lum">39%</dd></div>
+        <div><dt>Direct Sun</dt><dd><span class="swatch" id="ss-sw-sun"></span></dd></div>
+        <div><dt>Sky overhead</dt><dd><span class="swatch" id="ss-sw-sky"></span></dd></div>
+      </dl>
+      <figcaption id="fig-sunset-cap"><span class="fig-num">Figure 2.</span>Left: a sunbeam
+      reaching an observer through the atmosphere (the atmosphere is drawn about 60 times thicker
+      than it is, so the path’s length is given by the air-mass readout, not by the drawing). Right:
+      the view, with the Sun’s colour computed from the light that survives the path and the sky’s
+      colour computed from singly scattered light (brightness is evened out, as your eye does; the
+      pale yellow band low in the sky at sunset is what single scattering predicts, and is too strong,
+      see the end of the page). The haze slider adds aerosols. Drag the Sun, or focus the figure and use the arrow keys.</figcaption>
+    </figure>
+
+    <p>Two things in Figure 2 are worth a second look. First, the Sun stays nearly white until it is
+    quite low: at 30° it has lost about a third of its blue, which the eye barely notices. The colours of sunset are crowded into the
+    last 10° or so, because that is where the air mass shoots up. Second, the sky overhead gets
+    paler as the Sun drops, since the light being scattered has itself already lost blue on its way
+    in. (The real twilight sky stays bluer than this, for a reason the model leaves out; see the end
+    of the page.)</p>
+
+    <p>The air in Figure 2 starts out perfectly clean, which real air never is. It also carries
+    <em>aerosols</em>: tiny particles of dust, sea salt, smoke and droplets, mostly a few hundred
+    nanometres across. They dim light too, and still somewhat more at short wavelengths, though far
+    less steeply than molecules do (roughly as 1/<var>λ</var><sup>1.3</sup> instead of
+    1/<var>λ</var><sup>4</sup>). Their effect is measured by the <em>aerosol optical depth</em>: about
+    0.01 in extremely clean air, 0.1 to 0.15 on an average day in the United States, and 0.4 or more
+    in thick haze. Raise the haze slider with the Sun low. The Sun dims dramatically and turns a
+    deeper red, and the sky turns from blue toward white, because the particles scatter all colours
+    more evenly than molecules do.</p>
+
+    <h2>Why isn’t the sky violet?</h2>
+
+    <p>If shorter means more scattered, violet light at 400 nm should beat blue. It is scattered
+    1.6 times more strongly than blue at 450 nm. So why is the sky not violet?</p>
+
+    <p>Three reasons, and Figure 3 lets you see each. Sunlight contains less violet than blue to
+    begin with. Your eyes are much less sensitive to violet: the three curves in the figure, called
+    <em>colour-matching functions</em>, are the standard measure of
+    how the eye responds to each wavelength (they are closely tied to the eye’s three kinds of
+    colour receptor, the cones), and they fall off steeply below about 430 nm. And
+    the most important: the sky is not one wavelength but a mix of all of them, with extra weight at
+    the short end. Your eye sees that mix as white light with some blue added. That is pale blue,
+    not violet.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Tick “Compare with pure violet” to see what a sky of 410 nm light alone would look like.
+      Then lower the exponent <var>n</var> from 4 toward 0. That makes scattering less and less
+      picky about colour. Watch the sky turn white.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-violet" aria-labelledby="fig-violet-cap">
+      <div class="violet-grid">
+        <div class="stage violet-stage scrollable">
+          <canvas id="violet-canvas" role="img" aria-label="Graph from 380 to 720 nanometres: the spectrum of scattered sunlight, filled in its colours, rising toward short wavelengths; the Sun’s own spectrum, dashed; and the eye’s three colour-matching curves, peaking near 445, 555 and 600 nanometres."></canvas>
+        </div>
+        <div class="swatches" aria-live="polite">
+          <div class="big-swatch"><span class="swatch-fill" id="vi-sky"></span><span class="swatch-label">The colour of the scattered light</span></div>
+          <div class="big-swatch" id="vi-violet-box" hidden><span class="swatch-fill" id="vi-violet"></span><span class="swatch-label">Pure violet light, 410 nm</span></div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="vi-n">Exponent <var>n</var> in 1/<var>λ</var><sup><var>n</var></sup></label>
+          <input type="range" id="vi-n" min="0" max="4" step="0.1" value="4">
+          <output id="vi-n-out" for="vi-n">4.0</output>
+        </div>
+        <div class="btn-row">
+          <label class="toggle"><input type="checkbox" id="vi-cmp"> Compare with pure violet</label>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Share of the light’s power below 450 nm</dt><dd id="vi-share">27%</dd></div>
+        <div><dt>Colour seen: dominant wavelength</dt><dd id="vi-dom">476 nm (blue)</dd></div>
+        <div><dt>Purity (0 white, 100% pure colour)</dt><dd id="vi-pur">41%</dd></div>
+      </dl>
+      <figcaption id="fig-violet-cap"><span class="fig-num">Figure 3.</span>The spectrum of sunlight
+      scattered with strength 1/<var>λ</var><sup><var>n</var></sup> (filled), sunlight itself
+      (dashed), and the CIE 1931 colour-matching functions <var>x̄</var>, <var>ȳ</var>,
+      <var>z̄</var> (thin lines). The swatch is the colour the eye sees, computed from the spectrum.
+      <var>n</var> = 4 is air; <var>n</var> near 0 is cloud.</figcaption>
+    </figure>
+
+    <p>The <em>dominant wavelength</em> readout names the single wavelength whose colour, mixed with
+    white, matches what you see; the <em>purity</em> says how much of it is in the mix. For
+    Rayleigh-scattered sunlight the model gives about 476 nm at about 40% purity: a sky blue,
+    clearly paler than a pure spectral colour. Glenn Smith’s 2005 analysis, which treats the eye in
+    more detail, found the same: skylight looks like blue light of 474–476 nm mixed
+    with white.</p>
+
+    <h2>Why clouds are white</h2>
+
+    <p>The 1/<var>λ</var><sup>4</sup> law holds only for particles much smaller than the wavelength.
+    A cloud droplet is about 10 micrometres across, some 20 times larger than a wavelength of light.
+    Light bends and reflects through it much as through a tiny raindrop, and every colour is
+    scattered about equally: the exponent <var>n</var> is close to 0. Scatter sunlight equally at
+    every wavelength and you get sunlight back: white. Milk, sea foam and sugar are white for the
+    same reason. Haze and smoke fall in between, with particles comparable to the wavelength, and
+    make a sky that is milky rather than deep blue.</p>
+
+    <p>John Tyndall saw the in-between case in his laboratory in 1869: a mist of very fine particles
+    lit by a white beam glowed blue from the side, and the blue light was polarised. Rayleigh
+    explained it two years later with the law in Figure 1, and later showed that the air molecules
+    themselves, not dust, are enough to make the sky blue.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Multiple scattering.</strong> The model follows light that is scattered once.
+          Near the horizon, where you look through a lot of air, much of the light has been
+          scattered several times; this washes the colour out and is one reason the horizon sky is
+          whiter than the zenith. In Figure 2 the low sky at sunset comes out pale yellow instead.</li>
+          <li><strong>Aerosols and dust.</strong> The haze slider in Figure 2 is a rough sketch:
+          real particles scatter mostly forward (which makes the bright glow around the Sun), some
+          absorb light (soot), and they sit mostly in the lowest kilometre or two of air rather than
+          being mixed evenly through it. With the haze at zero, the model’s setting Sun keeps 4% of
+          its full brightness, far more than in real sunsets.</li>
+          <li><strong>Ozone.</strong> Ozone absorbs orange and red light weakly (the Chappuis
+          bands, around 500–700 nm). At twilight, when sunlight crosses a very long path high in the
+          atmosphere, that absorption supplies about two-thirds of the blue of the sky overhead. Without it the model’s
+          twilight zenith turns pale, as Figure 2 shows.</li>
+          <li><strong>The Sun’s spectrum.</strong> Sunlight is modelled as a 5,778 K black body.
+          The real spectrum above the atmosphere has many absorption lines and differs noticeably,
+          especially below about 450 nm, where it is dimmer than the black body.</li>
+          <li><strong>The eye.</strong> Colours are computed for the CIE 1931 standard observer and
+          balanced so that sunlight above the air looks white, which is roughly what the eye’s
+          adaptation does. Real eyes adapt continuously, and screens cannot show the true brightness
+          or saturation of the sky.</li>
+          <li><strong>Direction and polarisation.</strong> Rayleigh scattering is twice as strong
+          forward and backward as sideways, and light scattered at 90° is strongly polarised (which is
+          why polarising sunglasses darken parts of the sky). The model ignores direction and
+          polarisation, and its view of the sky does not depend on where you look relative to the
+          Sun.</li>
+          <li>The “white light” grains in Figure 1 are a cartoon: real light is a wave, and the box
+          is far smaller than the kilometres of air it stands for.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>J. E. Hansen and L. D. Travis, “Light scattering in planetary atmospheres,”
+          <cite>Space Science Reviews</cite> 16, 527–610 (1974); formula as quoted by B. A.
+          Bodhaine et al., “On Rayleigh optical depth calculations,” <cite>J. Atmos. Oceanic
+          Technol.</cite> 16, 1854–1861 (1999), eq. 15.
+          <a href="https://journals.ametsoc.org/view/journals/atot/16/11/1520-0426_1999_016_1854_orodc_2_0_co_2.xml">journals.ametsoc.org</a>
+          <span class="note">The Rayleigh optical depth used throughout: <var>τ</var> = 0.008569
+          <var>λ</var><sup>−4</sup>(1 + 0.0113 <var>λ</var><sup>−2</sup> + 0.00013
+          <var>λ</var><sup>−4</sup>), <var>λ</var> in µm, sea level. It gives 0.097 at 550 nm; Bodhaine
+          et al. compare it with other methods; the differences matter mainly in the
+          ultraviolet.</span></li>
+          <li>F. Kasten and A. T. Young, “Revised optical air mass tables and approximation
+          formula,” <cite>Applied Optics</cite> 28, 4735–4738 (1989).
+          <a href="https://doi.org/10.1364/AO.28.004735">doi.org/10.1364/AO.28.004735</a>
+          <span class="note">The air mass formula, 1 / (sin <var>h</var> + 0.50572 (<var>h</var> +
+          6.07995°)<sup>−1.6364</sup>), giving about 38 at the horizon.</span></li>
+          <li>Lord Rayleigh (J. W. Strutt), “On the light from the sky, its polarization and colour,”
+          <cite>Philosophical Magazine</cite> 41, 107–120 and 274–279 (1871).
+          <a href="https://doi.org/10.1080/14786447108640452">doi.org/10.1080/14786447108640452</a>
+          <span class="note">The 1/<var>λ</var><sup>4</sup> law for particles much smaller than the
+          wavelength, and the history: it follows J. Tyndall, “On the blue colour of the sky, the
+          polarization of skylight, and on the polarization of light by cloudy matter generally”
+          (1869).</span></li>
+          <li>NOAA Global Monitoring Laboratory, “SURFRAD Aerosol Optical Depth.”
+          <a href="https://gml.noaa.gov/grad/surfrad/aod/">gml.noaa.gov/grad/surfrad/aod</a>
+          <span class="note">Typical aerosol optical depths: 0.01 extremely clean, 0.1–0.15 a US
+          average, 0.4 very hazy. The 1/<var>λ</var><sup>1.3</sup> wavelength dependence is
+          Ångström’s classic average value for natural haze.</span></li>
+          <li>G. S. Smith, “Human color vision and the unsaturated blue color of the daytime sky,”
+          <cite>American Journal of Physics</cite> 73, 590–597 (2005).
+          <a href="https://doi.org/10.1119/1.1858479">doi.org/10.1119/1.1858479</a>
+          <span class="note">Why the sky looks pale blue rather than violet: the role of the eye;
+          skylight matches a blue of 474–476 nm mixed with white, which the model reproduces
+          (476 nm).</span></li>
+          <li>A. Lange, A. Rozanov and C. von Savigny, “Revisiting the question ‘Why is the sky
+          blue?’,” <cite>Atmospheric Chemistry and Physics</cite> 23, 14829–14839 (2023).
+          <a href="https://acp.copernicus.org/articles/23/14829/2023/">acp.copernicus.org</a>
+          <span class="note">Ozone’s Chappuis absorption supplies about two-thirds of the zenith’s
+          blue with the Sun on the horizon (as E. O. Hulburt estimated in 1953) but only about 3%
+          in daytime; aerosols reduce that share.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+        </dl>
+        <p>The model (model.js) computes spectra on a 5 nm grid from 380 to 780 nm, integrates them
+        against the CIE 1931 2° colour-matching functions (cmf.js: the CIE table, CIE 015:2018,
+        at 5 nm, taken from the open-source colour-science library,
+        <a href="https://github.com/colour-science/colour">github.com/colour-science/colour</a>), converts to sRGB and normalises the
+        brightness.</p>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="cmf.js"></script>
+<script src="model.js"></script>
+<script src="exhibit.js"></script>
+</body>
+</html>

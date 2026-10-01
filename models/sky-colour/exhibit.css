@@ -1,0 +1,29 @@
+/* Sky-colour exhibit: local layout for the figures. */
+.scatter-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 0.75rem; }
+.scatter-stage { --aspect: 4 / 3; }
+.curve-stage { --aspect: 4 / 3; }
+.sunset-stage { --aspect: 16 / 8; }
+.violet-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 0.75rem; align-items: stretch; }
+.violet-stage { --aspect: 16 / 10; }
+.swatches { display: flex; flex-direction: column; gap: 0.75rem; }
+.big-swatch { display: flex; flex-direction: column; flex: 1; min-height: 6rem; }
+.big-swatch[hidden] { display: none; }
+.swatch-fill { flex: 1; border-radius: 6px; border: 1px solid var(--rule); min-height: 4rem; }
+.swatch-label { font-family: var(--sans); font-size: 0.85rem; color: var(--ink-2); margin-top: 0.3rem; }
+.swatch { display: inline-block; width: 2.2em; height: 1.1em; vertical-align: -0.2em;
+  border-radius: 3px; border: 1px solid var(--rule); }
+@media (max-width: 40rem) {
+  .scatter-grid { grid-template-columns: 1fr; }
+  .curve-stage { --aspect: 16 / 10; }
+  .sunset-stage { --aspect: 4 / 5; }
+  .violet-grid { grid-template-columns: 1fr; }
+  .swatches { flex-direction: row; }
+  .big-swatch { min-height: 5rem; }
+}
+/* Phone: Figure 2's two long labels no longer fit beside their sliders; put the slider on its own line. */
+@media (max-width: 40rem) {
+  #fig-sunset .control { grid-template-columns: 1fr auto; }
+  #fig-sunset .control > label { grid-column: 1; grid-row: 1; white-space: normal; }
+  #fig-sunset .control > output { grid-column: 2; grid-row: 1; }
+  #fig-sunset .control > input[type="range"] { grid-column: 1 / -1; grid-row: 2; }
+}

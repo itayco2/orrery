@@ -1,0 +1,25 @@
+/* Exhibit-only styles for herd-immunity. */
+.fig .stage.chain { --aspect: 16 / 8; }
+.fig .stage.plot { --aspect: 16 / 8; }
+@media (max-width: 36rem) {
+  .fig .stage.chain { --aspect: 4 / 3.4; }
+  .fig .stage.plot { --aspect: 4 / 3.4; }
+}
+.legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; margin: 0.6rem 0 0; padding: 0;
+  list-style: none; font-family: var(--sans); font-size: 0.85rem; color: var(--ink-2); }
+.legend li { display: flex; align-items: center; gap: 0.4rem; margin: 0; }
+.legend .sw { display: inline-block; width: 1.4rem; height: 0; border-top: 3px solid currentColor; }
+.legend .sw.dash { border-top-style: dashed; }
+.legend .dot { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; }
+.sw.s, .c-s { color: var(--verdigris); }
+.sw.i, .c-i { color: var(--alarm); }
+.sw.r, .c-r { color: var(--brass); }
+.dot.case { background: var(--alarm); }
+.dot.imm { background: var(--paper-3); border: 1px solid var(--ink-3); }
+.verdict { font-family: var(--sans); font-size: 0.9rem; color: var(--ink-2); margin: 0.7rem 0 0; }
+.stage[role="slider"] { cursor: ew-resize; }
+.stage[role="slider"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (max-width: 36rem) {
+  #main .fig .control { grid-template-columns: 1fr auto; }
+  #main .fig .control > input[type="range"] { grid-column: 1 / -1; grid-row: 2; }
+}

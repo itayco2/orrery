@@ -1,0 +1,10 @@
+{
+  "slug": "chaos",
+  "title": "Why can’t we forecast the weather a month ahead?",
+  "question": "Two pendulums started a millionth of a radian apart soon do completely different things. Why doesn’t exact physics mean exact forecasts?",
+  "field": "Physics",
+  "summary": "A double pendulum obeys Newton’s laws with no randomness, yet tiny differences in its start grow exponentially, so each tenfold gain in precision buys only a fixed extra stretch of forecast. The atmosphere behaves the same way, which is why day-to-day forecasts are useful for about ten days today and can never reach much beyond two weeks.",
+  "built": "2026-09-30",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

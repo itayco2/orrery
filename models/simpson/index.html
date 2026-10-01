@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Better in every group, worse overall? — Orrery</title>
+<meta name="description" content="Simpson's paradox: how a treatment can win in every group and still lose overall, with the kidney-stone data of Charig et al. (1986).">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/simpson/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Better in every group, worse overall? — Orrery">
+<meta property="og:description" content="Simpson&#x27;s paradox: how a treatment can win in every group and still lose overall, with the kidney-stone data of Charig et al. (1986).">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/simpson/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/simpson/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “Better in every group, worse overall?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Better in every group, worse overall? — Orrery">
+<meta name="twitter:description" content="Simpson&#x27;s paradox: how a treatment can win in every group and still lose overall, with the kidney-stone data of Charig et al. (1986).">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/simpson/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “Better in every group, worse overall?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Reasoning</p>
+      <h1>Better in every group, worse overall?</h1>
+      <p class="lede">One kidney-stone treatment did better than another for small stones, and better
+      again for large stones. Yet across all patients it did worse. Nobody made an arithmetic
+      mistake. Here is how that happens, and which number to believe.</p>
+      <p class="byline">An exhibit about Simpson’s paradox</p>
+    </header>
+
+    <p>Suppose two hospitals each treat 100 patients for the same illness. Hospital A cures 58 of
+    them; hospital B cures 72. Which hospital would you choose? Almost everyone says B. Now suppose
+    you learn that A was better than B for mild cases <em>and</em> better than B for severe cases.
+    That sounds impossible: if A wins in each part, surely it wins in the whole?</p>
+
+    <p>It does not have to. When a comparison reverses as you split the data into groups (or merge
+    them back), statisticians call it <strong>Simpson’s paradox</strong>, after Edward Simpson, who
+    described it in 1951. It is not a quirk of a few odd numbers. It turns up in medicine, in
+    admissions data, in sport and in economics, whenever the groups being compared are made up
+    differently.</p>
+
+    <h2>Make it happen yourself</h2>
+
+    <p>In the figure below, two treatments, A and B, are each given to a mix of <em>easy</em> cases
+    and <em>hard</em> cases. For each treatment you set how many easy and hard patients it got, and
+    how often it succeeds with each kind. The bars show the success rate (the share of patients
+    for whom the treatment worked) in each group and overall.</p>
+
+    <p>As it starts, A beats B among easy cases (90% against 80%) and among hard cases (50% against
+    40%), but loses overall (58% against 72%). Try moving A’s hard cases down towards 10, and watch
+    the paradox disappear. Then try to make B win both groups and lose overall.</p>
+
+    <figure class="fig wide" id="fig-mix" aria-labelledby="fig-mix-cap">
+      <div class="stage scrollable mix-stage">
+        <canvas id="mix-canvas" role="img" aria-label="Bar chart of the success rates of treatments A and B among easy cases, among hard cases, and overall. The text below the chart gives the same numbers."></canvas>
+      </div>
+      <p class="verdict" id="mix-verdict" aria-live="polite"></p>
+      <div class="mix-cols">
+        <fieldset class="mix-col col-a">
+          <legend><span class="sw sw-a" aria-hidden="true"></span>Treatment A</legend>
+          <div class="control stacked"><label for="aE">Easy cases</label><output id="aE-out" for="aE"></output>
+            <input type="range" id="aE" min="5" max="200" step="5" value="20"></div>
+          <div class="control stacked"><label for="aPE">Success with easy cases</label><output id="aPE-out" for="aPE"></output>
+            <input type="range" id="aPE" min="0" max="100" step="1" value="90"></div>
+          <div class="control stacked"><label for="aH">Hard cases</label><output id="aH-out" for="aH"></output>
+            <input type="range" id="aH" min="5" max="200" step="5" value="80"></div>
+          <div class="control stacked"><label for="aPH">Success with hard cases</label><output id="aPH-out" for="aPH"></output>
+            <input type="range" id="aPH" min="0" max="100" step="1" value="50"></div>
+        </fieldset>
+        <fieldset class="mix-col col-b">
+          <legend><span class="sw sw-b" aria-hidden="true"></span>Treatment B</legend>
+          <div class="control stacked"><label for="bE">Easy cases</label><output id="bE-out" for="bE"></output>
+            <input type="range" id="bE" min="5" max="200" step="5" value="80"></div>
+          <div class="control stacked"><label for="bPE">Success with easy cases</label><output id="bPE-out" for="bPE"></output>
+            <input type="range" id="bPE" min="0" max="100" step="1" value="80"></div>
+          <div class="control stacked"><label for="bH">Hard cases</label><output id="bH-out" for="bH"></output>
+            <input type="range" id="bH" min="5" max="200" step="5" value="20"></div>
+          <div class="control stacked"><label for="bPH">Success with hard cases</label><output id="bPH-out" for="bPH"></output>
+            <input type="range" id="bPH" min="0" max="100" step="1" value="40"></div>
+        </fieldset>
+      </div>
+      <dl class="readouts">
+        <div><dt>A overall</dt><dd id="mix-a-all"></dd></div>
+        <div><dt>B overall</dt><dd id="mix-b-all"></dd></div>
+        <div><dt>Hard cases, share of A’s patients</dt><dd id="mix-a-share"></dd></div>
+        <div><dt>Hard cases, share of B’s patients</dt><dd id="mix-b-share"></dd></div>
+      </dl>
+      <figcaption id="fig-mix-cap"><span class="fig-num">Figure 1.</span>Two treatments, two kinds
+      of case. Bars show success rates; the number under each bar is how many patients it is based
+      on. The sentence above the sliders says whether the overall comparison points the opposite
+      way to the comparison in both groups.</figcaption>
+    </figure>
+
+    <p>You will have found a pattern. The paradox needs two things at once. First, one kind of case
+    must be much harder than the other: here, hard cases succeed about half as often as easy ones,
+    whichever treatment they get. Second, the two treatments must get very different mixes: A got
+    mostly hard cases, B mostly easy ones. Give A and B the same mix and the paradox cannot
+    happen.</p>
+
+    <h2>A real case: kidney stones</h2>
+
+    <p>In 1986 Clive Charig and colleagues at the Institute of Urology in London compared ways of
+    removing kidney stones. Two of them were <strong>open surgery</strong>, an operation through
+    a cut in the side, and <strong>percutaneous nephrolithotomy</strong> (PCNL), in which a
+    surgeon reaches the kidney through a small hole using a tube and a camera. Each was used on 350
+    patients. The patients were not assigned at random: doctors chose the treatment.</p>
+
+    <p>The figure shows every one of those 700 patients as a dot. A filled dot is a success, an
+    empty one is not. First look at the overall picture. Then press <strong>By stone size</strong>,
+    which splits each treatment’s patients into small stones (under 2 cm across) and large stones
+    (2 cm or more).</p>
+
+    <figure class="fig wide" id="fig-stones" aria-labelledby="fig-stones-cap">
+      <div class="btn-row" role="group" aria-label="How to group the patients">
+        <button type="button" class="btn" id="stones-all" aria-pressed="true">Overall</button>
+        <button type="button" class="btn" id="stones-split" aria-pressed="false">By stone size</button>
+      </div>
+      <div class="stage scrollable stones-stage">
+        <canvas id="stones-canvas" role="img" aria-label="700 patients drawn as dots, 350 per treatment, filled when the treatment succeeded. The table below gives the counts."></canvas>
+      </div>
+      <div class="table-wrap"><table class="stones-table num" id="stones-table">
+        <caption class="visually-hidden">Successes out of patients treated, Charig et al. 1986</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Small stones<br>(&lt; 2 cm)</th><th scope="col">Large stones<br>(≥ 2 cm)</th><th scope="col">All<br>patients</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><span class="sw sw-a" aria-hidden="true"></span>Open surgery</th><td>81/87 <span class="pc">= 93%</span></td><td>192/263 <span class="pc">= 73%</span></td><td>273/350 <span class="pc">= 78%</span></td></tr>
+          <tr><th scope="row"><span class="sw sw-b" aria-hidden="true"></span>PCNL</th><td>234/270 <span class="pc">= 87%</span></td><td>55/80 <span class="pc">= 69%</span></td><td>289/350 <span class="pc">= 83%</span></td></tr>
+        </tbody>
+      </table></div>
+      <p class="verdict" id="stones-verdict" aria-live="polite"></p>
+      <figcaption id="fig-stones-cap"><span class="fig-num">Figure 2.</span>Kidney-stone
+      treatments, from Charig et al. (1986) as tabulated by Julious and Mullee (1994). One dot per
+      patient; filled = success. Successes are drawn first in each block, so the empty dots at the
+      end of a block show the failures.</figcaption>
+    </figure>
+
+    <p>Overall, PCNL looks better: 83% against 78%. Split by stone size, open surgery is better for
+    small stones (93% against 87%) and for large stones (73% against 69%). Same patients, same
+    outcomes, opposite verdicts.</p>
+
+    <p>Look at the shapes of the blocks. Open surgery’s big block is large stones (263 of its 350
+    patients); PCNL’s big block is small stones (270 of its 350). Large stones are harder for
+    <em>both</em> treatments. So open surgery was mostly handed the hard cases, exactly as A was in
+    Figure 1.</p>
+
+    <h2>Why: an overall rate is a weighted average</h2>
+
+    <p>Here is the whole explanation in one line. A treatment’s overall success rate is the average
+    of its two group rates, each weighted by the share of its patients in that group:</p>
+
+    <p class="formula">overall = (1 − <var>w</var>) × small-stone rate + <var>w</var> × large-stone rate</p>
+
+    <p>where <var>w</var> is the fraction of that treatment’s patients who had large stones. For
+    open surgery <var>w</var> = 263/350 = 75%, so its overall rate is 0.25 × 93.1% + 0.75 × 73.0% =
+    78.0%. For PCNL <var>w</var> = 80/350 = 23%, giving 0.77 × 86.7% + 0.23 × 68.8% = 82.6%.</p>
+
+    <p>A weighted average of two numbers always lies between them, and where it lies depends only
+    on the weight. In the next figure, each treatment is a line from its small-stone rate (left) to
+    its large-stone rate (right). Its overall rate is a dot that sits on that line at its own mix
+    of patients. Open surgery’s line is above PCNL’s everywhere, but its dot sits far to the right,
+    down the slope. Drag the dots, or use the sliders, and give both treatments the same mix.</p>
+
+    <figure class="fig wide" id="fig-weights" aria-labelledby="fig-weights-cap">
+      <div class="stage weights-stage">
+        <canvas id="weights-canvas" role="img" aria-label="Two sloping lines, one per treatment, from the success rate for small stones at the left to the rate for large stones at the right. A dot on each line marks its overall rate at its share of large stones. Use the sliders below to move the dots."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked"><label for="w-open">Open surgery: share with large stones</label><output id="w-open-out" for="w-open"></output>
+          <input type="range" id="w-open" min="0" max="100" step="1" value="75"></div>
+        <div class="control stacked"><label for="w-pcnl">PCNL: share with large stones</label><output id="w-pcnl-out" for="w-pcnl"></output>
+          <input type="range" id="w-pcnl" min="0" max="100" step="1" value="23"></div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="w-real">Real mix</button>
+          <button type="button" class="btn" id="w-same">Same mix for both (49%)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Open surgery overall</dt><dd id="w-open-all"></dd></div>
+        <div><dt>PCNL overall</dt><dd id="w-pcnl-all"></dd></div>
+        <div><dt>Better overall</dt><dd id="w-winner"></dd></div>
+      </dl>
+      <figcaption id="fig-weights-cap"><span class="fig-num">Figure 3.</span>Each overall rate is
+      a point on the line between the treatment’s two group rates, at its share of large stones.
+      The group rates are the real ones from Figure 2; only the mix changes. “Same mix” uses the
+      share of large stones among all 700 patients, 343/700 = 49%.</figcaption>
+    </figure>
+
+    <p>With the real mix, PCNL’s dot is higher. With the same mix for both, open surgery’s dot is
+    higher: 83.3% against 77.9% at 49% large stones. Wherever you put the two dots, as long as they
+    are at the same place, open surgery wins, because its line is above everywhere. The reversal
+    comes entirely from the dots being at different places along their lines.</p>
+
+    <aside class="callout note">
+      <span class="callout-title">The rule</span>
+      <p>When group rates are similar between treatments but very different between groups, the
+      overall comparison mostly measures <em>who got which cases</em>, not how good the treatments
+      are.</p>
+    </aside>
+
+    <h2>So which number should you trust?</h2>
+
+    <p>The numbers do not answer this on their own. You have to know how the data came about.</p>
+
+    <p>Here, stone size came first. A patient arrived with a small or large stone; that size
+    influenced which treatment the doctor chose, and it also influenced the chance of success. A
+    variable that pushes on both the choice of treatment and the outcome is called a
+    <strong>confounder</strong>. With a confounder, the overall comparison mixes up the effect of
+    the treatment with the effect of the case mix. The fair comparison is like with like: within
+    each stone size. On these data, open surgery had the better success rate for both sizes, by about
+    6 percentage points for small stones and 4 for large ones.</p>
+
+    <p>But splitting is not always right. Imagine instead that a drug lowers blood pressure, and
+    that lower blood pressure is part of how it helps. If you split patients by their blood pressure
+    <em>after</em> treatment, you would be hiding part of what the drug does. When the grouping
+    variable is a consequence of the treatment, the overall number is the one to trust. The
+    arithmetic is identical in both cases; only the story of cause and effect differs. Judea Pearl
+    has argued that this is why the paradox once seemed baffling: the answer depends on causes, which
+    the table alone does not show.</p>
+
+    <p>The figure below draws the two stories as arrows of cause and effect. Switch between them and
+    watch which path the arrows open up between treatment and outcome.</p>
+
+    <figure class="fig" id="fig-cause" aria-labelledby="fig-cause-cap">
+      <div class="btn-row" role="group" aria-label="Which story">
+        <button type="button" class="btn" id="cause-conf" aria-pressed="true">Stone size, before treatment</button>
+        <button type="button" class="btn" id="cause-med" aria-pressed="false">Blood pressure, after treatment</button>
+      </div>
+      <div class="stage scrollable cause-stage">
+        <svg id="cause-svg" viewBox="0 0 600 310" role="img" aria-labelledby="cause-desc"></svg>
+      </div>
+      <p class="verdict" id="cause-desc" aria-live="polite"></p>
+      <figcaption id="fig-cause-cap"><span class="fig-num">Figure 4.</span>Two causal stories with
+      the same three-part shape. An arrow means “has an effect on”. The highlighted path is the one
+      that decides which comparison is fair.</figcaption>
+    </figure>
+
+    <p>A second famous example points the same way as the kidney stones. In 1973 the graduate
+    division of the University of California, Berkeley, admitted about 44% of 8,442 men who
+    applied but only about 35% of 4,321 women. Peter Bickel, Eugene Hammel and William O’Connell
+    looked department by department and found little sign of bias against women; if anything, a
+    small bias in their favour. Women had applied mostly to departments that were hard for anyone
+    to get into. The authors did not conclude that there was no problem, only that it lay earlier,
+    in what steered women toward those fields.</p>
+
+    <p>Simpson’s paradox does not mean that statistics can prove anything. It means that an
+    overall average can hide a third variable, and that the right comparison depends on what that
+    variable is doing.</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Chance.</strong> The figures treat every rate as exact. Real rates from small
+          groups are noisy: open surgery’s 93% for small stones rests on only 87 patients, and the
+          gaps within each size group (4 to 6 points) are small enough that chance could explain
+          part of them.</li>
+          <li><strong>Only two groups.</strong> Real confounders often have many levels, or are
+          continuous (a stone can be 1.9 cm or 2.1 cm). Splitting at 2 cm leaves some confounding
+          inside each group.</li>
+          <li><strong>Other confounders.</strong> Stone size is not the only thing doctors weighed.
+          Comparing within size groups removes the effect of size, not of everything else. Only
+          random assignment of treatment balances the causes we did not measure.</li>
+          <li><strong>What “success” counts.</strong> The study counted a treatment as successful
+          if the stones were gone, or reduced to under 2 mm, after three months.
+          PCNL is less invasive, so recovery time, pain and complications may matter as much as
+          the success rate, and this exhibit says nothing about them.</li>
+          <li><strong>The causal story.</strong> Deciding which number to trust needs a picture of
+          cause and effect that comes from outside the data. If that picture is wrong, the
+          “right” comparison can be wrong too.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>C. R. Charig, D. R. Webb, S. R. Payne and J. E. A. Wickham, “Comparison of treatment of
+          renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave
+          lithotripsy”, <cite>British Medical Journal</cite> 292 (1986) 879–882.
+          <span class="note">The original study the kidney-stone counts come from (open surgery and
+          PCNL are two of its treatment groups).</span></li>
+          <li>S. A. Julious and M. A. Mullee, “Confounding and Simpson’s paradox”, <cite>BMJ</cite>
+          309 (1994) 1480–1481.
+          <span class="note">The 2 × 2 × 2 table used in Figures 2 and 3, with the 2 cm split.</span></li>
+          <li>S. Bonovas and D. Piovani, “Simpson’s Paradox in Clinical Research: A Cautionary Tale”,
+          <cite>Journal of Clinical Medicine</cite> 12 (2023) 1633.
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9960320/">pmc.ncbi.nlm.nih.gov</a>
+          <span class="note">Reproduces the table (81/87, 234/270, 192/263, 55/80) and explains the
+          allocation by stone size; used to check every count.</span></li>
+          <li>P. J. Bickel, E. A. Hammel and J. W. O’Connell, “Sex Bias in Graduate Admissions: Data
+          from Berkeley”, <cite>Science</cite> 187 (1975) 398–404.
+          <a href="https://www.science.org/doi/10.1126/science.187.4175.398">science.org</a>
+          <span class="note">The 1973 figures (8,442 men, about 44% admitted; 4,321 women, about
+          35%) and the authors’ conclusions.</span></li>
+          <li>J. Pearl, “Comment: Understanding Simpson’s Paradox”, <cite>The American
+          Statistician</cite> 68 (2014) 8–13.
+          <span class="note">Why the choice between the split and the pooled numbers is a causal
+          question, including the case where the grouping variable is affected by the
+          treatment.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+        </dl>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: the exhibit list, the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="exhibit.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<!--
+  ORRERY EXHIBIT TEMPLATE  (view/models/_template/)
+  ─────────────────────────────────────────────────
+  Copy this folder to view/models/<your-slug>/ and replace the content.
+  Everything here works as-is; every part of the kit is used once:
+    • site header / footer (paths are ../../ from an exhibit folder)
+    • .exhibit-header with kicker, h1 question, lede, byline
+    • figures:  <figure class="fig"> with .stage (canvas or svg), .controls,
+                .readouts, figcaption with .fig-num
+    • controls: range + <output> (Orrery.bindRange), play/pause button
+                (Orrery.loop), toggle (.toggle), radio group (.radio-row),
+                draggable figure with keyboard nudging (Orrery.drag)
+    • readouts: colour key (.readouts .key), big numbers (Orrery.fmt.sci)
+    • callouts (.callout.try / .callout.note), .formula
+    • end matter: "What this model leaves out", "Sources", colophon
+  Keep: the <script> order at the bottom, lang="en", the skip link, one <h1>.
+  Checklist and API: the kit's README.
+  Register the exhibit LAST by writing meta.json (see meta.json.example).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why does a turning wheel make a wave? — Orrery</title>
+<meta name="description" content="Orrery's exhibit template: a point on a turning wheel, and the wave its height traces.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<!-- Exhibit-only styles go in a local file, e.g. <link rel="stylesheet" href="exhibit.css"> -->
+<!-- added by the public build -->
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/_template/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Why does a turning wheel make a wave? — Orrery">
+<meta property="og:description" content="Orrery&#x27;s exhibit template: a point on a turning wheel, and the wave its height traces.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/_template/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/social-preview.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="The Orrery card: the emblem, the word Orrery and the line “Working models of ideas”, with thumbnails of several exhibits.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why does a turning wheel make a wave? — Orrery">
+<meta name="twitter:description" content="Orrery&#x27;s exhibit template: a point on a turning wheel, and the wave its height traces.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/social-preview.png">
+<meta name="twitter:image:alt" content="The Orrery card: the emblem, the word Orrery and the line “Working models of ideas”, with thumbnails of several exhibits.">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Exhibit template · Physics</p>
+      <h1>Why does a turning wheel make a wave?</h1>
+      <p class="lede">Watch one point on a steadily turning wheel and follow only its height. What
+      you get is the most important curve in physics.</p>
+      <p class="byline">This page is Orrery’s exhibit kit: a small, complete example that new
+      exhibits start from. It is not listed among the exhibits.</p>
+    </header>
+
+    <p>Take a wheel turning at a steady speed and paint a dot on its rim. Now forget the sideways
+    motion and watch only how high the dot is. It rises, slows near the top, falls, slows near the
+    bottom, and rises again. Plot that height against time and you get a smooth, endlessly repeating
+    curve: a <em>sine wave</em>.</p>
+
+    <p>In the figure below, the wheel is on the left and the height of its dot is drawn out to the
+    right as time passes. Change the speed and watch the wave bunch up or stretch out.</p>
+
+    <figure class="fig wide" id="fig-wheel" aria-labelledby="fig-wheel-cap">
+      <div class="stage" style="--aspect: 16 / 7">
+        <canvas id="wheel-canvas" role="img" aria-label="A wheel turning at a steady speed, with the height of a dot on its rim traced to the right as a sine wave."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label for="wheel-speed">Speed</label>
+          <input type="range" id="wheel-speed" min="0.05" max="1" step="0.05" value="0.25">
+          <output id="wheel-speed-out" for="wheel-speed">0.25 turns/s</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="wheel-play">Pause</button>
+          <label class="toggle"><input type="checkbox" id="wheel-trace" checked> Show the trace</label>
+        </div>
+      </div>
+      <dl class="readouts" aria-live="off">
+        <div><dt>Angle turned</dt><dd id="wheel-angle">0°</dd></div>
+        <div><dt>Height (radius = 1)</dt><dd id="wheel-height">0.00</dd></div>
+        <div><dt>One turn takes</dt><dd id="wheel-period">4.0 s</dd></div>
+        <div><dt>Turns in a year at this speed</dt><dd id="wheel-year">7.9 × 10⁶</dd></div>
+      </dl>
+      <figcaption id="fig-wheel-cap"><span class="fig-num">Figure 1.</span>A point on a turning
+      wheel (left) and its height over the last few seconds (right). The animation pauses when it
+      scrolls out of view; if you prefer reduced motion it waits for you to press Play.</figcaption>
+    </figure>
+
+    <p>Why a sine wave? The height of the dot is the radius times the sine of the angle the wheel has
+    turned through. Turning at a steady rate means the angle grows steadily with time, so:</p>
+
+    <p class="formula">height = <var>r</var> · sin(2π<var>f</var><var>t</var>)</p>
+
+    <p>where <var>r</var> is the radius, <var>f</var> the number of turns per second and
+    <var>t</var> the time in seconds. The same curve describes a weight bobbing on a spring. That is
+    no coincidence: the shadow of a steadily turning peg moves in exactly the way physicists call
+    <em>simple harmonic motion</em>.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>In the next figure, drag the dot around the circle — or click the circle and use the arrow
+      keys. Watch the two numbers: the dot’s height is the sine of the angle, and its sideways
+      position is the cosine.</p>
+    </aside>
+
+    <figure class="fig" id="fig-circle" aria-labelledby="fig-circle-cap">
+      <div class="stage" style="--aspect: 1 / 1; max-width: 22rem; margin: 0 auto">
+        <svg id="circle-svg" viewBox="-1.3 -1.3 2.6 2.6" role="slider" aria-label="Angle of the dot"
+             aria-valuemin="0" aria-valuemax="359" aria-valuenow="40" aria-describedby="fig-circle-cap"></svg>
+      </div>
+      <div class="controls">
+        <fieldset class="radio-row">
+          <legend>Measure the angle in</legend>
+          <label><input type="radio" name="circle-unit" value="deg" checked> degrees</label>
+          <label><input type="radio" name="circle-unit" value="rad"> radians</label>
+        </fieldset>
+      </div>
+      <dl class="readouts">
+        <div><dt>Angle θ</dt><dd id="circle-angle">40°</dd></div>
+        <div><dt><span class="key" style="--key: var(--brass)" aria-hidden="true"></span>cos θ (sideways)</dt><dd id="circle-cos">0.77</dd></div>
+        <div><dt><span class="key" style="--key: var(--verdigris)" aria-hidden="true"></span>sin θ (height)</dt><dd id="circle-sin">0.64</dd></div>
+      </dl>
+      <figcaption id="fig-circle-cap"><span class="fig-num">Figure 2.</span>A circle of radius 1.
+      Drag the dot, or focus the figure and press the arrow keys (hold Shift for bigger steps). The
+      dashed lines show the dot’s sideways position (cosine) and height (sine).</figcaption>
+    </figure>
+
+    <aside class="callout note">
+      <span class="callout-title">Note</span>
+      <p>Angles here are measured anticlockwise from the rightward direction, as mathematicians do.</p>
+    </aside>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li>A real wheel never turns at a perfectly steady speed; friction slows it and whatever
+          drives it speeds it up. Any change in speed distorts the wave.</li>
+          <li>Real springs and pendulums lose energy, so their swings shrink over time (damping). A
+          pendulum follows a sine wave closely only for small swings.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>W. Moebs, S. J. Ling and J. Sanny, <cite>University Physics, Volume 1</cite> (OpenStax,
+          2016), §15.3 “Comparing Simple Harmonic Motion and Circular Motion”.
+          <a href="https://openstax.org/books/university-physics-volume-1/pages/15-3-comparing-simple-harmonic-motion-and-circular-motion">openstax.org</a>
+          <span class="note">The shadow of a peg on a steadily turning disk moves in simple harmonic
+          motion; x(t) = A cos(ωt + φ).</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>30 September 2026</dd>
+          
+        </dl>
+        
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: the exhibit list, the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="exhibit.js"></script>
+</body>
+</html>

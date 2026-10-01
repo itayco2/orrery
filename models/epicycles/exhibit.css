@@ -1,0 +1,10 @@
+/* Exhibit-only styles for "Can circles draw anything?" */
+.draw-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 1rem; align-items: start; }
+.draw-stage { cursor: crosshair; }
+@media (max-width: 40rem) { .draw-layout { grid-template-columns: minmax(0, 1fr); } }
+.recipe table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 0.85rem; }
+.recipe caption { text-align: left; font-weight: 600; padding-bottom: 0.4rem; color: var(--ink-2); }
+.recipe th { text-align: right; font-weight: 500; color: var(--ink-3); border-bottom: 1px solid var(--rule); padding: 0.2rem 0.3rem; vertical-align: bottom; }
+.recipe td { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; padding: 0.15rem 0.3rem; border-bottom: 1px solid var(--rule); }
+.recipe tr.unused td { color: var(--ink-3); opacity: 0.6; }
+.small { font-size: 0.85rem; }

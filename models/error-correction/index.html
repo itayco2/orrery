@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How does a scratched CD still play? — Orrery</title>
+<meta name="description" content="A scratch wipes out thousands of bits at once, yet a CD plays on. Build Hamming's error-correcting code and see how interleaving spreads a burst of damage so it can be repaired.">
+<link rel="icon" href="../../assets/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/orrery.css">
+<link rel="stylesheet" href="exhibit.css">
+<!-- added by the public build -->
+<link rel="canonical" href="https://itayco2.github.io/orrery/models/error-correction/">
+<meta property="og:site_name" content="Orrery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How does a scratched CD still play? — Orrery">
+<meta property="og:description" content="A scratch wipes out thousands of bits at once, yet a CD plays on. Build Hamming&#x27;s error-correcting code and see how interleaving spreads a burst of damage so it can be repaired.">
+<meta property="og:url" content="https://itayco2.github.io/orrery/models/error-correction/">
+<meta property="og:image" content="https://itayco2.github.io/orrery/models/error-correction/thumb.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Thumbnail of the Orrery exhibit “How does a scratched CD still play?”">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How does a scratched CD still play? — Orrery">
+<meta name="twitter:description" content="A scratch wipes out thousands of bits at once, yet a CD plays on. Build Hamming&#x27;s error-correcting code and see how interleaving spreads a burst of damage so it can be repaired.">
+<meta name="twitter:image" content="https://itayco2.github.io/orrery/models/error-correction/thumb.png">
+<meta name="twitter:image:alt" content="Thumbnail of the Orrery exhibit “How does a scratched CD still play?”">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../../index.html" aria-label="Orrery — home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="13"/></g><circle cx="16" cy="16" r="3" fill="var(--brass-lit)"/><circle cx="21" cy="11.1" r="1.8" fill="currentColor"/><circle cx="5.2" cy="23.5" r="2.3" fill="var(--verdigris-lit)"/></svg>
+      <span>Orrery</span>
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../../index.html">Exhibits</a></li>
+        <li><a href="../../about/index.html">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="page">
+    <header class="exhibit-header">
+      <p class="kicker">Computing</p>
+      <h1>How does a scratched CD still play?</h1>
+      <p class="lede">A scratch across a compact disc wipes out thousands of bits at once, yet the
+      music plays on without a click. The disc isn’t lucky. It was built expecting to be damaged.</p>
+    </header>
+
+    <p>Every message that travels or gets stored is damaged a little on the way. Electrical noise on
+    a wire, a speck of dust on a disc, a cosmic ray hitting a memory chip: each can turn a
+    <em>bit</em> (a single 0 or 1) into its opposite. Engineers call this a <em>bit flip</em>, and the
+    path the bits take, whether a cable, a radio link or a disc, a <em>channel</em>.</p>
+
+    <p>A common belief is that a digital copy is perfect because a digital channel is perfect. It
+    isn’t. Digital copies are perfect because the bits carry extra information that lets the
+    receiver find and repair the damage. That extra information is an <em>error-correcting
+    code</em>, and this page builds one from scratch.</p>
+
+    <h2>Sending a picture through a noisy channel</h2>
+
+    <p>The obvious defence is repetition. Send every bit three times and let the receiver take a
+    vote: if it gets 1, 1, 0, it assumes the bit was a 1. A single flip is outvoted. The price is that
+    you send three times as many bits.</p>
+
+    <p>Below, a 32 × 20 picture (640 bits, one per pixel) goes through a channel that flips each bit
+    with the probability you set. Pixels that arrive wrong are shown in red. Compare no protection
+    with the three-times vote, and with a fourth method, <em>Hamming(7,4)</em>, which we’ll take apart
+    in a moment. Watch both columns of numbers: the errors left and the bits it cost to send.</p>
+
+    <figure class="fig wide" id="fig-noise" aria-labelledby="fig-noise-cap">
+      <div class="stage noise-stage">
+        <canvas id="noise-canvas" role="img" aria-label="Four copies of a small picture of a smiling face: the original, and the copies received with no protection, with each bit sent three times and voted on, and with the Hamming(7,4) code. Wrongly received pixels are red. The counts are given in text below."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="noise-p">Bits flipped by the channel</label>
+          <input type="range" id="noise-p" min="0" max="20" step="0.5" value="5">
+          <output id="noise-p-out" for="noise-p">5.0%</output>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="noise-again">Send again (new noise)</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>No protection</dt><dd id="noise-plain">–</dd></div>
+        <div><dt>Three times, vote</dt><dd id="noise-triple">–</dd></div>
+        <div><dt>Hamming(7,4)</dt><dd id="noise-ham">–</dd></div>
+      </dl>
+      <figcaption id="fig-noise-cap"><span class="fig-num">Figure 1.</span>The same picture sent
+      three ways through the same noisy channel. Each transmitted bit is flipped independently with
+      the chosen probability. Red pixels arrived wrong, after any voting or correcting.</figcaption>
+    </figure>
+
+    <p>At 5% noise, an unprotected picture loses about 32 of its 640 pixels on average. Voting brings
+    that down to about 5, because a pixel is lost only when two of its three copies flip. Hamming’s
+    code leaves about 12, more than voting, but it sends 1,120 bits instead of 1,920. At 1% noise
+    the gap nearly closes: about 6 wrong pixels unprotected, and under 1 for either code. Turn the
+    noise up past about 10% and every method struggles: a code is built for a certain amount of
+    damage, and beyond it, it fails.</p>
+
+    <h2>Three circles that find a flipped bit</h2>
+
+    <p>In 1947 Richard Hamming was using the relay computers at Bell Telephone Laboratories. Over
+    weekends nobody was there to restart them, and the machines could <em>detect</em> an error but
+    not fix it: they simply abandoned the job. After coming in two weekends in a row to find his
+    work thrown away, he asked: if a machine can tell that an error happened, why can’t it tell
+    where? His answer was published in 1950.</p>
+
+    <p>The idea starts with a <em>parity bit</em>: an extra bit chosen so that a group of bits holds
+    an even number of 1s. If one bit in the group flips, the count becomes odd, and you know
+    something went wrong, though not which bit. Hamming’s trick is to use several overlapping
+    groups. Each bit belongs to a different combination of groups, so the pattern of groups that
+    fail identifies the culprit.</p>
+
+    <p>Hamming(7,4) protects 4 data bits (d1–d4) with 3 parity bits (p1–p3), 7 bits in all. Draw
+    three overlapping circles, A, B and C. Put a data bit in each region where circles overlap, and
+    a parity bit in each region that belongs to one circle only. Each parity bit is set so its circle
+    holds an even number of 1s.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>One bit has already been hit, and two circles have gone red because each now holds an
+      odd number of 1s. Find the single bit that lies inside both red circles and outside the
+      third. Click it to flip it back, or press <b>Correct it</b>. Then damage any bit and repeat.
+      Finally, flip <em>two</em> bits and watch what the decoder does.</p>
+    </aside>
+
+    <figure class="fig" id="fig-venn" aria-labelledby="fig-venn-cap">
+      <div class="stage venn-stage">
+        <svg id="venn-svg" viewBox="0 0 300 262" aria-label="Hamming(7,4) Venn diagram: three overlapping circles A, B and C with seven bits. Each bit is a button that flips it." role="group"></svg>
+      </div>
+      <p class="venn-status" id="venn-status" aria-live="polite"></p>
+      <div class="controls">
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="venn-fix">Correct it</button>
+          <button type="button" class="btn" id="venn-reset">Undo the damage</button>
+          <button type="button" class="btn" id="venn-new">New message</button>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Sent data (d1–d4)</dt><dd id="venn-sent">–</dd></div>
+        <div><dt>Received data</dt><dd id="venn-recv">–</dd></div>
+        <div><dt>Decoder’s answer</dt><dd id="venn-dec">–</dd></div>
+      </dl>
+      <ul class="legend" aria-hidden="true">
+        <li><span class="sw sw-flip"></span>damaged bit</li>
+        <li><span class="sw sw-suspect"></span>the bit the decoder will flip</li>
+      </ul>
+      <figcaption id="fig-venn-cap"><span class="fig-num">Figure 2.</span>Hamming(7,4) as three
+      circles. Each circle must contain an even number of 1s. Click a bit (or Tab to it and press
+      Enter) to flip it. Circles with an odd count turn red; the decoder flips the one bit that lies in
+      exactly the red circles.</figcaption>
+    </figure>
+
+    <p>Seven bits have exactly seven places for a single error to land, and three circles that can
+    each pass or fail give seven different failure patterns (plus “all pass”). So every single
+    error has its own fingerprint, and the receiver can correct it with no guessing and no
+    resending. The cost is 3 extra bits per 4 data bits, against 8 extra for sending everything three
+    times.</p>
+
+    <p>Two errors defeat it, and in the worst way. Two flips make a failure pattern too, and it is
+    always the fingerprint of some <em>third</em> bit. The decoder can’t tell the difference, so it
+    “corrects” that third bit, and the word ends up with three errors. The reason is distance: any two
+    valid 7-bit codewords differ in at least 3 places. One flip leaves you 1 step from the right
+    codeword and at least 2 from any other, so the nearest one is right. Two flips can leave you
+    closer to the wrong one.</p>
+
+    <h2>Why a scratch is different</h2>
+
+    <p>Noise on a wire tends to flip bits here and there, one at a time. A scratch on a disc is
+    different. It destroys a long unbroken run of bits, called a <em>burst</em>. A Hamming codeword is
+    only 7 bits long, so a burst of 20 bits wipes out three codewords completely. Each has many
+    errors, far more than one per codeword.</p>
+
+    <p>The fix is to shuffle the bits before storing them, so that neighbours on the disc belong to
+    different codewords. This is <em>interleaving</em>. With an interleaving <em>depth</em> of 16, the
+    disc stores bit 1 of 16 codewords in a row, then bit 2 of the same 16, and so on. A scratch
+    across 16 neighbouring bits now hits 16 different codewords once each, and every one of those
+    single errors can be corrected.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag across the strip of stored bits to move the scratch (or focus it and use the arrow
+      keys). With no shuffling, the scratch breaks a whole stretch of the picture. Now raise the
+      interleaving depth until the picture on the right is perfect, without changing the scratch.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-scratch" aria-labelledby="fig-scratch-cap">
+      <div class="stage strip-stage">
+        <canvas id="scratch-strip" role="slider" aria-label="Position of the scratch on the stored bits"
+                aria-valuemin="0" aria-valuemax="1119" aria-valuenow="500" aria-describedby="fig-scratch-cap"></canvas>
+      </div>
+      <ul class="legend" aria-hidden="true">
+        <li><span class="sw sw-ink"></span>stored 1 (light squares are 0)</li>
+        <li><span class="sw sw-alarm"></span>scratched, read wrong</li>
+        <li><span class="sw sw-brass"></span>other bits of a codeword hit more than once</li>
+      </ul>
+      <div class="stage pics-stage">
+        <canvas id="scratch-pics" role="img" aria-label="The picture as read from the scratched disc, and after Hamming correction. Wrong pixels are red; the count is given below."></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="scratch-len">Scratch length</label>
+          <input type="range" id="scratch-len" min="1" max="100" step="1" value="24">
+          <output id="scratch-len-out" for="scratch-len">24 bits</output>
+        </div>
+        <div class="control stacked">
+          <label for="scratch-depth">Interleaving depth</label>
+          <input type="range" id="scratch-depth" min="0" max="11" step="1" value="0">
+          <output id="scratch-depth-out" for="scratch-depth">1 (none)</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Codewords hit once (fixed)</dt><dd id="scratch-single">–</dd></div>
+        <div><dt>Codewords hit 2+ times</dt><dd id="scratch-multi">–</dd></div>
+        <div><dt>Pixels wrong after correction</dt><dd id="scratch-wrong">–</dd></div>
+        <div><dt>Longest burst always fixed</dt><dd id="scratch-max">–</dd></div>
+        <div><dt>Memory needed to unshuffle</dt><dd id="scratch-buffer">–</dd></div>
+      </dl>
+      <figcaption id="fig-scratch-cap"><span class="fig-num">Figure 3.</span>The picture, encoded
+      as 160 Hamming(7,4) codewords (1,120 bits), stored on a “track” drawn as 20 rows of 56 bits.
+      Every bit under the scratch is read wrong. The interleaver shuffles groups of codewords as
+      deep as the depth setting; the receiver unshuffles them, then corrects each codeword.</figcaption>
+    </figure>
+
+    <p>The rule is simple: with depth <var>D</var>, any burst of up to <var>D</var> bits touches each
+    codeword at most once, so it is always fully corrected. Longer bursts may still be fixed if they
+    happen to fall kindly, but there is no guarantee. Nothing comes free. The receiver must hold
+    7<var>D</var> bits in memory before it can unshuffle them, which adds delay.</p>
+
+    <h2>What a real CD does</h2>
+
+    <p>A compact disc, which Philips and Sony brought to market in 1982, uses the same two ideas
+    with stronger parts. Instead of Hamming codes it uses two <em>Reed–Solomon</em> codes, invented
+    by Irving Reed and Gustave Solomon in 1960. They work on whole bytes (8 bits) rather than single
+    bits, so a byte with all 8 bits wrong counts as one error. The two codes are interleaved
+    crosswise with long delays between them, a scheme called <em>CIRC</em> (cross-interleaved
+    Reed–Solomon code). For every 3 bytes of music it stores 1 extra byte.</p>
+
+    <p>CIRC corrects a burst of about 4,000 bits completely, which is about 2.5 mm of track. Beyond
+    that, up to about 12,000 bits (7.5 mm), the player can’t recover the true samples, but because
+    the interleaving leaves good samples on both sides of each lost one, it fills the gaps by
+    <em>interpolation</em>: it guesses each missing value from its neighbours. Your ear doesn’t
+    notice. Only larger damage makes a disc skip or click.</p>
+
+    <p>How long is that on a real disc? The laser reads the spiral track as it passes at a constant
+    speed of 1.2 to 1.4 metres per second, so a millimetre of track goes by in less than a
+    millisecond. A CD carries 44,100 sound samples per second for each stereo channel.</p>
+
+    <aside class="callout try">
+      <span class="callout-title">Try this</span>
+      <p>Drag the handle (or use the slider) to lengthen a scratch that runs <em>along</em> the
+      track. Notice how short the times are: even a scratch the player can’t hide costs only a few
+      thousandths of a second of music.</p>
+    </aside>
+
+    <figure class="fig wide" id="fig-cd" aria-labelledby="fig-cd-cap">
+      <div class="stage cd-stage">
+        <canvas id="cd-canvas" role="slider" aria-label="Length of a scratch along the track, in millimetres"
+                aria-valuemin="0.1" aria-valuemax="10" aria-valuenow="4" aria-describedby="fig-cd-cap"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control stacked">
+          <label for="cd-len">Scratch length along the track</label>
+          <input type="range" id="cd-len" min="0.1" max="10" step="0.1" value="4">
+          <output id="cd-len-out" for="cd-len">4.0 mm</output>
+        </div>
+      </div>
+      <dl class="readouts">
+        <div><dt>Passes under the laser in</dt><dd id="cd-time">–</dd></div>
+        <div><dt>Samples per channel affected</dt><dd id="cd-frames">–</dd></div>
+        <div><dt>What you hear</dt><dd id="cd-result">–</dd></div>
+      </dl>
+      <figcaption id="fig-cd-cap"><span class="fig-num">Figure 4.</span>Twelve millimetres of CD
+      track (three turns of the spiral, drawn schematically; real turns are 1.6 µm apart). The
+      coloured zones show CIRC’s published limits: bursts up to about 2.5 mm are corrected exactly,
+      up to about 7.5 mm concealed. Times are for track speeds of 1.4 and 1.2 m/s.</figcaption>
+    </figure>
+
+    <p>Most scratches don’t run along the track, though. A scratch straight across the disc, from
+    the centre outwards, crosses each turn of the spiral for only its own width, a fraction of a
+    millimetre, so each turn suffers a short burst that CIRC fixes easily. A scratch that follows
+    the circle of the track is the dangerous kind.</p>
+
+    <p>All of this sits under a limit found by Claude Shannon in 1948, two years before Hamming’s
+    paper. Shannon proved that every noisy channel has a <em>capacity</em>: below that rate, codes
+    exist that make errors as rare as you like; above it, none do. He didn’t say how to build such
+    codes. Hamming’s codes were one of the first steps toward them. (The three-circle picture is a later teaching device; Hamming described the same checks with binary position numbers.)</p>
+
+    <div class="end-matter">
+      <section class="leaves-out" aria-labelledby="leaves-out-h">
+        <h2 id="leaves-out-h">What this model leaves out</h2>
+        <ul>
+          <li><strong>Bytes, not bits.</strong> Real discs use Reed–Solomon codes over bytes, which
+          correct several whole bytes per codeword. Hamming(7,4) is the simplest code that corrects
+          anything, and is here because you can do it by hand.</li>
+          <li><strong>Real channels.</strong> Figure 1 flips bits independently at a fixed rate. Real
+          noise comes in clumps, varies with signal strength, and on a CD is mixed up with how pits
+          are read.</li>
+          <li><strong>Erasures.</strong> Our scratch flips every bit and the decoder doesn’t know
+          where it is. A real player often knows which bytes are unreadable (an <em>erasure</em>),
+          and a code can fix twice as many erasures as unknown errors. CIRC’s first decoder marks
+          erasures for the second.</li>
+          <li><strong>Interleaving.</strong> We use a simple block interleaver. The CD uses a
+          convolutional (“cross”) interleaver that spreads data more evenly and with less delay.</li>
+          <li><strong>Detection.</strong> A common variant adds an eighth parity bit over everything,
+          so two errors are at least detected instead of miscorrected (SECDED, used in ECC memory).</li>
+          <li><strong>Modern codes.</strong> LDPC and turbo codes, used in Wi-Fi, 5G and space
+          probes, come within a fraction of a decibel of Shannon’s limit; Hamming(7,4) is far from
+          it.</li>
+        </ul>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          <li>R. W. Hamming, “Error Detecting and Error Correcting Codes”, <cite>Bell System
+          Technical Journal</cite> 29 (2), 147–160, April 1950.
+          <a href="https://archive.org/details/bstj29-2-147">archive.org</a>
+          <span class="note">The original single-error-correcting codes and the parity-check
+          construction used in Figure 2.</span></li>
+          <li>A.M. Turing Award, “Richard W. Hamming — additional materials”, ACM.
+          <a href="https://amturing.acm.org/info/hamming_1000652.cfm">amturing.acm.org</a>
+          <span class="note">The 1947 story of weekend jobs on Bell Labs’ relay machines being
+          abandoned after a detected error.</span></li>
+          <li>I. S. Reed and G. Solomon, “Polynomial Codes over Certain Finite Fields”,
+          <cite>Journal of the Society for Industrial and Applied Mathematics</cite> 8 (2), 300–304,
+          June 1960. <a href="https://doi.org/10.1137/0108018">doi.org</a>
+          <span class="note">The origin of Reed–Solomon codes, and their suitability for errors that
+          come in bursts.</span></li>
+          <li>“Cross-interleaved Reed–Solomon coding”, Wikipedia.
+          <a href="https://en.wikipedia.org/wiki/Cross-interleaved_Reed%E2%80%93Solomon_coding">en.wikipedia.org</a>
+          <span class="note">CIRC’s structure: one parity byte per three data bytes, bursts of about
+          4,000 bits (2.5 mm) corrected, up to about 12,000 bits (7.5 mm) concealed by
+          interpolation.</span></li>
+          <li>H. Hoeve, J. Timmermans and L. B. Vries, “Error correction and concealment in the Compact
+          Disc system”, <cite>Philips Technical Review</cite> 40 (6), 166–172, 1982.
+          <a href="https://www.bramjacobse.nl/wordpress/wp-content/uploads/2021/03/PTechReview-40-1982-166.pdf">pdf</a>
+          <span class="note">Philips’s own account of CIRC: about 4,000 bits (2.5 mm) corrected, about
+          12,000 bits concealed by interpolation. Older Philips literature quotes slightly different
+          figures (about 3,500 and 12,000 bits), so treat all of these as round numbers.</span></li>
+          <li>Society of Broadcast Engineers, “Compact Disk Recording and Reproduction”, chapter 6.6
+          of the engineering handbook.
+          <a href="https://sbe.org/handbook/fundamentals/Audio/Audio-Compact_Disk.pdf">sbe.org</a>
+          <span class="note">Constant-linear-velocity reading (about 1.2–1.4 m/s), 1.6 µm track
+          pitch and the 44.1 kHz sampling rate used in Figure 4.</span></li>
+          <li>C. E. Shannon, “A Mathematical Theory of Communication”, <cite>Bell System Technical
+          Journal</cite> 27, 379–423 and 623–656, 1948.
+          <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">doi.org</a>
+          <span class="note">Channel capacity and the noisy-channel coding theorem.</span></li>
+        </ol>
+      </section>
+
+      <section class="colophon" aria-labelledby="colophon-h">
+        <h2 id="colophon-h">Colophon</h2>
+        <dl>
+          
+          <dt>Date</dt><dd>1 October 2026</dd>
+          
+        </dl>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="bar">
+    <p>Orrery · working models of ideas</p>
+    <p>No network requests, no tracking. <a href="../../about/index.html">About</a></p>
+    <p>Text and figures CC BY-NC 4.0 · code MIT · <a href="https://github.com/itayco2/orrery">Source</a></p>
+  </div>
+</footer>
+
+<!-- Order matters: the exhibit list, the kit, then this exhibit's own script. -->
+<script src="../manifest.js"></script>
+
+<script src="../../assets/orrery.js"></script>
+
+<script src="exhibit.js"></script>
+</body>
+</html>

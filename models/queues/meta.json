@@ -1,0 +1,10 @@
+{
+  "slug": "queues",
+  "title": "Why is the other line always faster?",
+  "question": "A checkout busy 80% of the time already has a queue. Why do waits explode near full capacity — and why is your line so rarely the fast one?",
+  "field": "Society",
+  "summary": "Simulated checkouts show how randomness alone creates queues, why the wait explodes as a till nears 100% busy, why one shared line beats three separate ones, and why variability matters as much as the average.",
+  "built": "2026-09-30",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

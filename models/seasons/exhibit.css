@@ -1,0 +1,14 @@
+/* Seasons exhibit: local layout for the figures. */
+.orbit-stage { --aspect: 2 / 1; }
+.beam-stage  { --aspect: 2 / 1; }
+.day-stage   { --aspect: 2 / 1; }
+.year-stage  { --aspect: 16 / 8; }
+@media (max-width: 40rem) {
+  .orbit-stage { --aspect: 3 / 4; }
+  .beam-stage  { --aspect: 4 / 3; }
+  .day-stage   { --aspect: 3 / 4; }
+  .year-stage  { --aspect: 4 / 3; }
+}
+#fig-orbit .btn-row, #fig-year .btn-row { flex-wrap: wrap; }
+.tilt-stage { --aspect: 2 / 1; }
+@media (max-width: 40rem) { .tilt-stage { --aspect: 4 / 3; } }

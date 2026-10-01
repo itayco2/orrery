@@ -1,0 +1,10 @@
+{
+  "slug": "seasons",
+  "title": "Why is summer warm?",
+  "question": "Earth is closest to the Sun in January. So why is July the warm month in the north?",
+  "field": "Astronomy",
+  "summary": "Drag Earth round its orbit drawn to scale, tilt a beam of sunlight, and watch the day and night line cross a tilted globe, then switch off the tilt or the orbit's stretch to see which one makes the seasons.",
+  "built": "2026-09-30",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

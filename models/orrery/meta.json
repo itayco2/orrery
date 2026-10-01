@@ -1,0 +1,10 @@
+{
+  "slug": "orrery",
+  "title": "Where are the planets tonight?",
+  "question": "The planets are somewhere specific right now. Where, and why do they sometimes seem to run backwards?",
+  "field": "Astronomy",
+  "summary": "A working model of the solar system at today's date, from JPL's orbital elements: turn the crank to see where each planet is, watch Mars loop backwards as Earth overtakes it in 2027, and see why the outer planets are so slow.",
+  "built": "2026-09-30",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}

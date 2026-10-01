@@ -1,0 +1,10 @@
+{
+  "slug": "selection",
+  "title": "Does a better gene always win?",
+  "question": "A new mutation that helps its carriers should spread. Why do most of them vanish?",
+  "field": "Life",
+  "summary": "Run a thousand populations and watch chance (genetic drift) erase most beneficial mutations: a 1% advantage wins only about 2% of the time, and in small populations even harmful variants can take over.",
+  "built": "2026-10-01",
+  "status": "published",
+  "thumbnail": "thumb.png"
+}
